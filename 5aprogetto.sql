@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mar 03, 2026 alle 09:33
+-- Creato il: Mar 03, 2026 alle 09:43
 -- Versione del server: 10.4.21-MariaDB
 -- Versione PHP: 8.0.10
 
@@ -24,18 +24,15 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `utenti`
+-- Struttura della tabella `post`
 --
 
-CREATE TABLE `utenti` (
-  `Nome` varchar(15) NOT NULL,
-  `Cognome` varchar(15) NOT NULL,
-  `NomeUtente` varchar(15) NOT NULL,
-  `DataNascita` date DEFAULT NULL,
-  `Seguiti` int(4) DEFAULT NULL,
-  `Follower` int(7) DEFAULT NULL,
-  `Descrizione` varchar(200) NOT NULL,
-  `NumPost` int(5) DEFAULT NULL
+CREATE TABLE `post` (
+  `Id_Post` int(30) NOT NULL,
+  `NumLike` int(4) DEFAULT NULL,
+  `Commenti` int(4) DEFAULT NULL,
+  `Condivisioni` int(4) DEFAULT NULL,
+  `Tag` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -43,10 +40,20 @@ CREATE TABLE `utenti` (
 --
 
 --
--- Indici per le tabelle `utenti`
+-- Indici per le tabelle `post`
 --
-ALTER TABLE `utenti`
-  ADD PRIMARY KEY (`NomeUtente`);
+ALTER TABLE `post`
+  ADD PRIMARY KEY (`Id_Post`);
+
+--
+-- AUTO_INCREMENT per le tabelle scaricate
+--
+
+--
+-- AUTO_INCREMENT per la tabella `post`
+--
+ALTER TABLE `post`
+  MODIFY `Id_Post` int(30) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

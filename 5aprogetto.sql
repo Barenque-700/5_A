@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mar 03, 2026 alle 09:43
+-- Creato il: Mar 04, 2026 alle 12:57
 -- Versione del server: 10.4.21-MariaDB
 -- Versione PHP: 8.0.10
 
@@ -35,6 +35,26 @@ CREATE TABLE `post` (
   `Tag` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `utenti`
+--
+
+CREATE TABLE `utenti` (
+  `Nome` varchar(15) NOT NULL,
+  `Cognome` varchar(15) NOT NULL,
+  `NomeUtente` varchar(15) NOT NULL,
+  `DataNascita` date DEFAULT NULL,
+  `Seguiti` int(4) DEFAULT NULL,
+  `Follower` int(7) DEFAULT NULL,
+  `Descrizione` varchar(200) NOT NULL,
+  `NumPost` int(5) DEFAULT NULL,
+  `Zodiaco` varchar(12) NOT NULL,
+  `Password` varchar(100) NOT NULL,
+  `Livello` int(2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 --
 -- Indici per le tabelle scaricate
 --
@@ -44,6 +64,12 @@ CREATE TABLE `post` (
 --
 ALTER TABLE `post`
   ADD PRIMARY KEY (`Id_Post`);
+
+--
+-- Indici per le tabelle `utenti`
+--
+ALTER TABLE `utenti`
+  ADD PRIMARY KEY (`NomeUtente`);
 
 --
 -- AUTO_INCREMENT per le tabelle scaricate

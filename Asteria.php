@@ -4,6 +4,13 @@
 		<title> Asteria </title>
 	</head>
 	<body>
+		 <nav class="navbar navbar-expand-lg bg-light">
+    		<span class="navbar-brand mb-0 h1">Asteria - Social Network</span>
+    		<a class="navbar-brand mx-auto">
+      			<img src="logo.svg" width="30" height="30" alt="">
+    		</a>
+    		<span class="navbar-brand mb-0 h1">Jan. 1, 2020 - Jan. 2, 2020</span>
+  </nav>
 		<h1> Mega social network pazzurdo per astronomia</h1>
 		<div class="p-3 text-secondary-emphasis bg-secondary-subtle border border-secondary-subtle rounded-3">
   			Example element with utilities

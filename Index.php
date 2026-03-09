@@ -1,7 +1,7 @@
 <?php 
 session_start(); 
 
-include "connessione.php";
+include "Connessione.php";
 
 if(isset($_POST['user']) && isset($_POST['password'])) {
     try {
@@ -16,10 +16,10 @@ if(isset($_POST['user']) && isset($_POST['password'])) {
             $ris = $preparata->fetchAll(PDO::FETCH_ASSOC);
             $_SESSION['user']=$_POST['user'];
             foreach ($ris as $riga) {
-                if (($_POST['user']==$riga['user']) && $_POST['password']==$riga['password']){
+                if (($_POST['user']==$riga['NomeUtente']) && $_POST['password']==$riga['Password']){
                     $_SESSION['accesso']=1;
-                    $_SESSION['livello']= $riga['llivello'];
-                    header("location: elencoDipendenti.php");
+                    $_SESSION['livello']= $riga['Livello'];
+                    header("location: Asteria.php");
                 }
             }
         }
@@ -40,7 +40,7 @@ if(isset($_POST['user']) && isset($_POST['password'])) {
         <div>
             <h1>Login Utente</h1>
             <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST">
-                <label for="user">Utente:</label> 
+                <label for="user">Nome Utente:</label> 
                 <input type="text" name="user"><br/><br/>
 
                 <label for="user">Password:</label>  

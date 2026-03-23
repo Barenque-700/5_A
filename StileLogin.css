@@ -1,0 +1,71 @@
+body {
+    background-color: #9370DB; 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.main {
+    background-color: rgba(255, 255, 255, 0.9); /* Sfondo bianco semi-trasparente */
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    display: flex; /* Flexbox per dividere testo e logo */
+    align-items: center;
+    max-width: 600px;
+    width: 90%;
+}
+
+/* Area del modulo di login (Sinistra) */
+form, h1 {
+    flex: 2; /* Prende più spazio rispetto al logo */
+    text-align: center; /* Centra il testo internamente a questa colonna */
+}
+
+/* Simulazione del contenitore del logo (Destra) */
+.main::after {
+    content: "LOGO"; /* Sostituisci questo blocco con un tag <img> nell'HTML se hai un file */
+    flex: 1;
+    height: 100px;
+    margin-left: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed #6a5acd;
+    color: #6a5acd;
+    font-weight: bold;
+}
+
+/* Stilizzazione Input e Bottoni */
+input[type="text"], 
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box; /* Evita che il padding sballi la larghezza */
+}
+
+input[type="submit"] {
+    background-color: #6a5acd;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s;
+}
+
+input[type="submit"]:hover {
+    background-color: #483d8b;
+}
+
+h1 {
+    color: #4b0082;
+    margin-bottom: 20px;
+}

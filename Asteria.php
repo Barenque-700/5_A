@@ -1,33 +1,51 @@
-<html> 
-	<head>
-		 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-		<title> Asteria </title>
-	</head>
-	<body>
-	<nav class="navbar navbar-expand-lg bg-light">
-    <div class="container-fluid"> <a class="navbar-brand me-auto" href="#"> <img src="logo.png" width="255" height="150" alt="Logo Asteria">
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asteria - Social Astronomy</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="StileAsteria.css">
+</head>
+<body data-theme="dark"> <nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="#">
+            <div class="d-flex flex-column">
+                <img src="logo.png" alt="Asteria Logo" class="logo-img mb-1">
+                <small id="current-date" class="text-secondary ms-1" style="font-size: 0.7rem; letter-spacing: 1px;"></small>
+            </div>
         </a>
-        <span id="current-date" class="navbar-brand mb-0 h1">
-    </span>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto align-items-center">
+                <li class="nav-item theme-switch-wrapper">
+                    <button id="theme-toggle">🌙 Modalità Notte</button>
+                </li>
+                <li class="nav-item"><a class="nav-link px-3" href="#">Home</a></li>
+                <li class="nav-item"><a class="nav-link px-3" href="#">Eventi</a></li>
+                <li class="nav-item ms-lg-2">
+                    <button class="btn btn-custom rounded-pill fw-bold">Profilo Utente</button>
+                </li>
+            </ul>
+        </div>
     </div>
 </nav>
-  </nav>
-		<h1> Mega social network pazzurdo per astronomia</h1>
-		<div class="p-3 text-secondary-emphasis bg-secondary-subtle border border-secondary-subtle rounded-3">
-  			Example element with utilities
-		</div>
-		<br>
-		<div class="p-3 text-success-emphasis bg-info-subtle border border-warning-subtle rounded-3"> 
-				Header 
-		</div>
 
-		<script>
-    	const oggi = new Date();
-    	const opzioni = { year: 'numeric', month: 'long', day: 'numeric' };
-    	const dataFormattata = oggi.toLocaleDateString('it-IT', opzioni);
-    	document.getElementById('current-date').textContent = dataFormattata;
-	</script>
+<main class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center mb-5">
+            <h1 class="display-4 fw-bold" style="color: var(--primary-color);">Mega social network pazzurdo</h1>
+            <p class="lead">Esplora l'universo attraverso gli occhi della community.</p>
+        </div>
+    </div>
+</main>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-	</body>
+<script src="config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
 </html>

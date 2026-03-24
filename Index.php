@@ -2,7 +2,6 @@
 session_start(); 
 
 include "Connessione.php";
-
 if(isset($_POST['user']) && isset($_POST['password'])) {
     try {
         $connessione = new PDO("mysql:host=$host;dbname=$db", $user, $password);
@@ -32,23 +31,25 @@ if(isset($_POST['user']) && isset($_POST['password'])) {
 
 ?>
 <html>
+<link rel="stylesheet" href="StileLogin.css">
     <head>
         <title>Login</title>
         <meta name='viewport' content='width=device-width, initial-scale=1'>
     </head>
     <body>
-        <div>
-            <h1>Login Utente</h1>
+        <div class="main">
             <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST">
-                <label for="user">Nome Utente:</label> 
+                <h1>Login Utente</h1>
+                <label for="user">Nome Utente:</label> <br>
                 <input type="text" name="user"><br/><br/>
 
-                <label for="user">Password:</label>  
+                <label for="user">Password:</label> <br> 
                 <input type="password" name="password"><br/><br/>
                 
                 <input type="submit" value="Accedi">
+                <p> Non hai ancora un account?  <a href="Iscrizione.php"> Iscriviti </a> </p>
             </form>
-            
+            <img src="LogoQuadrato.png" width="500" height="500" alt="">
             <br>
         </div>
     </body>

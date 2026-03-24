@@ -1,5 +1,5 @@
 body {
-    background-color: #9370DB; 
+    background-color: #5271FF;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     padding: 0;
@@ -31,18 +31,8 @@ img {
     color: #6a5acd;
     font-weight: bold;
 }
-input[type="text"], 
-input[type="password"] {
-    width: 50%;
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
-}
-
 input[type="submit"] {
-    background-color: #6a5acd;
+    background-color: #35489F;
     color: white;
     padding: 10px 20px;
     border: none;
@@ -53,10 +43,38 @@ input[type="submit"] {
 }
 
 input[type="submit"]:hover {
-    background-color: #483d8b;
+    background-color: #161E44;
 }
 
 h1 {
-    color: #4b0082;
+    color: #191970;
     margin-bottom: 35px;
+}
+.form-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 20px;
+    width: 80%; 
+    margin-left: auto;
+    margin-right: auto;
+}
+.form-group {
+    flex: 1;
+    text-align: left;
+}
+input[type="text"], 
+input[type="password"],
+input[type="date"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+form > input[type="text"], 
+form > input[type="password"],
+form > input[type="date"] {
+    width: 80%;
 }

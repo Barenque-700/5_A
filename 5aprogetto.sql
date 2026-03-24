@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mar 23, 2026 alle 09:32
+-- Creato il: Mar 24, 2026 alle 09:47
 -- Versione del server: 10.4.21-MariaDB
 -- Versione PHP: 8.0.10
 
@@ -48,12 +48,12 @@ CREATE TABLE `utenti` (
   `Cognome` varchar(15) NOT NULL,
   `NomeUtente` varchar(15) NOT NULL,
   `DataNascita` date DEFAULT NULL,
-  `Seguiti` int(4) DEFAULT NULL,
-  `Follower` int(7) DEFAULT NULL,
-  `Descrizione` varchar(200) NOT NULL,
-  `NumPost` int(5) DEFAULT NULL,
+  `Seguiti` int(4) DEFAULT 0,
+  `Follower` int(7) DEFAULT 0,
+  `Descrizione` varchar(200) DEFAULT NULL,
+  `NumPost` int(5) DEFAULT 0,
   `Password` varchar(100) NOT NULL,
-  `Livello` int(2) NOT NULL
+  `Livello` int(2) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -61,7 +61,8 @@ CREATE TABLE `utenti` (
 --
 
 INSERT INTO `utenti` (`Nome`, `Cognome`, `NomeUtente`, `DataNascita`, `Seguiti`, `Follower`, `Descrizione`, `NumPost`, `Password`, `Livello`) VALUES
-('Gianni', 'Giandagoberto', 'Giandix67', '2005-12-07', 12, 34, 'Il più grande utilizzatore di Valorant, non esco di casa e mi metto a giocare ad Overwatch. Ultima volta che ho toccato l\'erba: la mia nascita', 0, 'CiaoCiao', 0);
+('Gianni', 'Giandagoberto', 'Giandix67', '2005-12-07', 12, 34, 'Il più grande utilizzatore di Valorant, non esco di casa e mi metto a giocare ad Overwatch. Ultima volta che ho toccato l\'erba: la mia nascita', 0, 'CiaoCiao', 0),
+('Marcus', 'Risula', 'MarcusRisula', '2018-01-03', 0, 0, NULL, 0, 'ababababa', 1);
 
 --
 -- Indici per le tabelle scaricate

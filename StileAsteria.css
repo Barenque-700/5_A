@@ -63,7 +63,7 @@ body {
 
 .btn-custom:hover {
     opacity: 0.9;
-    color: white;
+    color: #9370DB;
     transform: translateY(-2px);
 }
 

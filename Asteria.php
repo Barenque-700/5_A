@@ -11,7 +11,7 @@
     <div class="container">
         <a class="navbar-brand d-flex align-items-center" href="#">
             <div class="d-flex flex-column">
-                <img src="logo.png" alt="Asteria Logo" class="logo-img mb-1">
+                <img src="LogoTrasparente.png" alt="Asteria Logo" class="logo-img mb-1">
                 <small id="current-date" class="text-secondary ms-1" style="font-size: 0.7rem; letter-spacing: 1px;"></small>
             </div>
         </a>
@@ -23,7 +23,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto align-items-center">
                 <li class="nav-item theme-switch-wrapper">
-                    <button id="theme-toggle">🌙 Modalità Notte</button>
+                    <button id="theme-toggle"> Scuro </button>
                 </li>
                 <li class="nav-item"><a class="nav-link px-3" href="#">Home</a></li>
                 <li class="nav-item"><a class="nav-link px-3" href="#">Eventi</a></li>

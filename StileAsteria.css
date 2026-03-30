@@ -17,12 +17,15 @@
     --accent-color: #9370DB;
     --border-color: #333333;
 }
-
+html {
+     height: 79%;
+}
 body {
     background-color: var(--bg-color);
     color: var(--text-color);
     transition: all 0.3s ease;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    height: 100%;
 }
 
 .navbar {
@@ -88,4 +91,33 @@ body {
 #theme-toggle:hover {
     background-color: var(--primary-color);
     color: white;
+}
+.contenitore {
+    display: flex; /* Usa il layout flexbox */
+    flex-direction: row; /* Disposizione orizzontale dei div */
+    height: 100%; /* I div occupano l'intera altezza della pagina */
+}
+
+.sezione {
+    flex: 1; /* Ogni div occupa uguale larghezza */
+    display: flex;
+    flex-direction: column; /* Contenuto verticale */
+    justify-content: center; /* Centra il contenuto verticalmente */
+    align-items: center; /* Centra il contenuto orizzontalmente */
+    font-size: 20px;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+/* Colori distintivi */
+.sinistra {
+    background-color: #3498db; /* Azzurro */
+}
+
+.centro {
+    background-color: #2ecc71; /* Verde */
+}
+
+.destra {
+    background-color: #e74c3c; /* Rosso */
 }

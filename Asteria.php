@@ -23,7 +23,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto align-items-center">
                 <li class="nav-item theme-switch-wrapper">
-                    <button id="theme-toggle"> Scuro </button>
+                    <button id="theme-toggle"> 🌙 </button>
                 </li>
                 <li class="nav-item"><a class="nav-link px-3" href="#">Home</a></li>
                 <li class="nav-item"><a class="nav-link px-3" href="#">Eventi</a></li>

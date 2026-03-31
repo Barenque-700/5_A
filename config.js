@@ -10,9 +10,9 @@ const body = document.body;
 toggleBtn.addEventListener('click', () => {
     if (body.getAttribute('data-theme') === 'dark') {
         body.setAttribute('data-theme', 'light');
-        toggleBtn.innerHTML = "☀️ Modalità Giorno";
+        toggleBtn.innerHTML = "☀️";
     } else {
         body.setAttribute('data-theme', 'dark');
-        toggleBtn.innerHTML = "🌙 Modalità Notte";
+        toggleBtn.innerHTML = "🌙";
     }
 });

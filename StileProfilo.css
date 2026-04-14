@@ -1,0 +1,77 @@
+/* Stile Generale */
+body {
+    background-color: #f0f2f5; /* Grigio chiaro tipico dei social */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #1c1e21;
+}
+
+/* Container del Profilo */
+.profile-container {
+    max-width: 800px;
+    margin: 50px auto;
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+/* Header del Profilo */
+.profile-header {
+    padding: 30px;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+/* Immagine Profilo */
+.profile-pic {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%; /* Rende la foto circolare */
+    border: 4px solid #6f42c1; /* Un tocco di viola per richiamare il nome Asteria */
+}
+
+/* Info Utente */
+.user-info h2 {
+    margin: 0;
+    font-weight: 700;
+    font-size: 1.8rem;
+}
+
+.username {
+    color: #65676b;
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+}
+
+/* Statistiche (Follower/Seguiti) */
+.stats {
+    display: flex;
+    gap: 20px;
+    margin-top: 10px;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-value {
+    display: block;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.stat-label {
+    color: #65676b;
+    font-size: 0.9rem;
+}
+
+/* Responsività per cellulari */
+@media (max-width: 600px) {
+    .profile-header {
+        flex-direction: column;
+        text-align: center;
+    }
+}

@@ -28,7 +28,7 @@
                 <li class="nav-item"><a class="nav-link px-3" href="#">Home</a></li>
                 <li class="nav-item"><a class="nav-link px-3" href="#">Eventi</a></li>
                 <li class="nav-item ms-lg-2">
-                    <button class="btn btn-custom rounded-pill fw-bold">Profilo Utente</button>
+                    <button class="btn btn-custom rounded-pill fw-bold" onclick="location.href='Profilo.php'">Profilo Utente</button>
                 </li>
             </ul>
         </div>

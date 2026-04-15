@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mar 24, 2026 alle 09:47
--- Versione del server: 10.4.21-MariaDB
--- Versione PHP: 8.0.10
+-- Creato il: Apr 15, 2026 alle 09:33
+-- Versione del server: 10.4.32-MariaDB
+-- Versione PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -35,7 +35,7 @@ CREATE TABLE `post` (
   `Tag` varchar(15) NOT NULL,
   `Allegato` varchar(50) NOT NULL,
   `Utente` varchar(15) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -50,19 +50,20 @@ CREATE TABLE `utenti` (
   `DataNascita` date DEFAULT NULL,
   `Seguiti` int(4) DEFAULT 0,
   `Follower` int(7) DEFAULT 0,
+  `Foto` varchar(50) NOT NULL DEFAULT 'Utente.png',
   `Descrizione` varchar(200) DEFAULT NULL,
   `NumPost` int(5) DEFAULT 0,
   `Password` varchar(100) NOT NULL,
   `Livello` int(2) NOT NULL DEFAULT 1
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dump dei dati per la tabella `utenti`
 --
 
-INSERT INTO `utenti` (`Nome`, `Cognome`, `NomeUtente`, `DataNascita`, `Seguiti`, `Follower`, `Descrizione`, `NumPost`, `Password`, `Livello`) VALUES
-('Gianni', 'Giandagoberto', 'Giandix67', '2005-12-07', 12, 34, 'Il più grande utilizzatore di Valorant, non esco di casa e mi metto a giocare ad Overwatch. Ultima volta che ho toccato l\'erba: la mia nascita', 0, 'CiaoCiao', 0),
-('Marcus', 'Risula', 'MarcusRisula', '2018-01-03', 0, 0, NULL, 0, 'ababababa', 1);
+INSERT INTO `utenti` (`Nome`, `Cognome`, `NomeUtente`, `DataNascita`, `Seguiti`, `Follower`, `Foto`, `Descrizione`, `NumPost`, `Password`, `Livello`) VALUES
+('Gianni', 'Giandagoberto', 'Giandix67', '2005-12-07', 12, 34, 'Utente.png', 'Il più grande utilizzatore di Valorant, non esco di casa e mi metto a giocare ad Overwatch. Ultima volta che ho toccato l\'erba: la mia nascita', 0, 'CiaoCiao', 0),
+('Marcus', 'Risula', 'MarcusRisula', '2018-01-03', 0, 0, 'Utente.png', NULL, 0, 'ababababa', 1);
 
 --
 -- Indici per le tabelle scaricate

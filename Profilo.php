@@ -13,6 +13,33 @@
     <link rel="stylesheet" href="StileProfilo.css">
 </head>
 <body>
+	<nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="#">
+            <div class="d-flex flex-column">
+                <img src="LogoTrasparente.png" alt="Asteria Logo" class="logo-img mb-1">
+                <small id="current-date" class="text-secondary ms-1" style="font-size: 0.7rem; letter-spacing: 1px;"></small>
+            </div>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto align-items-center">
+                <li class="nav-item theme-switch-wrapper">
+                    <button id="theme-toggle"> 🌙 </button>
+                </li>
+                <li class="nav-item"><a class="nav-link px-3" href="#">Home</a></li>
+                <li class="nav-item"><a class="nav-link px-3" href="#">Eventi</a></li>
+                <li class="nav-item ms-lg-2">
+                    <button class="btn btn-custom rounded-pill fw-bold" onclick="location.href='Profilo.php'">Profilo Utente</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
 
 <div class="container">
 	<?php
@@ -68,4 +95,5 @@
 </div>
 
 </body>
-</html>}
+<script src="config.js"></script>
+</html>

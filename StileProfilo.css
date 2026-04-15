@@ -1,12 +1,71 @@
+:root {
+    --bg-color:  #f0f2f5;
+    --text-color: #1c1e21;
+    --navbar-bg: #f8f9fa;
+    --card-bg: #ffffff;
+    --primary-color: #9370DB; /* Viola per Light Mode */
+    --accent-color: #5271FF;
+    --border-color: #dee2e6;
+}
+[data-theme="dark"] {
+    --bg-color: #0b0e14;
+    --text-color: #e0e0e0;
+    --navbar-bg: #161a23;
+    --card-bg: #1a1d24;
+    --primary-color: #5271FF; /* Blu per Dark Mode */
+    --accent-color: #9370DB;
+    --border-color: #333333;
+}
 /* Stile Generale */
 body {
-    background-color: #f0f2f5; /* Grigio chiaro tipico dei social */
+    background-color: var(--bg-color); /* Grigio chiaro tipico dei social */
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #1c1e21;
+    color: var(--text-color);
+     transition: all 0.3s ease;
+}
+.btn-custom {
+    background-color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+    border: none;
+    color: white;
+    padding: 8px 20px;
+    transition: all 0.3s ease;
 }
 
+.btn-custom:hover {
+    opacity: 0.9;
+    color: var(--primary-color) !important;
+    transform: translateY(-2px);
+}
+
+/* Toggle Switch Style */
+.theme-switch-wrapper {
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
+}
+
+#theme-toggle {
+    cursor: pointer;
+    padding: 2px 8px;
+    border-radius: 20px;
+    border: 1px solid var(--primary-color);
+    background: transparent;
+    color: var(--text-color);
+    font-size: 0.75rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+#theme-toggle:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
 /* Container del Profilo */
 .profile-container {
+    color: #000000;
     max-width: 800px;
     margin: 50px auto;
     background: #fff;
@@ -19,7 +78,7 @@ body {
 .profile-header {
     padding: 30px;
     display: flex;
-    align-items: center;
+    align-items: center; 
     gap: 30px;
     border-bottom: 1px solid #e5e5e5;
 }
@@ -74,4 +133,38 @@ body {
         flex-direction: column;
         text-align: center;
     }
+}
+
+.navbar {
+    padding-top: 2px !important;
+    padding-bottom: 2px !important;
+    background-color: var(--navbar-bg) !important;
+    border-bottom: 2px solid var(--primary-color);
+    transition: all 0.3s ease;
+}
+
+.logo-img {
+    width: 110px;
+    height: auto;
+    object-fit: contain;
+}
+
+.nav-link {
+    font-size: 1rem;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+    color: var(--text-color) !important;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: var(--primary-color) !important;
+}
+
+.navbar-nav .nav-item {
+    margin-left: 25px;
+}
+
+.nav-item.ms-lg-2 {
+    margin-left: 25px !important;
 }

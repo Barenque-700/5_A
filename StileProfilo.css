@@ -3,6 +3,7 @@
     --text-color: #1c1e21;
     --navbar-bg: #f8f9fa;
     --card-bg: #ffffff;
+    --user-bg: #ffffff;
     --primary-color: #9370DB; /* Viola per Light Mode */
     --accent-color: #5271FF;
     --border-color: #dee2e6;
@@ -12,6 +13,7 @@
     --text-color: #e0e0e0;
     --navbar-bg: #161a23;
     --card-bg: #1a1d24;
+    --user-bg: #38373b;
     --primary-color: #5271FF; /* Blu per Dark Mode */
     --accent-color: #9370DB;
     --border-color: #333333;
@@ -65,13 +67,13 @@ body {
 }
 /* Container del Profilo */
 .profile-container {
-    color: #000000;
     max-width: 800px;
     margin: 50px auto;
-    background: #fff;
+    background: var(--user-bg);
     border-radius: 15px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     overflow: hidden;
+     transition: all 0.3s ease;
 }
 
 /* Header del Profilo */
@@ -80,7 +82,6 @@ body {
     display: flex;
     align-items: center; 
     gap: 30px;
-    border-bottom: 1px solid #e5e5e5;
 }
 
 /* Immagine Profilo */

@@ -29,7 +29,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto align-items-center">
                 <li class="nav-item theme-switch-wrapper">
-                    <button id="theme-toggle"> " " </button>
+                    <button id="theme-toggle"> </button>
                 </li>
                 <li class="nav-item"><a class="nav-link px-3" href="Asteria.php">Home</a></li>
                 <li class="nav-item"><a class="nav-link px-3" href="#">Eventi</a></li>
@@ -46,11 +46,11 @@
 		if(isset($NomeUtente)){
 			try{
 				$connessione = new PDO("mysql:host=$host;dbname=$db", $user, $password);
-	        	$sql= "SELECT Nome, Cognome, NomeUtente, Seguiti, Follower, Descrizione, NumPost, Foto
+	        	$sql= "SELECT Nome, Cognome, NomeUtente, Descrizione, NumPost, Foto, (SELECT COUNT(Seguente) FROM follow WHERE Seguente=?) AS Seguiti, (SELECT COUNT(Seguito) FROM follow WHERE Seguito=?) AS Follower
 	            		FROM utenti
 	           			WHERE NomeUtente=?";
 	        $preparata = $connessione->prepare($sql);
-	        $preparata->execute([$NomeUtente]);
+	        $preparata->execute([$NomeUtente, $NomeUtente, $NomeUtente]);
 
 	        if($preparata->rowCount() > 0){
 	            $ris = $preparata->fetchAll(PDO::FETCH_ASSOC);
@@ -80,7 +80,9 @@
 	                        </div>
 	                        
 	                        <p class="mt-3"><?= $riga['Descrizione'] ?></p>
+	                        <button class="btn-follow fw-bold" onclick="location.href='ModificaProfilo.php'"> Modifica Profilo</button>
 	                    </div>
+
 	                </div>
 	            </div>
 	            <?php

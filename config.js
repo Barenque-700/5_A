@@ -6,13 +6,27 @@ document.getElementById('current-date').textContent = oggi.toLocaleDateString('i
 // 2. Gestione Dark/Light Mode
 const toggleBtn = document.getElementById('theme-toggle');
 const body = document.body;
-
+const Tema= 0;
 toggleBtn.addEventListener('click', () => {
     if (body.getAttribute('data-theme') === 'dark') {
         body.setAttribute('data-theme', 'light');
         toggleBtn.innerHTML = "☀️";
+        Tema = 1;
     } else {
         body.setAttribute('data-theme', 'dark');
         toggleBtn.innerHTML = "🌙";
+        Tema = 0;
     }
 });
+if (Tema == null)
+    alert("ciao");
+if(Tema== 1){
+    body.setAttribute('data-theme', 'light');
+    toggleBtn.innerHTML = "☀️";
+    alert("ciao");
+}
+else{
+    body.setAttribute('data-theme', 'dark');
+    toggleBtn.innerHTML = "🌙";
+
+}

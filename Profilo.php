@@ -29,9 +29,9 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto align-items-center">
                 <li class="nav-item theme-switch-wrapper">
-                    <button id="theme-toggle"> 🌙 </button>
+                    <button id="theme-toggle"> " " </button>
                 </li>
-                <li class="nav-item"><a class="nav-link px-3" href="#">Home</a></li>
+                <li class="nav-item"><a class="nav-link px-3" href="Asteria.php">Home</a></li>
                 <li class="nav-item"><a class="nav-link px-3" href="#">Eventi</a></li>
                 <li class="nav-item ms-lg-2">
                     <button class="btn btn-custom rounded-pill fw-bold" onclick="location.href='Profilo.php'">Profilo Utente</button>

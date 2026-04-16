@@ -7,7 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="StileAsteria.css">
 </head>
-<body data-theme="dark"> <nav class="navbar navbar-expand-lg sticky-top">
+<body> <nav class="navbar navbar-expand-lg sticky-top">
     <div class="container">
         <a class="navbar-brand d-flex align-items-center" href="#">
             <div class="d-flex flex-column">
@@ -44,9 +44,11 @@
     </div>
 </main>-->
      <div class="contenitore">
-        <div class="sezione sinistra">Cazzo</div>
-        <div class="sezione centro">Would you rather?</div>
-        <div class="sezione destra">Palle</div>
+        <div class="sezione sinistra">Test Sinistra</div>
+        <div class="sezione centro">Test centro
+            <a href="testSessione.php"> ciaoooo</a>
+        </div>
+        <div class="sezione destra">Test destra</div>
     </div>
 
 

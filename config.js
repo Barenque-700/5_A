@@ -6,27 +6,20 @@ document.getElementById('current-date').textContent = oggi.toLocaleDateString('i
 // 2. Gestione Dark/Light Mode
 const toggleBtn = document.getElementById('theme-toggle');
 const body = document.body;
-const Tema= 0;
+
+// Al caricamento, applica il tema salvato (default: dark)
+const temaSalvato = localStorage.getItem('tema') || 'dark';
+body.setAttribute('data-theme', temaSalvato);
+toggleBtn.innerHTML = temaSalvato === 'dark' ? '🌙' : '☀️';
+
 toggleBtn.addEventListener('click', () => {
     if (body.getAttribute('data-theme') === 'dark') {
         body.setAttribute('data-theme', 'light');
-        toggleBtn.innerHTML = "☀️";
-        Tema = 1;
+        toggleBtn.innerHTML = '☀️';
+        localStorage.setItem('tema', 'light');
     } else {
         body.setAttribute('data-theme', 'dark');
-        toggleBtn.innerHTML = "🌙";
-        Tema = 0;
+        toggleBtn.innerHTML = '🌙';
+        localStorage.setItem('tema', 'dark');
     }
 });
-if (Tema == null)
-    alert("ciao");
-if(Tema== 1){
-    body.setAttribute('data-theme', 'light');
-    toggleBtn.innerHTML = "☀️";
-    alert("ciao");
-}
-else{
-    body.setAttribute('data-theme', 'dark');
-    toggleBtn.innerHTML = "🌙";
-
-}

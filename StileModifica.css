@@ -15,8 +15,10 @@ body {
     box-shadow: 20px 20px 7px 5px rgba(0, 0, 0, 0.2);
     display: flex;
     align-items: center;
+    text-align: center;
     max-width: 1200px;
     width: 90%;
+    margin: 0 auto; /* Centra tutto il blocco nella pagina */
 }
 form, h1 {
     flex: 2; 
@@ -24,6 +26,7 @@ form, h1 {
 }
 img {
     margin-left: 80px;
+    margin-right: 80px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -39,6 +42,7 @@ input[type="submit"] {
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
+    font-weight: bold !important;
     transition: all 0.3s ease;
 }
 
@@ -50,6 +54,7 @@ input[type="submit"]:hover {
 h1 {
     color: #191970;
     margin-bottom: 35px;
+    text-align: center;
 }
 .form-row {
     display: flex;
@@ -79,13 +84,21 @@ form > input[type="password"],
 form > input[type="date"] {
     width: 80%;
 }
-.sinistra{
-    width:50%;
-    float:left;
+.title {
+  margin-bottom: 20px; /* Spazio tra titolo e i div sotto */
 }
-.destra{
-    width:50%;
-    float:right;
+.title-wrapper {
+  width: 100%;
+  display: block;
+}
+.wrapper{
+    display: flex;
+    width: 100%;
+}
+
+.box {
+  flex: 1; /* Fa sì che entrambi i div occupino lo stesso spazio */
+  padding: 20px;
 }
 .btn-custom {
     background-color: var(--primary-color);
@@ -100,4 +113,11 @@ form > input[type="date"] {
     opacity: 0.9;
     color: var(--primary-color) !important;
     transform: translateY(-2px);
+}
+.formAlto{
+    display: flex;
+    align-items: center;
+}
+.alto{
+    margin-bottom: 5%;
 }

@@ -44,8 +44,13 @@ input[type="submit"] {
     font-size: 16px;
     font-weight: bold !important;
     transition: all 0.3s ease;
-}
 
+}
+input[type="submit"]:disabled {
+    background-color: #161E44;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
 input[type="submit"]:hover {
     background-color: #161E44;
     transform: translateY(-2px);
@@ -120,4 +125,8 @@ form > input[type="date"] {
 }
 .alto{
     margin-bottom: 5%;
+}
+.indicatore {
+    color: red;
+    font-weight: bold;
 }

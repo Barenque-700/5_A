@@ -14,11 +14,11 @@ if(isset($_POST['user']) && isset($_POST['password'])) {
         if($preparata->rowCount() > 0){
             $ris = $preparata->fetchAll(PDO::FETCH_ASSOC);
             $_SESSION['user']=$_POST['user'];
+            $_SESSION['password']=$_POST['password'];
             foreach ($ris as $riga) {
                 if (($_POST['user']==$riga['NomeUtente']) && $_POST['password']==$riga['Password']){
                     $_SESSION['accesso']=1;
                     $_SESSION['livello']= $riga['Livello'];
-                    $_SESSION['nomeutente']= $riga['NomeUtente'];
                     header("location: Asteria.php");
                 }
             }

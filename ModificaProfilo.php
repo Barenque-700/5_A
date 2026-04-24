@@ -2,10 +2,12 @@
 <link rel="stylesheet" href="StileModifica.css">
 <?php
     session_start();
-    $NomeUtente = $_SESSION['nomeutente'];
+    $NomeUtente = $_SESSION['user'];
+    $Password = $_SESSION['password'];
 ?>
 <script>
             function controlloNome(str) {
+                let btn = document.getElementById("ConfermaInfo");
                 if (str.length == 0 || str== "<?=$NomeUtente?>") {
                     document.getElementById("indicatore").innerHTML = "";
                     return;
@@ -13,10 +15,38 @@
                     var xmlhttp = new XMLHttpRequest();
                     xmlhttp.onreadystatechange = function() {
                         if (this.readyState == 4 && this.status == 200) {
-                            document.getElementById("indicatore").innerHTML = this.responseText;
+                            let risposta = this.responseText;
+                            document.getElementById("indicatore").innerHTML = risposta;
+                            if (risposta.trim().length > 0) {
+                                btn.disabled = true;
+                            } else {
+                                btn.disabled = false;
+                            }
                         }
                     };
                     xmlhttp.open("GET", "controlloNome.php?q=" + str, true);
+                    xmlhttp.send();
+                }
+            }
+            function controlloPassword(str) {
+                let btn = document.getElementById("ConfermaPassword");
+                if (str== "<?=$Password?>") {
+                    document.getElementById("IndPass").innerHTML = "";
+                    return;
+                } else {
+                    var xmlhttp = new XMLHttpRequest();
+                    xmlhttp.onreadystatechange = function() {
+                        if (this.readyState == 4 && this.status == 200) {
+                            let risposta = this.responseText;
+                            document.getElementById("IndPass").innerHTML = risposta;
+                            if (risposta.trim().length > 0) {
+                                btn.disabled = true;
+                            } else {
+                                btn.disabled = false;
+                            }
+                        }
+                    };
+                    xmlhttp.open("GET", "controlloPassword.php?q=" + str, true);
                     xmlhttp.send();
                 }
             }
@@ -65,7 +95,7 @@
                             <label for="descrizione">Descrizione:</label><br>
                             <input type="text" name="descrizione" value="<?=$riga['Descrizione']?>"><br/><br/>
 
-                            <input type="submit" value="Conferma Modifiche">
+                            <input type="submit" value="Conferma Modifiche" id="ConfermaInfo">
                         </form>
                     </div>
                     <div class="box right">
@@ -78,10 +108,12 @@
                         <div class="basso">
                             <form action="CambiaPassword.php" method="POST" class="formBasso">
                                 <label for="password">Inserisci la tua attuale password:</label><br>
-                                <input type="password" name="password"><br/><br/>
+                                <input type="password" name="password" onkeyup="controlloPassword(this.value)>
+                                <a id="IndPass" class="indicatore"> </a>
+                                <br/><br/>
                                 <label for="passwordNuova">Nuova Password:</label><br>
                                 <input type="password" name="passwordNuova"><br/><br/>
-                                <input type="submit" value="Cambia Password">
+                                <input type="submit" value="Cambia Password" id="ConfermaPassword">
                             </form>
                         </div>
                     </div>

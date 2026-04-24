@@ -2,7 +2,7 @@
 <?php 
 	session_start();
 	include "Connessione.php";
-	$NomeUtente = $_SESSION['nomeutente'];
+	$NomeUtente = $_SESSION['user'];
 ?>
 <html lang="it">
 <head>
@@ -34,7 +34,7 @@
                 <li class="nav-item"><a class="nav-link px-3" href="Asteria.php">Home</a></li>
                 <li class="nav-item"><a class="nav-link px-3" href="#">Eventi</a></li>
                 <li class="nav-item ms-lg-2">
-                    <button class="btn btn-custom rounded-pill fw-bold" onclick="location.href='Profilo.php'">Profilo Utente</button>
+                    <button class="btn btn-custom rounded-pill fw-bold" onclick="location.href='logout.php'">Logout</button>
                 </li>
             </ul>
         </div>

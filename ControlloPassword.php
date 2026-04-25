@@ -3,20 +3,21 @@ session_start();
 include "Connessione.php";
 $q = $_REQUEST["q"];
 $indicatore = "";
+$NomeUtente = $_SESSION['user'];
 
 try {
         $connessione = new PDO("mysql:host=$host;dbname=$db", $user, $password);
-        $sql= 'SELECT Password 
-            FROM utenti';
+        $sql= "SELECT Password 
+            FROM utenti
+            WHERE NomeUtente=?";
 
         $preparata = $connessione->prepare($sql);
-        $preparata->execute();
+        $preparata->execute([$NomeUtente]);
 
         if($preparata->rowCount() > 0){
             $ris = $preparata->fetchAll(PDO::FETCH_ASSOC);
 
             if ($q !== "") {
-			    $len=strlen($q);
 			    foreach($ris as $name) {
 			    	foreach ($name as $stringa) {
 			        if (strcmp($q, $stringa)== 0){
@@ -34,7 +35,7 @@ try {
         die("Errore nella gestione del database $db: " . $e->getMessage());
     }
 
-echo $indicatore === 0 ? "" : "La Password non è la stessa"."<br>"."<br>";
+echo $indicatore === 0 ? "" : "La Password non è corretta"."<br>"."<br>";
 
 
 

@@ -55,6 +55,7 @@
 	        if($preparata->rowCount() > 0){
 	            $ris = $preparata->fetchAll(PDO::FETCH_ASSOC);
 	            foreach ($ris as $riga) {
+	            	$_SESSION['foto']= $riga['Foto'];
 	            	?>
 	            <div class="profile-container">
 	                <div class="profile-header">

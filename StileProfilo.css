@@ -45,8 +45,11 @@ body {
     white-space: nowrap;
     border-radius: 10px;
     color: white;
-    padding: 8px 38%;
     transition: all 0.3s ease;
+    display: block;
+    width: 100%;    
+    padding: 10px 20px; 
+    margin: 0 auto;
 }
 
 .btn-follow:hover {
@@ -108,10 +111,14 @@ body {
 }
 
 /* Info Utente */
-.user-info h2 {
+.user-info h2{
     margin: 0;
     font-weight: 700;
     font-size: 1.8rem;
+    
+}
+.user-info{
+    width: 100%;
 }
 
 .username {

@@ -2,41 +2,26 @@
 session_start(); 
 include "Connessione.php";
 $q = $_REQUEST["q"];
+$NomeUtenteLoggato = $_SESSION['user']; 
 $indicatore = "";
 
-try {
+if ($q !== "" && $q !== $NomeUtenteLoggato) {
+    try {
         $connessione = new PDO("mysql:host=$host;dbname=$db", $user, $password);
-        $sql= 'SELECT NomeUtente 
-            FROM utenti';
-
+        
+        $sql = "SELECT NomeUtente FROM utenti WHERE NomeUtente = ?";
         $preparata = $connessione->prepare($sql);
-        $preparata->execute();
+        $preparata->execute([$q]);
 
         if($preparata->rowCount() > 0){
-            $ris = $preparata->fetchAll(PDO::FETCH_ASSOC);
+            $indicatore = "Il nome utente è già utilizzato";
+        }
 
-            if ($q !== "") {
-			    $len=strlen($q);
-			    foreach($ris as $name) {
-			    	foreach ($name as $stringa) {
-			        if (strcmp($q, $stringa)== 0){
-			                $indicatore= 0;
-			                break;
-			            } else {
-			                $indicatore="";
-			            }
-			        }
-			    }
-			}
-		}
-	    $connessione = null;
+        $connessione = null;
     } catch(PDOException $e){
-        die("Errore nella gestione del database $db: " . $e->getMessage());
+        die("Errore: " . $e->getMessage());
     }
+}
 
-echo $indicatore === 0 ? "Il nome utente è già utilizzato"."<br>"."<br>" : "";
-
-
-
-
+echo $indicatore !== "" ? $indicatore."<br><br>" : "";
 ?>

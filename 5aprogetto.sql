@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Apr 17, 2026 alle 01:08
+-- Creato il: Apr 25, 2026 alle 21:52
 -- Versione del server: 10.4.32-MariaDB
 -- Versione PHP: 8.2.12
 
@@ -66,7 +66,7 @@ CREATE TABLE `utenti` (
   `Cognome` varchar(15) NOT NULL,
   `NomeUtente` varchar(15) NOT NULL,
   `DataNascita` date DEFAULT NULL,
-  `Foto` varchar(50) NOT NULL DEFAULT 'Utente.png',
+  `Foto` varchar(300) NOT NULL DEFAULT 'Utente.png',
   `Descrizione` varchar(200) DEFAULT NULL,
   `NumPost` int(5) DEFAULT 0,
   `Password` varchar(100) NOT NULL,
@@ -79,7 +79,7 @@ CREATE TABLE `utenti` (
 
 INSERT INTO `utenti` (`Nome`, `Cognome`, `NomeUtente`, `DataNascita`, `Foto`, `Descrizione`, `NumPost`, `Password`, `Livello`) VALUES
 ('Gianni', 'Giandagoberto', 'Giandix67', '2005-12-07', 'Utente.png', 'Il più grande utilizzatore di Valorant, non esco di casa e mi metto a giocare ad Overwatch. Ultima volta che ho toccato l\'erba: la mia nascita', 0, 'CiaoCiao', 0),
-('Marcus', 'Risula', 'MarcusRisula', '2018-01-03', 'Utente.png', NULL, 0, 'ababababa', 1);
+('Marcus', 'Risula', 'MarcusRisula', '2018-01-03', 'Utente.png', 'questo è un mega test', 0, 'ababababa', 1);
 
 --
 -- Indici per le tabelle scaricate
@@ -123,8 +123,8 @@ ALTER TABLE `post`
 -- Limiti per la tabella `follow`
 --
 ALTER TABLE `follow`
-  ADD CONSTRAINT `FK_Seguente` FOREIGN KEY (`Seguente`) REFERENCES `utenti` (`NomeUtente`),
-  ADD CONSTRAINT `FK_Seguito` FOREIGN KEY (`Seguito`) REFERENCES `utenti` (`NomeUtente`);
+  ADD CONSTRAINT `FK_Seguente` FOREIGN KEY (`Seguente`) REFERENCES `utenti` (`NomeUtente`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_Seguito` FOREIGN KEY (`Seguito`) REFERENCES `utenti` (`NomeUtente`) ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `post`

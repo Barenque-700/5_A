@@ -58,7 +58,22 @@ if ($uploadOk == 0) {
       if($FotoVecchia=="Utente.png"){
 
       }else{
-        unlink("UploadProfili/".$FotoVecchia);
+        try{
+        $connessione = new PDO("mysql:host=$host;dbname=$db", $user, $password);
+            $sql= "SELECT NomeUtente 
+                FROM Utenti
+                WHERE Foto = ?";
+          $preparata = $connessione->prepare($sql);
+          $preparata->execute([$FotoVecchia]);
+          if($preparata->rowCount() > 0){
+          }
+          else{
+               unlink("UploadProfili/".$FotoVecchia);
+          }
+          $connessione = null;
+      } catch(PDOException $e){
+          die("Errore nella gestione del database $db: " . $e->getMessage());
+        }
       }
     header("location: Profilo.php");
   }else if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
@@ -77,7 +92,22 @@ if ($uploadOk == 0) {
       if($FotoVecchia=="Utente.png"){
 
       }else{
-        unlink("UploadProfili/".$FotoVecchia);
+        try{
+        $connessione = new PDO("mysql:host=$host;dbname=$db", $user, $password);
+            $sql= "SELECT NomeUtente 
+                FROM Utenti
+                WHERE Foto = ?";
+          $preparata = $connessione->prepare($sql);
+          $preparata->execute([$FotoVecchia]);
+          if($preparata->rowCount() > 0){
+          }
+          else{
+               unlink("UploadProfili/".$FotoVecchia);
+          }
+          $connessione = null;
+      } catch(PDOException $e){
+          die("Errore nella gestione del database $db: " . $e->getMessage());
+        }
       }
     header("location: Profilo.php");
   } else {

@@ -165,12 +165,13 @@ body {
 .panel-white {
     max-width: 600px; /* Imposta la larghezza massima del post */
     margin: 0 auto;   /* Centra il post orizzontalmente */
-    border: 1px solid #dddddd;
+    background-color: var(--card-bg); 
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
 }
 .panel-white  .panel-heading {
-  color: #333;
-  background-color: #fff;
-  border-color: #ddd;
+  background-color: var(--card-bg);
+  border-color: var(--border-color);
 }
 .panel-white  .panel-footer {
   background-color: #fff;
@@ -191,10 +192,11 @@ body {
   margin-bottom: 0;
 }
 .post .post-heading .meta .title a {
-  color: black;
+  color: var(--text-color); 
+  text-decoration: none;
 }
 .post .post-heading .meta .title a:hover {
-  color: #aaaaaa;
+  color: var(--primary-color);
 }
 .post .post-heading .meta .time {
   margin-top: 8px;
@@ -221,8 +223,8 @@ body {
   margin-right: 8px;
 }
 .post .post-footer {
-  border-top: 1px solid #ddd;
-  padding: 15px;
+  border-top: 1px solid var(--border-color);
+  background-color: var(--card-bg);
 }
 .post .post-footer .input-group-addon a {
   color: #454545;
@@ -258,9 +260,18 @@ body {
   margin-top: 0;
   display: inline;
 }
+.post .post-footer .input-group .form-control {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+}
 .post .post-footer .comments-list .comment .comment-body {
   margin-left: 50px;
 }
 .post .post-footer .comments-list .comment > .comments-list {
   margin-left: 50px;
-}                    
+}         
+
+b{
+ color: var(--text-color);
+}

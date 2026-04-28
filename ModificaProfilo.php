@@ -3,6 +3,11 @@
 <?php
     session_start();
     $NomeUtente = $_SESSION['user'];
+    $accesso=$_SESSION['accesso'];
+    if($accesso!= 1){
+        header("location: Index.php");
+    }
+    else{
 ?>
 <script>
             function controlloNome(str) {
@@ -175,3 +180,6 @@
         </div>
     </body>
 </html>
+<?php
+}
+?>

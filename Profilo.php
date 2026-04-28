@@ -3,6 +3,11 @@
 	session_start();
 	include "Connessione.php";
 	$NomeUtente = $_SESSION['user'];
+	$accesso=$_SESSION['accesso'];
+	if($accesso!= 1){
+	    header("location: Index.php");
+	}
+	else{
 ?>
 <html lang="it">
 <head>
@@ -100,3 +105,6 @@
 </body>
 <script src="config.js"></script>
 </html>
+<?php 
+}
+?>

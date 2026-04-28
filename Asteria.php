@@ -1,4 +1,12 @@
 <!DOCTYPE html>
+<?php
+session_start();
+$accesso=$_SESSION['accesso'];
+    if($accesso!= 1){
+        header("location: Index.php");
+    }
+    else{
+?>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
@@ -101,3 +109,6 @@
 
 </body>
 </html>
+<?php
+}
+?>

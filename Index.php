@@ -2,6 +2,7 @@
 session_start(); 
 
 include "Connessione.php";
+$_SESSION['accesso']=0;
 if(isset($_POST['user']) && isset($_POST['password'])) {
     try {
         $connessione = new PDO("mysql:host=$host;dbname=$db", $user, $password);

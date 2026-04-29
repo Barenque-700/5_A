@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Apr 25, 2026 alle 21:52
+-- Creato il: Apr 29, 2026 alle 10:53
 -- Versione del server: 10.4.32-MariaDB
 -- Versione PHP: 8.2.12
 
@@ -20,6 +20,18 @@ SET time_zone = "+00:00";
 --
 -- Database: `5aprogetto`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `commenti`
+--
+
+CREATE TABLE `commenti` (
+  `Utente` varchar(40) NOT NULL,
+  `Id_Post` int(30) NOT NULL,
+  `Contenuto` varchar(500) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -48,10 +60,10 @@ INSERT INTO `follow` (`Seguente`, `Seguito`) VALUES
 CREATE TABLE `post` (
   `Id_Post` int(30) NOT NULL,
   `NumLike` int(4) DEFAULT NULL,
-  `Commenti` int(4) DEFAULT NULL,
   `Condivisioni` int(4) DEFAULT NULL,
-  `Tag` varchar(15) NOT NULL,
   `Allegato` varchar(50) NOT NULL,
+  `Descrizione` varchar(300) NOT NULL,
+  `Data_post` date NOT NULL,
   `Utente` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -86,6 +98,13 @@ INSERT INTO `utenti` (`Nome`, `Cognome`, `NomeUtente`, `DataNascita`, `Foto`, `D
 --
 
 --
+-- Indici per le tabelle `commenti`
+--
+ALTER TABLE `commenti`
+  ADD PRIMARY KEY (`Utente`,`Id_Post`),
+  ADD KEY `FK_post` (`Id_Post`);
+
+--
 -- Indici per le tabelle `follow`
 --
 ALTER TABLE `follow`
@@ -118,6 +137,13 @@ ALTER TABLE `post`
 --
 -- Limiti per le tabelle scaricate
 --
+
+--
+-- Limiti per la tabella `commenti`
+--
+ALTER TABLE `commenti`
+  ADD CONSTRAINT `FK_post` FOREIGN KEY (`Id_Post`) REFERENCES `post` (`Id_Post`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_utenti` FOREIGN KEY (`Utente`) REFERENCES `utenti` (`NomeUtente`) ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `follow`

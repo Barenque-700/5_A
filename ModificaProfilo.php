@@ -1,4 +1,8 @@
 <html>
+    <head>
+        <title>Modifica Profilo</title>
+        <link rel="icon" type="image/x-icon" href="LogoIcona.png">
+    </head>
 <link rel="stylesheet" href="StileModifica.css">
 <?php
     session_start();

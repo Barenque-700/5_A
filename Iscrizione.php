@@ -22,6 +22,10 @@ include "Connessione.php";
 }
 ?>
 <html>
+    <head>
+        <title>Iscriviti</title>
+        <link rel="icon" type="image/x-icon" href="LogoIcona.png">
+    </head>
 <script>
     function controlli(event){
         event.preventDefault(); 

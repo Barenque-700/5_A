@@ -1,3 +1,12 @@
+<?php
+session_start();
+include "Connessione.php";
+$accesso=$_SESSION['accesso'];
+    if($accesso!= 1){
+        header("location: Index.php");
+    }
+    else{
+        ?>
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -88,3 +97,6 @@
 
 </body>
 </html>
+<?php
+    }
+?>

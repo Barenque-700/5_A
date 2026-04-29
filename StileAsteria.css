@@ -28,7 +28,8 @@ body {
     transition: all 0.3s ease;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     min-height: 100vh; 
-    height: auto;
+    height: calc(100vh - 150px);
+    overflow: hidden;
 }
 
 .navbar {
@@ -115,8 +116,7 @@ body {
 .contenitore {
     display: flex; /* Usa il layout flexbox */
     flex-direction: row; /* Disposizione orizzontale dei div */
-    min-height: 100vh;
-    height: auto;
+    height: calc(100vh - 150px);
 }
 
 .sezione {
@@ -142,6 +142,8 @@ body {
 .centro {
     flex: 3; 
     background-color: var(--bg-color);
+    overflow: auto;
+    scrollbar-width:none;          /* Può essere: auto, thin, none */
 }
 
 .destra {

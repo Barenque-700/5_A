@@ -6,6 +6,7 @@
     --primary-color: #9370DB; /* Viola per Light Mode */
     --accent-color: #5271FF;
     --border-color: #dee2e6;
+    --card-shadow: 0 8px 24px rgba(147, 112, 219, 0.15);
 }
 
 [data-theme="dark"] {
@@ -16,6 +17,7 @@
     --primary-color: #5271FF; /* Blu per Dark Mode */
     --accent-color: #9370DB;
     --border-color: #333333;
+    --card-shadow: 0 8px 30px rgba(82, 113, 255, 0.12);
 }
 html {
      height: auto;
@@ -146,132 +148,100 @@ body {
     background-color: var(--bg-color);
 }
 
-.post {
-    max-height: none;    /* Sostituisci 500px con l'altezza che preferisci */
-    overflow: visible;
-}
-
-/* Opzionale: Rendi la scrollbar più sottile e moderna (per browser Webkit come Chrome/Edge) */
-.post::-webkit-scrollbar {
-    width: 6px;
-}
-.post::-webkit-scrollbar-thumb {
-    background-color: #cccccc;
-    border-radius: 10px;
-}
-.panel-shadow {
-    box-shadow: rgba(0, 0, 0, 0.3) 7px 7px 7px;
-}
-.panel-white {
-    max-width: 600px; /* Imposta la larghezza massima del post */
-    margin: 0 auto;   /* Centra il post orizzontalmente */
-    background-color: var(--card-bg); 
-    border: 1px solid var(--border-color);
-    color: var(--text-color);
-}
-.panel-white  .panel-heading {
-  background-color: var(--card-bg);
-  border-color: var(--border-color);
-}
-.panel-white  .panel-footer {
-  background-color: #fff;
-  border-color: #ddd;
-}
-
-.post .post-heading {
-  height: 95px;
-  padding: 20px 15px;
-}
-.post .post-heading .avatar {
-  width: 60px;
-  height: 60px;
-  display: block;
-  margin-right: 15px;
-}
-.post .post-heading .meta .title {
-  margin-bottom: 0;
-}
-.post .post-heading .meta .title a {
-  color: var(--text-color); 
-  text-decoration: none;
-}
-.post .post-heading .meta .title a:hover {
-  color: var(--primary-color);
-}
-.post .post-heading .meta .time {
-  margin-top: 8px;
-  color: #999;
-}
-.post .post-image .image {
-  width: 100%;
-  height: auto;
-}
-.post .post-description {
+.post-content-wrapper {
+  display: flex;
   padding: 15px;
 }
-.post .post-description p {
-  font-size: 14px;
-}
-.post .post-description .stats {
-  margin-top: 20px;
-}
-.post .post-description .stats .stat-item {
-  display: inline-block;
-  margin-right: 15px;
-}
-.post .post-description .stats .stat-item .icon {
-  margin-right: 8px;
-}
-.post .post-footer {
-  border-top: 1px solid var(--border-color);
-  background-color: var(--card-bg);
-}
-.post .post-footer .input-group-addon a {
-  color: #454545;
-}
-.post .post-footer .comments-list {
-  padding: 0;
-  margin-top: 20px;
-  list-style-type: none;
-}
-.post .post-footer .comments-list .comment {
-  display: block;
-  width: 100%;
-  margin: 20px 0;
-}
-.post .post-footer .comments-list .comment .avatar {
-  width: 35px;
-  height: 35px;
-}
-.post .post-footer .comments-list .comment .comment-heading {
-  display: block;
-  width: 100%;
-}
-.post .post-footer .comments-list .comment .comment-heading .user {
-  font-size: 14px;
-  font-weight: bold;
-  display: inline;
-  margin-top: 0;
-  margin-right: 10px;
-}
-.post .post-footer .comments-list .comment .comment-heading .time {
-  font-size: 12px;
-  color: #aaa;
-  margin-top: 0;
-  display: inline;
-}
-.post .post-footer .input-group .form-control {
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  border: 1px solid var(--border-color);
-}
-.post .post-footer .comments-list .comment .comment-body {
-  margin-left: 50px;
-}
-.post .post-footer .comments-list .comment > .comments-list {
-  margin-left: 50px;
-}         
 
+.post-left-column {
+  margin-right: 12px;
+}
+
+.post-right-column {
+  flex: 1; /* Prende tutto lo spazio rimanente */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Allineamento Header (Nome e Tempo sulla stessa riga) */
+.post-heading {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  margin-bottom: 4px;
+}
+.post-heading a {
+  text-decoration: none !important;
+  color: var(--text-color);
+}
+.post-heading a:hover {
+  text-decoration: none !important;
+}
+.post-heading b {
+  font-size: 15px;
+}
+
+.post-heading.time {
+  font-size: 14px;
+}
+
+/* Testo del post */
+.post-description p {
+  margin-bottom: 10px;
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+/* Immagine del post */
+.post-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 15px; /* Angoli tondi per l'immagine interna */
+  border: 1px solid var(--border-color);
+  margin-bottom: 10px;
+}
+
+/* Icone delle Statistiche */
+.stats {
+  display: flex;
+  justify-content: space-around; 
+  align-items: center;
+  margin-top: 10px;
+  padding: 5px 0;
+  max-width: 100%;
+}
+
+.stats.stat-item {
+  text-decoration: none;
+  font-size: 13px;
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: opacity 0.2s;
+}
+
+.stats .stat-item:hover {
+  opacity: 0.7;
+}
+
+/* Avatar circolare */
+.post-left-column .avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.text-muted {
+  color: rgb(83, 100, 113) !important;
+}
+.stats a{
+  color:var(--primary-color);
+}
 b{
  color: var(--text-color);
+}
+
+b:hover{
+  color:var(--primary-color) !important;
 }

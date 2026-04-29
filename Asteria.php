@@ -1,12 +1,4 @@
 <!DOCTYPE html>
-<?php
-session_start();
-$accesso=$_SESSION['accesso'];
-    if($accesso!= 1){
-        header("location: Index.php");
-    }
-    else{
-?>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
@@ -56,48 +48,35 @@ $accesso=$_SESSION['accesso'];
         <div class="sezione centro">Test centro
             <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
             <div class="container bootstrap snippets bootdey">
-                <di class="col-md-8">
                     <div class="col-sm-12">
                         <div class="panel panel-white post panel-shadow">
-                            <div class="post-heading">
-                                <div class="pull-left image">
+                            <div class="post-content-wrapper"> <div class="post-left-column">
                                     <img src="https://bootdey.com/img/Content/user_1.jpg" class="img-circle avatar" alt="user profile image">
                                 </div>
-                                <div class="pull-left meta">
-                                    <div class="title h5">
+
+                                <div class="post-right-column">
+                                    <div class="post-heading">
                                         <a href="#"><b>Ciccio Brutto</b></a>
+                                        <span class="text-muted time">@ciccio_brutto · 5s</span>
                                     </div>
-                                    <h6 class="text-muted time">5 seconds ago</h6>
-                                </div>
-                            </div>
-                            <div class="post-image">
-                                <img src="https://www.bootdey.com/image/400x200/FFB6C1/000000" class="image" alt="image post">
-                            </div>
-                            <div class="post-description">
-                                <h4>Foto title</h4>
-                                <p>Put here your foto description</p>
-                                <div class="stats">
-                                    <a href="#" class="btn btn-default stat-item">
-                                        <i class="fa fa-thumbs-up icon"></i>228
-                                    </a>
-                                    <a href="#" class="btn btn-default stat-item">
-                                        <i class="fa fa-share icon"></i>128
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="post-footer">
-                                <div class="input-group"> 
-                                    <input class="form-control" placeholder="Add a comment" type="text">
-                                    <span class="input-group-addon">
-                                        <a href="#"><i class="fa fa-edit"></i></a>  
-                                    </span>
-                                </div>
-                                <ul class="comments-list">
-                                </ul>
+
+                                    <div class="post-description">
+                                        <p>Put here your foto description</p>
+                                    </div>
+
+                                    <div class="post-image">
+                                        <img src="https://www.bootdey.com/image/400x200/FFB6C1/000000" class="image" alt="image post">
+                                    </div>
+
+                                    <div class="stats">
+                                        <a href="#" class="stat-item"><i class="fa fa-comment-o"></i> 165</a>
+                                        <a href="#" class="stat-item"><i class="fa fa-heart-o"></i> 5.5K</a>
+                                        <a href="#" class="stat-item"><i class="fa fa-share"></i></a>
+                                    </div>
+                                </div> 
                             </div>
                         </div>
                     </div>
-                </di>
             </div>
         </div>
         <div class="sezione destra">Test destra</div>
@@ -109,6 +88,3 @@ $accesso=$_SESSION['accesso'];
 
 </body>
 </html>
-<?php
-}
-?>

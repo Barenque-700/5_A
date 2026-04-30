@@ -13,78 +13,7 @@
     }
     else{
 ?>
-<script>
-            function controlloNome(str) {
-                let btn = document.getElementById("ConfermaInfo");
-                if (str.length == 0 || str== "<?=$NomeUtente?>") {
-                    document.getElementById("indicatore").innerHTML = "";
-                    return;
-                } else {
-                    var xmlhttp = new XMLHttpRequest();
-                    xmlhttp.onreadystatechange = function() {
-                        if (this.readyState == 4 && this.status == 200) {
-                            let risposta = this.responseText;
-                            document.getElementById("indicatore").innerHTML = risposta;
-                            if (risposta.trim().length > 0) {
-                                btn.disabled = true;
-                            } else {
-                                btn.disabled = false;
-                            }
-                        }
-                    };
-                    xmlhttp.open("GET", "controlloNome.php?q=" + str, true);
-                    xmlhttp.send();
-                }
-            }
-            function validaEInvia(event) {
-                event.preventDefault(); 
-
-                let passwordAttuale = document.getElementById("password").value;
-                let indicatore = document.getElementById("IndPass");
-                let form = document.getElementById("formPassword");
-                let passwordNuova = document.getElementById("passwordNuova").value;
-                if (passwordNuova.indexOf(' ') >= 0) {
-                    alert("La password non può contenere spazi!");
-                    event.preventDefault();
-                    return false;
-                }
-                if (passwordNuova.trim().length === 0) {
-                    alert("La password non può essere vuota o composta solo da spazi!");
-                    event.preventDefault();
-                    return false;
-                }
-                var xmlhttp = new XMLHttpRequest();
-                xmlhttp.onreadystatechange = function() {
-                    if (this.readyState == 4 && this.status == 200) {
-                        let risposta = this.responseText.trim();
-                        
-                        if (risposta === "") {
-                            indicatore.innerHTML = "";
-                            form.submit(); 
-                        } else {
-                            indicatore.innerHTML = risposta;
-                        }
-                    }
-                };
-                
-                xmlhttp.open("GET", "controlloPassword.php?q=" + encodeURIComponent(passwordAttuale), true);
-                xmlhttp.send();
-
-                return false;
-            };
-            function controllo(event){
-                event.preventDefault(); 
-                let nomeutente = document.getElementById("nomeutente").value;
-                let form = document.getElementById("form");
-                if (nomeutente.indexOf(' ') >= 0 || nomeutente.trim().length === 0) {
-                    alert("Il nome utente non può contenere spazi o essere vuoto!");
-                    event.preventDefault();
-                    return false;
-                }
-                form.submit();
-                return false;
-            }
-    </script>
+<script src="modifiche.js"></script>
     <body>
         <div class="main">
             <div class="title-wrapper">
@@ -139,20 +68,25 @@
                     <div class="box right">
                         <div class="alto">
                             <form action="CambiaFoto.php" method="POST" class="formAlto" enctype="multipart/form-data">
-                                <img src="UploadProfili/<?=$riga['Foto']?>" width="150" height="150" alt="FotoProfilo">
+                                <img src="UploadProfili/<?=$riga['Foto']?>" width="150" height="150" alt="FotoProfilo" id="foto">
                                 <div class="upload-container">
                                     <input type="file" name="fileToUpload" id="fileToUpload" class="input-hidden" >
                                     <label for="fileToUpload" class="custom-file-upload">Scegli un file</label>
                                     <span id="file-chosen">Nessun file selezionato</span>
-                                    <input type="submit" value="Cambia Foto Profilo">
+                                    <input type="submit" value="Cambia Foto Profilo" id="ConfermaFoto" disabled>
                                 </div>
                             </form>
                             <script>
                                 const actualBtn = document.getElementById('fileToUpload');
                                 const fileChosen = document.getElementById('file-chosen');
+                                let ConfermaFoto = document.getElementById('ConfermaFoto');
 
                                 actualBtn.addEventListener('change', function(){
-                                  fileChosen.textContent = this.files[0].name
+                                    fileChosen.textContent = this.files[0].name;
+                                    let file = this.files[0];
+                                    let urlTemporaneo = URL.createObjectURL(file);
+                                    document.getElementById("foto").src=urlTemporaneo;
+                                    ConfermaFoto.disabled=false;
                                 })
                             </script>
                         </div>

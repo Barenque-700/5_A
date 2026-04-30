@@ -105,6 +105,7 @@ body {
 .profile-pic {
     width: 150px;
     height: 150px;
+    flex-shrink: 0;
     object-fit: cover;
     border-radius: 50%; /* Rende la foto circolare */
     border: 4px solid var(--primary-color); /* Un tocco di viola per richiamare il nome Asteria */

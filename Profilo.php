@@ -23,7 +23,9 @@
     <div class="container">
         <a class="navbar-brand d-flex align-items-center" href="#">
             <div class="d-flex flex-column">
-                <img src="LogoTrasparente.png" alt="Asteria Logo" class="logo-img mb-1">
+				<a href="Asteria.php">
+                	<img src="LogoTrasparente.png" alt="Asteria Logo" class="logo-img mb-1">
+				</a>
                 <small id="current-date" class="text-secondary ms-1" style="font-size: 0.7rem; letter-spacing: 1px;"></small>
             </div>
         </a>

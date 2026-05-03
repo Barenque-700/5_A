@@ -54,7 +54,19 @@ $accesso=$_SESSION['accesso'];
     </div>
 </main>-->
      <div class="contenitore">
-        <div class="sezione sinistra">Test Sinistra</div>
+        <div class="sezione sinistra">Test Sinistra
+            <div class="d-grid gap-2 p-3">
+                <button class="btn btn-custom rounded-pill fw-bold" onclick="location.href='CreaPost.php'">
+                    <i class="fa fa-plus-circle me-2"></i>Crea
+                </button>
+            </div>
+    <!-- Altri contenuti della barra sinistra -->
+    <div class="mt-3 ps-3">
+        <p class="text-secondary small">Menu navigazione</p>
+        <!-- Qui potrai aggiungere altri link in futuro -->
+    </div>
+
+        </div>
         <div class="sezione centro">Test centro
             <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
             <div class="container bootstrap snippets bootdey">

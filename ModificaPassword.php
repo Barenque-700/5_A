@@ -21,7 +21,7 @@ $accesso=$_SESSION['accesso'];
                         WHERE NomeUtente = ?";
                 $preparata = $connessione->prepare($sql);
                 $preparata->execute([$nuovaPassword, $NomeUtente]);
-                header("Location: Profilo.php");
+                header("Location: Profilo.php?user=$NomeUtente");
                 exit;
             } catch(PDOException $e){
                 die("Errore: " . $e->getMessage());

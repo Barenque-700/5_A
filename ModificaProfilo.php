@@ -19,7 +19,7 @@
             <div class="title-wrapper">
                 <div class="title">
                     <div class="IndietroDiv">
-                        <button class="indietro" onclick="location.href='Profilo.php'">Indietro</button>
+                        <button class="indietro" onclick="location.href='Profilo.php?user=<?=$NomeUtente?>'">Indietro</button>
                     </div>
                     <h1>Modifica Profilo</h1>
                     <div class="vuoto"></div>

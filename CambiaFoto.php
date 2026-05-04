@@ -44,7 +44,7 @@ $accesso=$_SESSION['accesso'];
 
       // Check if $uploadOk is set to 0 by an error
       if ($uploadOk == 0) {
-        echo " Il file non è stato uploadato. Errore 409";
+        echo " Il file non è stato caricato. Errore 409";
         header("refresh:3;url=ModificaProfilo.php");
       // if everything is ok, try to upload file
       } else {
@@ -56,6 +56,7 @@ $accesso=$_SESSION['accesso'];
                       WHERE NomeUtente = ?";
                 $preparata = $connessione->prepare($sql);
                 $preparata->execute([$nomeDB, $NomeUtente]);
+                $_SESSION['foto']=  $target_file;
                 $connessione = null;
             } catch(PDOException $e){
                 die("Errore nella gestione del database $db: " . $e->getMessage());
@@ -80,7 +81,7 @@ $accesso=$_SESSION['accesso'];
                 die("Errore nella gestione del database $db: " . $e->getMessage());
               }
             }
-          header("location: Profilo.php");
+          header("location: Profilo.php?user=$NomeUtente");
         }else if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
           echo "The file ". htmlspecialchars( basename( $_FILES["fileToUpload"]["name"])). " has been uploaded.";
           try{
@@ -90,6 +91,7 @@ $accesso=$_SESSION['accesso'];
                       WHERE NomeUtente = ?";
                 $preparata = $connessione->prepare($sql);
                 $preparata->execute([$nomeDB, $NomeUtente]);
+                $_SESSION['foto']=  $target_file;
                 $connessione = null;
             } catch(PDOException $e){
                 die("Errore nella gestione del database $db: " . $e->getMessage());
@@ -114,7 +116,7 @@ $accesso=$_SESSION['accesso'];
                 die("Errore nella gestione del database $db: " . $e->getMessage());
               }
             }
-          header("location: Profilo.php");
+          header("location: Profilo.php?user=$NomeUtente");
         } else {
           echo "Sorry, there was an error uploading your file.";
           header("refresh:3;url=ModificaProfilo.php");

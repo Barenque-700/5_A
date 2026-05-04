@@ -19,6 +19,7 @@ if(isset($_POST['user']) && isset($_POST['password'])) {
                 if (($_POST['user']==$riga['NomeUtente']) && $_POST['password']==$riga['Password']){
                     $_SESSION['accesso']=1;
                     $_SESSION['livello']= $riga['Livello'];
+                    $_SESSION['foto']= "UploadProfili/".$riga['Foto'];
                     header("location: Asteria.php");
                 }
             }

@@ -81,7 +81,7 @@ textarea:focus {
     background: white;
 }
 
-#img-preview {
+.anteprima {
     max-width: 100%;
     max-height: 400px;
     border-radius: 15px;
@@ -142,4 +142,22 @@ input[type="submit"]:hover {
     font-size: 12px;
     color: #666;
     margin-left: 8px;
+}
+#remove-photo {
+    position: absolute;
+    top: 15px;
+    right: 5px;
+    background: #6f42c1;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    font-weight: bold;
+    z-index: 10;
+}
+
+#remove-photo:hover {
+    opacity: 0.8;
 }

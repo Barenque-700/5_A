@@ -2,6 +2,7 @@
 session_start();
 include "Connessione.php";
 $accesso=$_SESSION['accesso'];
+$NomeUtente = $_SESSION['user'];
     if($accesso!= 1){
         header("location: Index.php");
     }
@@ -38,23 +39,14 @@ $accesso=$_SESSION['accesso'];
                 <li class="nav-item"><a class="nav-link px-3" href="#">Home</a></li>
                 <li class="nav-item"><a class="nav-link px-3" href="#">Eventi</a></li>
                 <li class="nav-item ms-lg-2">
-                    <button class="btn btn-custom rounded-pill fw-bold" onclick="location.href='Profilo.php'">Profilo Utente</button>
+                    <button class="btn btn-custom rounded-pill fw-bold" onclick="location.href='Profilo.php?user=<?=$NomeUtente?>'">Profilo Utente</button>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
-
-<!--<main class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8 text-center mb-5">
-            <h1 class="display-4 fw-bold" style="color: var(--primary-color);">Social Network astronomico</h1>
-            <p class="lead">TestTest</p>
-        </div>
-    </div>
-</main>-->
      <div class="contenitore">
-        <div class="sezione sinistra">Test Sinistra
+        <div class="sezione sinistra">
             <div class="d-grid gap-2 p-3">
                 <button class="btn btn-custom rounded-pill fw-bold" onclick="location.href='CreaPost.php'">
                     <i class="fa fa-plus-circle me-2"></i>Crea
@@ -67,7 +59,7 @@ $accesso=$_SESSION['accesso'];
     </div>
 
         </div>
-        <div class="sezione centro">Test centro
+        <div class="sezione centro">
             <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
             <div class="container bootstrap snippets bootdey">
                     <div class="col-sm-12">
@@ -101,7 +93,7 @@ $accesso=$_SESSION['accesso'];
                     </div>
             </div>
         </div>
-        <div class="sezione destra">Test destra</div>
+        <div class="sezione destra"></div>
     </div>
 
 

@@ -6,23 +6,13 @@ if(!isset($_SESSION['accesso']) || $_SESSION['accesso'] != 1){
     exit();
 }
 $NomeUtente = $_SESSION['user'];
-
-try {
-    $connessione = new PDO("mysql:host=$host;dbname=$db", $user, $password);
-    $stmt = $connessione->prepare("SELECT Foto FROM utenti WHERE NomeUtente = ?");
-    $stmt->execute([$NomeUtente]);
-    $userRow = $stmt->fetch();
-    $fotoProfilo = $userRow['Foto'] ?? 'default.png';
-} catch(PDOException $e) {
-    $fotoProfilo = 'default.png';
-}
+$fotoProfilo = $_SESSION['foto'];
 ?>
 
 <html>
 <head>
     <title>Crea Post - Asteria</title>
     <link rel="stylesheet" href="StileCrea.css">
-    <link rel="stylesheet" href="StilePost.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
@@ -32,30 +22,33 @@ try {
                 <div class="IndietroDiv">
                     <button class="indietro" onclick="location.href='Asteria.php'">✕</button>
                 </div>
-                <h1 style="flex:1">Nuovo Post Astronomico</h1>
+                <h1 style="flex:1">Nuovo Post</h1>
                 <div class="vuoto"></div>
             </div>
 
             <form action="SalvaPost.php" method="POST" enctype="multipart/form-data">
                 <div class="post-wrapper">
                     <div class="post-left">
-                        <img src="UploadProfili/<?=$fotoProfilo?>" class="avatar-small" alt="Profilo">
+                        <img src="<?=$fotoProfilo?>" class="avatar-small" alt="Profilo">
                     </div>
                     
                     <div class="post-right">
                         <div class="textarea-container">
-                            <textarea name="testo" placeholder="Cosa hai scoperto nel cosmo oggi?" required></textarea>
+                            <textarea name="descrizione" placeholder="Cosa hai scoperto oggi?" required></textarea>
                             
                             <div class="icon-wrapper">
                                 <input type="file" name="filePost" id="filePost" class="input-hidden" accept="image/*">
                                 <label for="filePost" class="custom-file-upload">
                                     <i class="fa-solid fa-camera"></i>
                                 </label>
-                                <span id="file-chosen">Carica la tua galassia</span>
+                                <span id="file-chosen">Carica la tua foto</span>
+                            </div>
+                        
+                            <div id="preview-container" style="position: relative; display: inline-block;">
+                                <img id="img-preview" class="anteprima" src="">
+                                <button type="button" id="remove-photo" style="display: none;">✕</button>
                             </div>
                         </div>
-
-                        <img id="img-preview" src="">
 
                         <div class="footer-post">
                             <div style="flex:1"></div>
@@ -68,20 +61,27 @@ try {
     </div>
 
     <script>
-        const fileInput = document.getElementById('filePost');
-        const imgPreview = document.getElementById('img-preview');
-        const fileName = document.getElementById('file-name');
+        const actualBtn = document.getElementById('filePost');
+        const fileChosen = document.getElementById('file-chosen');
+        const preview = document.getElementById("img-preview");
+        const removeBtn = document.getElementById("remove-photo");
 
-        fileInput.addEventListener('change', function() {
+        actualBtn.addEventListener('change', function() {
             if (this.files && this.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    imgPreview.src = e.target.result;
-                    imgPreview.style.display = 'block';
-                }
-                reader.readAsDataURL(this.files[0]);
-                fileName.textContent = this.files[0].name;
+                fileChosen.textContent = this.files[0].name;
+                let file = this.files[0];
+                let urlTemporaneo = URL.createObjectURL(file);
+                preview.src = urlTemporaneo;
+                preview.style.display = "block";
+                removeBtn.style.display = "block";
             }
+        });
+        removeBtn.addEventListener('click', function() {
+            actualBtn.value = "";
+            fileChosen.textContent = "Carica la tua foto";
+            preview.src = "";
+            preview.style.display = "none";
+            removeBtn.style.display = "none";
         });
     </script>
 </body>

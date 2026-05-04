@@ -191,3 +191,8 @@ body {
 .nav-item.ms-lg-2 {
     margin-left: 25px !important;
 }
+.seguito-attivo {
+    background-color: #e0e0e0 !important;
+    color: #333 !important;
+    border: 1px solid #ccc !important;
+}

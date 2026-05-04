@@ -24,7 +24,7 @@ $accesso=$_SESSION['accesso'];
                 $preparata = $connessione->prepare($sql);
                 $preparata->execute([$nuovoUtente, $cognome, $nome, $descrizione, $data, $vecchioNomeUtente]);
                 $_SESSION['user'] = $nuovoUtente;
-                header("Location: Profilo.php");
+                header("Location: Profilo.php?user=$nuovoUtente");
                 exit;
             } catch(PDOException $e){
                 die("Errore: " . $e->getMessage());

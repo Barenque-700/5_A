@@ -3,6 +3,8 @@
 	session_start();
 	include "Connessione.php";
 	$NomeUtente = $_SESSION['user'];
+	if(isset($_GET['user']))
+	$userPagina = $_GET['user'];
 	$accesso=$_SESSION['accesso'];
 	if($accesso!= 1){
 	    header("location: Index.php");
@@ -42,7 +44,17 @@
                 <li class="nav-item"><a class="nav-link px-3" href="Asteria.php">Home</a></li>
                 <li class="nav-item"><a class="nav-link px-3" href="#">Eventi</a></li>
                 <li class="nav-item ms-lg-2">
+                	<?php 
+                	if($NomeUtente == $userPagina){
+                	?>
                     <button class="btn btn-custom rounded-pill fw-bold" onclick="location.href='logout.php'">Logout</button>
+                    <?php 
+                	}else{
+                	?>
+                	<button class="btn btn-custom rounded-pill fw-bold" onclick="location.href='Profilo.php?user=<?=$NomeUtente?>'">Profilo Utente</button>
+                	<?php 
+                	}
+                	?>
                 </li>
             </ul>
         </div>
@@ -51,19 +63,18 @@
 
 <div class="container">
 	<?php
-		if(isset($NomeUtente)){
+		if(isset($userPagina)){
 			try{
 				$connessione = new PDO("mysql:host=$host;dbname=$db", $user, $password);
 	        	$sql= "SELECT Nome, Cognome, NomeUtente, Descrizione, NumPost, Foto, (SELECT COUNT(Seguente) FROM follow WHERE Seguente=?) AS Seguiti, (SELECT COUNT(Seguito) FROM follow WHERE Seguito=?) AS Follower
 	            		FROM utenti
 	           			WHERE NomeUtente=?";
 	        $preparata = $connessione->prepare($sql);
-	        $preparata->execute([$NomeUtente, $NomeUtente, $NomeUtente]);
+	        $preparata->execute([$userPagina, $userPagina, $userPagina]);
 
 	        if($preparata->rowCount() > 0){
 	            $ris = $preparata->fetchAll(PDO::FETCH_ASSOC);
 	            foreach ($ris as $riga) {
-	            	$_SESSION['foto']= $riga['Foto'];
 	            	?>
 	            <div class="profile-container">
 	                <div class="profile-header">
@@ -79,35 +90,112 @@
 	                                <span class="stat-label">Post</span>
 	                            </div>
 	                            <div class="stat-item">
-	                                <span class="stat-value"><?= $riga['Follower'] ?></span>
+	                                <span class="stat-value" id="count-follower"><?= $riga['Follower'] ?></span>
 	                                <span class="stat-label">Follower</span>
 	                            </div>
 	                            <div class="stat-item">
-	                                <span class="stat-value"><?= $riga['Seguiti'] ?></span>
+	                                <span class="stat-value" id="count-seguiti"><?= $riga['Seguiti'] ?></span>
 	                                <span class="stat-label">Seguiti</span>
 	                            </div>
 	                        </div>
 	                        
 	                        <p class="mt-3"><?= $riga['Descrizione'] ?></p>
-	                        <button class="btn-follow fw-bold" onclick="location.href='ModificaProfilo.php'"> Modifica Profilo</button>
-	                    </div>
+	        <?php
+				}
+			}
+			$connessione = null;
+			} catch(PDOException $e){
+				die("Errore nella gestione del database $db: " . $e->getMessage());
+			}
+			if($NomeUtente == $userPagina){ 
+			?>
+				<button class="btn-follow fw-bold" onclick="location.href='ModificaProfilo.php'">Modifica Profilo</button>
+			<?php 
+			} else {	
+				try{
+					$connessione = new PDO("mysql:host=$host;dbname=$db", $user, $password);
+					$sql = "SELECT * FROM follow WHERE Seguente = ? AND Seguito = ?";
+					$preparata = $connessione->prepare($sql);
+	        		$preparata->execute([$NomeUtente, $userPagina]);
+							    
+					if($preparata->rowCount() > 0) {
+						$testo = "Seguito";
+						$classe = "seguito-attivo";
+					} else {
+						$testo = "Segui";
+						$classe = "";
+					}
+					$connessione = null;
+				} catch(PDOException $e){
+					die("Errore nella gestione del database $db: " . $e->getMessage());
+				}
+			?>
+				<button class="btn-follow fw-bold <?= $classe ?>" id="segui" data-user="<?= $userPagina ?>" data-follower="<?= $NomeUtente ?>">
+					<?= $testo ?>
+				</button>
+				<script>
+				document.addEventListener('DOMContentLoaded', function() {
+				    const btnSegui = document.getElementById('segui');
+				    const countFollower = document.getElementById('count-follower');
 
-	                </div>
+				    if (btnSegui) {
+				        btnSegui.addEventListener('click', function() {
+				            const seguito = this.getAttribute('data-user');
+				            const follower = this.getAttribute('data-follower');
+
+				            const formData = new FormData();
+				            formData.append('seguito', seguito);
+				            formData.append('follower', follower);
+
+				            fetch('GestioneSegui.php', {
+				                method: 'POST',
+				                body: formData
+				            })
+				            .then(response => {
+				                if (!response.ok) {
+				                    throw new Error('Errore nella rete o risposta del server non valida');
+				                }
+				                return response.json();
+				            })
+				            .then(data => {
+				                if (data.errore) {
+				                    console.error("Errore lato server:", data.errore);
+				                    alert("Si è verificato un errore: " + data.errore);
+				                    return;
+				                }
+
+				                if (data.stato === "seguito") {
+				                    btnSegui.textContent = "Seguito";
+				                    btnSegui.classList.add('seguito-attivo');
+				                } else if (data.stato === "rimosso") {
+				                    btnSegui.textContent = "Segui";
+				                    btnSegui.classList.remove('seguito-attivo');
+				                }
+
+				                if (countFollower && data.conteggio !== undefined) {
+				                    countFollower.textContent = data.conteggio;
+				                }
+				            })
+				            .catch(error => {
+				                console.error('Errore durante la richiesta fetch:', error);
+				            });
+				        });
+				    }
+				});
+				</script>
+			<?php 
+			} 
+			?>
 	            </div>
-	            <?php
-	        }
-	    }
-	    $connessione = null;
-	    } catch(PDOException $e){
-	        die("Errore nella gestione del database $db: " . $e->getMessage());
-	    }
-	}
-    ?>
+
+	        </div>
+	    </div>
 </div>
 
 </body>
 <script src="config.js"></script>
 </html>
 <?php 
+	}
 }
 ?>

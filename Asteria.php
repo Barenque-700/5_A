@@ -18,33 +18,26 @@ $NomeUtente = $_SESSION['user'];
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="StileAsteria.css">
 </head>
-<body> <nav class="navbar navbar-expand-lg sticky-top">
-    <div class="container">
-        <a class="navbar-brand d-flex align-items-center" href="#">
-            <div class="d-flex flex-column">
-                <img src="LogoTrasparente.png" alt="Asteria Logo" class="logo-img mb-1">
-                <small id="current-date" class="text-secondary ms-1" style="font-size: 0.7rem; letter-spacing: 1px;"></small>
+<body> 
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container-fluid px-0"> <div class="nav-section-left d-flex align-items-center justify-content-center">
+                <a class="navbar-brand d-flex align-items-center m-0" href="#">
+                    <img src="LogoTrasparente.png" alt="Asteria Logo" class="logo-img">
+                    <small id="current-date" class="text-secondary ms-2" style="font-size: 0.7rem; letter-spacing: 1px; white-space: nowrap;"></small>
+                </a>
             </div>
-        </a>
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+            <div class="flex-grow-1"></div>
 
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto align-items-center">
-                <li class="nav-item theme-switch-wrapper">
+            <div class="nav-section-right d-flex align-items-center justify-content-center">
+                <div class="theme-switch-wrapper me-3">
                     <button id="theme-toggle"> 🌙 </button>
-                </li>
-                <li class="nav-item"><a class="nav-link px-3" href="#">Home</a></li>
-                <li class="nav-item"><a class="nav-link px-3" href="#">Eventi</a></li>
-                <li class="nav-item ms-lg-2">
-                    <button class="btn btn-custom rounded-pill fw-bold" onclick="location.href='Profilo.php?user=<?=$NomeUtente?>'">Profilo Utente</button>
-                </li>
-            </ul>
+                </div>
+                <button class="btn btn-custom rounded-pill fw-bold" onclick="location.href='Profilo.php?user=<?=$NomeUtente?>'">Profilo Utente</button>
+            </div>
+
         </div>
-    </div>
-</nav>
+    </nav>
      <div class="contenitore">
         <div class="sezione sinistra">
             <div class="d-grid gap-2 p-3">
@@ -52,10 +45,9 @@ $NomeUtente = $_SESSION['user'];
                     <i class="fa fa-plus-circle me-2"></i>Crea
                 </button>
             </div>
-    <!-- Altri contenuti della barra sinistra -->
-    <div class="mt-3 ps-3">
-        <p class="text-secondary small">Menu navigazione</p>
-        <!-- Qui potrai aggiungere altri link in futuro -->
+    <div class="mt-3">
+            <li class="nav-item"><a class="nav-link px-3" href="Asteria.php">Home</a></li>
+            <li class="nav-item"><a class="nav-link px-3" href="#">Eventi</a></li>
     </div>
 
         </div>
@@ -93,7 +85,10 @@ $NomeUtente = $_SESSION['user'];
                     </div>
             </div>
         </div>
-        <div class="sezione destra"></div>
+        <div class="sezione destra">
+            <li class="nav-item"><a class="nav-link px-3">Seguiti</a></li>
+        </div>
+        
     </div>
 
 

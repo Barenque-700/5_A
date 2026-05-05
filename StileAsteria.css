@@ -32,6 +32,9 @@ body {
     overflow: hidden;
 }
 
+li{
+  list-style-type: none;
+}
 .navbar {
     padding-top: 2px !important;
     padding-bottom: 2px !important;
@@ -52,6 +55,7 @@ body {
     padding-right: 10px !important;
     color: var(--text-color) !important;
     transition: color 0.3s ease;
+    font-weight: 600;
 }
 
 .nav-link:hover {
@@ -64,6 +68,26 @@ body {
 
 .nav-item.ms-lg-2 {
     margin-left: 25px !important;
+}
+
+.nav-section-left {
+  width: 25%;
+  min-width: 200px; 
+}
+
+.nav-section-right {
+  width: 25%; 
+  min-width: 250px;
+}
+
+.navbar .container-fluid {
+  display: flex;
+  justify-content: space-between;
+}
+
+.navbar-brand {
+  padding: 0;
+  margin: 0;
 }
 
 .card {
@@ -88,7 +112,6 @@ body {
     transform: translateY(-2px);
 }
 
-/* Toggle Switch Style */
 .theme-switch-wrapper {
     display: flex;
     align-items: center;
@@ -114,8 +137,8 @@ body {
     color: white;
 }
 .contenitore {
-    display: flex; /* Usa il layout flexbox */
-    flex-direction: row; /* Disposizione orizzontale dei div */
+    display: flex;
+    flex-direction: row; 
     height: calc(100vh - 150px);
 }
 
@@ -123,10 +146,9 @@ body {
     flex: 1; 
     display: flex;
     flex-direction: column;
-    /* Rimuovi o cambia justify-content: center se vuoi che i post partano dall'alto */
     justify-content: flex-start; 
     align-items: center;
-    padding-top: 20px; /* Spazio dalla navbar */
+    padding-top: 20px;
     font-size: 20px;
     color: var(--text-color); 
     transition: background-color 0.3s ease, color 0.3s ease;
@@ -134,16 +156,25 @@ body {
 
 .sinistra {
     background-color: var(--navbar-bg);
-    /* Linea di separazione come nella nav */
     border-right: 1.5px solid var(--primary-color);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
-/* Colonna centrale: colore di sfondo (bg-color) e larghezza tripla */
+.sinistra li {
+  margin-bottom: 20px;
+}
+
 .centro {
     flex: 3; 
     background-color: var(--bg-color);
     overflow: auto;
-    scrollbar-width:none;          /* Può essere: auto, thin, none */
+    scrollbar-width:none;
+}
+
+.stats .stat-item{
+  text-decoration: none;
 }
 
 .destra {
@@ -160,12 +191,11 @@ body {
 }
 
 .post-right-column {
-  flex: 1; /* Prende tutto lo spazio rimanente */
+  flex: 1; 
   display: flex;
   flex-direction: column;
 }
 
-/* Allineamento Header (Nome e Tempo sulla stessa riga) */
 .post-heading {
   display: flex;
   align-items: baseline;
@@ -187,23 +217,20 @@ body {
   font-size: 14px;
 }
 
-/* Testo del post */
 .post-description p {
   margin-bottom: 10px;
   font-size: 15px;
   line-height: 1.4;
 }
 
-/* Immagine del post */
 .post-image img {
   width: 100%;
   height: auto;
-  border-radius: 15px; /* Angoli tondi per l'immagine interna */
+  border-radius: 15px;
   border: 1px solid var(--border-color);
   margin-bottom: 10px;
 }
 
-/* Icone delle Statistiche */
 .stats {
   display: flex;
   justify-content: space-around; 
@@ -227,7 +254,6 @@ body {
   opacity: 0.7;
 }
 
-/* Avatar circolare */
 .post-left-column .avatar {
   width: 48px;
   height: 48px;

@@ -90,11 +90,11 @@
 	                                <span class="stat-label">Post</span>
 	                            </div>
 	                            <div class="stat-item">
-	                                <span class="stat-value" id="count-follower"><?= $riga['Follower'] ?></span>
+	                                <a href="elencoFollower.php?user=<?=$userPagina?>"><span class="stat-value" id="count-follower"><?= $riga['Follower'] ?></span></a>
 	                                <span class="stat-label">Follower</span>
 	                            </div>
 	                            <div class="stat-item">
-	                                <span class="stat-value" id="count-seguiti"><?= $riga['Seguiti'] ?></span>
+	                                <a href="elencoSeguiti.php?user=<?=$userPagina?>"><span class="stat-value" id="count-seguiti"><?= $riga['Seguiti'] ?></span></a>
 	                                <span class="stat-label">Seguiti</span>
 	                            </div>
 	                        </div>

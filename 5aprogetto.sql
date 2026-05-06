@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mag 05, 2026 alle 09:31
--- Versione del server: 10.4.21-MariaDB
--- Versione PHP: 8.0.10
+-- Creato il: Mag 06, 2026 alle 22:39
+-- Versione del server: 10.4.32-MariaDB
+-- Versione PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -31,7 +31,7 @@ CREATE TABLE `commenti` (
   `Utente` varchar(40) NOT NULL,
   `Id_Post` int(30) NOT NULL,
   `Contenuto` varchar(500) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -42,14 +42,13 @@ CREATE TABLE `commenti` (
 CREATE TABLE `follow` (
   `Seguente` varchar(40) NOT NULL,
   `Seguito` varchar(40) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dump dei dati per la tabella `follow`
 --
 
 INSERT INTO `follow` (`Seguente`, `Seguito`) VALUES
-('Cagoia', 'Giandix67'),
 ('Giandix67', 'MarcusRisula'),
 ('MarcusRisula', 'Giandix67');
 
@@ -67,15 +66,15 @@ CREATE TABLE `post` (
   `Descrizione` varchar(300) NOT NULL,
   `Data_post` datetime NOT NULL,
   `Utente` varchar(15) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dump dei dati per la tabella `post`
 --
 
 INSERT INTO `post` (`Id_Post`, `NumLike`, `Condivisioni`, `Allegato`, `Descrizione`, `Data_post`, `Utente`) VALUES
-(1, 0, 0, NULL, 'aaaaaaaaaaa', '2026-05-05 08:19:50', 'Giandix67'),
-(2, 0, 0, NULL, 'pussyklaat non so risolvere pls aiutate', '2026-05-05 08:57:47', 'Cagoia');
+(2, 0, 0, '3e4799ed542a619bcb1621de73c1a3c42726274647e199c5a5ff26030770ef14.png', 'ciaoooo', '2026-05-04 19:25:33', 'Giandix67'),
+(3, 0, 0, NULL, 'oooooooo', '2026-05-04 19:37:24', 'Giandix67');
 
 -- --------------------------------------------------------
 
@@ -93,16 +92,15 @@ CREATE TABLE `utenti` (
   `NumPost` int(5) DEFAULT 0,
   `Password` varchar(100) NOT NULL,
   `Livello` int(2) NOT NULL DEFAULT 1
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dump dei dati per la tabella `utenti`
 --
 
 INSERT INTO `utenti` (`Nome`, `Cognome`, `NomeUtente`, `DataNascita`, `Foto`, `Descrizione`, `NumPost`, `Password`, `Livello`) VALUES
-('Yasser', 'Adday', 'Cagoia', '2026-04-30', 'Utente.png', '', 0, 'a', 1),
-('Gianni', 'Giandagoberto', 'Giandix67', '2005-12-07', '136ed596ad43b458f5c057eaff8802ae8e5dfea42570033cd9526565576ead56.png', 'Il più grande utilizzatore di Valorant, non esco di casa e mi metto a giocare ad Overwatch. Ultima volta che ho toccato l\'erba: la mia nascita', 0, 'a', 0),
-('Marcus', 'Risula', 'MarcusRisula', '2018-01-03', 'Utente.png', 'questo è un mega test', 0, 'ababababa', 1);
+('Gianni', 'Giandagoberto', 'Giandix67', '2005-12-07', 'Utente.png', 'Il più grande utilizzatore di Valorant, non esco di casa e mi metto a giocare ad Overwatch. Ultima volta che ho toccato l\'erba: la mia nascita', 0, 'a', 0),
+('Marcus', 'Risula', 'MarcusRisula', '2007-01-03', 'Utente.png', 'questo è un mega test', 0, 'aaa', 1);
 
 --
 -- Indici per le tabelle scaricate
@@ -143,7 +141,7 @@ ALTER TABLE `utenti`
 -- AUTO_INCREMENT per la tabella `post`
 --
 ALTER TABLE `post`
-  MODIFY `Id_Post` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `Id_Post` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Limiti per le tabelle scaricate
@@ -154,20 +152,20 @@ ALTER TABLE `post`
 --
 ALTER TABLE `commenti`
   ADD CONSTRAINT `FK_post` FOREIGN KEY (`Id_Post`) REFERENCES `post` (`Id_Post`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_utenti` FOREIGN KEY (`Utente`) REFERENCES `utenti` (`NomeUtente`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_utenti` FOREIGN KEY (`Utente`) REFERENCES `utenti` (`NomeUtente`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `follow`
 --
 ALTER TABLE `follow`
-  ADD CONSTRAINT `FK_Seguente` FOREIGN KEY (`Seguente`) REFERENCES `utenti` (`NomeUtente`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_Seguito` FOREIGN KEY (`Seguito`) REFERENCES `utenti` (`NomeUtente`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_Seguente` FOREIGN KEY (`Seguente`) REFERENCES `utenti` (`NomeUtente`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_Seguito` FOREIGN KEY (`Seguito`) REFERENCES `utenti` (`NomeUtente`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `post`
 --
 ALTER TABLE `post`
-  ADD CONSTRAINT `FK_utente` FOREIGN KEY (`Utente`) REFERENCES `utenti` (`NomeUtente`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_utente` FOREIGN KEY (`Utente`) REFERENCES `utenti` (`NomeUtente`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

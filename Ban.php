@@ -7,36 +7,22 @@ if($accesso!= 1){
     exit;
 }
 else{
-    $NomeUtente = $_SESSION['user'];
     $livello = $_SESSION['livello'];
     $userPagina = $_GET['user'];
-    $autorizzato = false;
 
-    if ($userPagina === $NomeUtente) {
-        $autorizzato = true;
-    } elseif ($livello == 0) {
-        $autorizzato = true;
-    }
-
-    if ($autorizzato) {
-        if(isset($_POST['passwordNuova'])) {
-            
-            $nuovaPassword = $_POST['passwordNuova'];
-
+    if ($livello== 0) {
             try {
                 $connessione = new PDO("mysql:host=$host;dbname=$db", $user, $password);
                 $connessione->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                $sql = "UPDATE utenti 
-                        SET Password= ? 
-                        WHERE NomeUtente = ?";
+                $sql = "DELETE FROM utenti 
+                        WHERE NomeUtente= ?";
                 $preparata = $connessione->prepare($sql);
-                $preparata->execute([$nuovaPassword, $userPagina]);
-                header("Location: Profilo.php?user=$userPagina");
+                $preparata->execute([$userPagina]);
+                header("Location: Asteria.php");
                 exit;
             } catch(PDOException $e){
                 die("Errore: " . $e->getMessage());
             }
-        }
     } else {
         echo ("Azione non autorizzata");
         header("location: Asteria.php");

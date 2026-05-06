@@ -3,8 +3,10 @@
 	session_start();
 	include "Connessione.php";
 	$NomeUtente = $_SESSION['user'];
-	if(isset($_GET['user']))
-	$userPagina = $_GET['user'];
+	if(isset($_GET['user'])){
+		$userPagina = $_GET['user'];
+	}
+	$livello = $_SESSION['livello'];
 	$accesso=$_SESSION['accesso'];
 	if($accesso!= 1){
 	    header("location: Index.php");
@@ -107,10 +109,14 @@
 			} catch(PDOException $e){
 				die("Errore nella gestione del database $db: " . $e->getMessage());
 			}
-			if($NomeUtente == $userPagina){ 
+			if($NomeUtente != $userPagina && $livello == 0){ 
+			?>
+				<button class="btn-follow fw-bold" onclick="location.href='ModificaAdmin.php?user=<?=$userPagina?>'">Dashboard Admin</button>
+			<?php 
+			} if($NomeUtente == $userPagina){
 			?>
 				<button class="btn-follow fw-bold" onclick="location.href='ModificaProfilo.php'">Modifica Profilo</button>
-			<?php 
+			<?php
 			} else {	
 				try{
 					$connessione = new PDO("mysql:host=$host;dbname=$db", $user, $password);

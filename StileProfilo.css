@@ -25,6 +25,10 @@ body {
     color: var(--text-color);
      transition: all 0.3s ease;
 }
+a{
+    color: var(--text-color);
+    text-decoration: none;
+}
 .btn-custom {
     background-color: var(--primary-color);
     border: 2px solid var(--primary-color);
@@ -49,7 +53,7 @@ body {
     display: block;
     width: 100%;    
     padding: 10px 20px; 
-    margin: 0 auto;
+    margin-bottom: 3px;
 }
 
 .btn-follow:hover {

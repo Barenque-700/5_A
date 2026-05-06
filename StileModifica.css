@@ -18,7 +18,7 @@ body {
     text-align: center;
     max-width: 1200px;
     width: 90%;
-    margin: 0 auto; /* Centra tutto il blocco nella pagina */
+    margin: 0 auto;
 }
 form, h1 {
     flex: 2; 
@@ -93,7 +93,7 @@ form > input[type="date"] {
     width: 80%;
 }
 .title {
-  margin-bottom: 20px; /* Spazio tra titolo e i div sotto */
+  margin-bottom: 20px; 
   display: flex;
   align-items: center;
 }
@@ -107,7 +107,7 @@ form > input[type="date"] {
 }
 
 .box {
-  flex: 1; /* Fa sì che entrambi i div occupino lo stesso spazio */
+  flex: 1; 
   padding: 20px;
 }
 
@@ -122,19 +122,19 @@ form > input[type="date"] {
 .formAlto {
     display: flex;
     align-items: center;
-    justify-content: space-around; /* Distribuisce meglio gli elementi */
-    flex-wrap: wrap; /* Se lo spazio finisce, va a capo invece di sovrapporsi */
+    justify-content: space-around; 
+    flex-wrap: wrap;
     gap: 20px;
 }
 
 .upload-container {
     display: flex;
-    flex-direction: column; /* Mette il pulsante sopra e il nome del file sotto */
+    flex-direction: column; 
     align-items: center;
     gap: 10px;
 }
 
-/* Assicurati che la label non abbia margini strani che la spostano */
+
 .custom-file-upload {
     display: inline-block;
     background-color: #35489F;
@@ -145,21 +145,21 @@ form > input[type="date"] {
     font-size: 16px;
     font-weight: bold !important;
     transition: all 0.3s ease;
-    white-space: nowrap; /* Impedisce al testo del pulsante di andare a capo */
+    white-space: nowrap; 
 }
 
-/* Rendi la scritta del file selezionato più discreta */
+
 #file-chosen {
     margin: 0;
     font-family: sans-serif;
     color: #666;
     font-size: 13px;
-    max-width: 150px; /* Evita che nomi di file lunghi rompano il layout */
+    max-width: 150px; 
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
-/* Nascondiamo l'input originale */
+
 .input-hidden {
     width: 0.1px;
     height: 0.1px;
@@ -168,7 +168,7 @@ form > input[type="date"] {
     position: absolute;
     z-index: -1;
 }
-/* Effetti Hover e Active */
+
 .custom-file-upload:hover {
      background-color: #161E44;
     transform: translateY(-2px);
@@ -180,6 +180,10 @@ form > input[type="date"] {
 .IndietroDiv, .vuoto{
     flex: 1;
     text-align: left;
+}
+.BanDiv{
+    flex: 1;
+    text-align: right;
 }
 .indietro{
     margin-left: 75px;
@@ -194,6 +198,24 @@ form > input[type="date"] {
     transition: all 0.3s ease;
 }
 .indietro:hover {
-    opacity: 1.2;
+    color: #161E44;
+    border: 4px solid #161E44;
+    transform: translateY(-2px);
+}
+.ban{
+    margin-right: 75px;
+    background-color: #FF2C2C;
+    color: #FFFFFF;
+    padding: 10px 20px;
+    border: 4px solid #FF2C2C;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold !important;
+    transition: all 0.3s ease;
+}
+.ban:hover {
+    background-color: #C22C2C;
+    border: 4px solid #C22C2C;
     transform: translateY(-2px);
 }

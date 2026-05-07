@@ -18,7 +18,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Asteria - Profilo Utente</title>
-	<link rel="icon" type="image/x-icon" href="LogoIcona.png">
+	<link rel="icon" type="image/x-icon" href="LogoIcona.ico">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="StileProfilo.css">
 </head>
@@ -197,7 +197,92 @@
 	        </div>
 	    </div>
 </div>
+<div class="contenitore">
+	<div class="sezione">
+	</div>
+	<div class="sezione feed">
+		<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+	            <div class="container bootstrap snippets bootdey">
+	                    <div class="col-sm-12">
+	                        <?php 
+	                        try{
+	                            $connessione = new PDO("mysql:host=$host;dbname=$db", $user, $password);
+	                            $sql= "SELECT Id_Post, NumLike, Condivisioni, Allegato, Descrizione, Data_post, Utente,
+	                                   (SELECT COUNT(*) FROM commenti WHERE commenti.Id_Post = post.Id_Post) AS NumCommenti, 
+	                                   (SELECT Nome FROM utenti WHERE utenti.NomeUtente= post.Utente) AS Nome, 
+	                                   (SELECT Cognome FROM utenti WHERE utenti.NomeUtente= post.Utente) AS Cognome,
+	                                   (SELECT Foto FROM utenti WHERE utenti.NomeUtente= post.Utente) AS Foto
+	                                   FROM post
+	                                   WHERE Utente= ?
+	                                   ORDER BY Data_post ASC";
+	                                    
+	                        $preparata = $connessione->prepare($sql);
+	                        $preparata->execute([$userPagina]);
+	                        $postConScore = [];
+	                        if($preparata->rowCount() > 0){
+		                        $ris = $preparata->fetchAll(PDO::FETCH_ASSOC);
+	                            foreach ($ris as $riga) {
+	                                $tempoTrascorso= (time() - strtotime($riga['Data_post']))/3600;
+	                                $score = ($riga['NumLike'] + $riga['Condivisioni'] + $riga['NumCommenti'] + 1) / pow($tempoTrascorso+2, 1.5);
+	                                $riga['score'] = $score;
+	                                $postConScore[] = $riga;
+	                            }
+	                            usort($postConScore, function($a, $b) {
+	                                return $b['score'] <=> $a['score'];
+	                            });
+	                            $top30Post = array_slice($postConScore, 0, 30);
+	                            foreach($top30Post as $post) {
+	                        ?>
+	                        <div class="panel panel-white post panel-shadow">
+	                            <div class="post-content-wrapper"> <div class="post-left-column">
+	                                    <img src="UploadProfili/<?=$post['Foto']?>" class="img-circle avatar" alt="user profile image">
+	                                </div>
 
+	                                <div class="post-right-column">
+	                                    <div class="post-heading">
+	                                        <a href="Profilo.php?user=<?=$post['Utente']?>"><b><?=$post['Nome']?> <?=$post['Cognome']?></b></a>
+	                                        <span class="text-muted time">@<?=$post['Utente']?> · <?=$post['Data_post']?></span>
+	                                    </div>
+
+	                                    <div class="post-description">
+	                                        <p><?=$post['Descrizione']?></p>
+	                                    </div>
+	                                    <?php 
+	                                    if(is_null($post['Allegato'])){
+	                                    }else{
+	                                    ?>
+	                                    <div class="post-image">
+	                                        <img src="UploadFoto/<?=$post['Allegato']?>" class="image" alt="image post">
+	                                    </div>
+	                                    <?php 
+	                                    }
+	                                    ?>
+
+	                                    <div class="stats-post">
+	                                        <a href="#" class="stat-item-post"><i class="fa fa-comment-o"></i> <?=$post['NumCommenti']?></a>
+	                                        <a href="#" class="stat-item-post"><i class="fa fa-heart-o"></i> <?=$post['NumLike']?></a>
+	                                        <a href="#" class="stat-item-post"><i class="fa fa-share"></i> <?=$post['Condivisioni']?></a>
+	                                    </div>
+	                                </div> 
+	                            </div>
+	                        </div>
+	                        <hr>
+	                        <?php 
+	                        }
+
+	                        }
+	                        $connessione = null;
+	                        } catch(PDOException $e){
+	                            die("Errore nella gestione del database $db: " . $e->getMessage());
+	                        }
+	                        ?>
+	                    </div>
+	            </div>
+	        </div>
+	        <div class="sezione destra">
+	        </div>
+	</div>
+</div>
 </body>
 <script src="config.js"></script>
 </html>

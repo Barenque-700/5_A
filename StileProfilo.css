@@ -200,3 +200,132 @@ a{
     color: #333 !important;
     border: 1px solid #ccc !important;
 }
+
+
+
+.contenitore {
+    display: flex;
+    flex-direction: row; 
+}
+
+.sezione {
+    flex: 1; 
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; 
+    align-items: center;
+    padding-top: 20px;
+    font-size: 20px;
+    color: var(--text-color); 
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.feed {
+    flex: 2; 
+    background-color: var(--bg-color);
+    overflow: auto;
+    scrollbar-width:none;
+}
+
+.stats .stat-item{
+  text-decoration: none;
+}
+
+.destra {
+    background-color: var(--bg-color);
+}
+
+.post-content-wrapper {
+  display: flex;
+  padding: 15px;
+}
+
+.post-left-column {
+  margin-right: 12px;
+}
+
+.post-right-column {
+  flex: 1; 
+  display: flex;
+  flex-direction: column;
+}
+
+.post-heading {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  margin-bottom: 4px;
+}
+.post-heading a {
+  text-decoration: none !important;
+  color: var(--text-color);
+}
+.post-heading a:hover {
+  text-decoration: none !important;
+}
+.post-heading b {
+  font-size: 15px;
+}
+
+.post-heading.time {
+  font-size: 14px;
+}
+
+.post-description p {
+  margin-bottom: 10px;
+  font-size: 15px;
+  line-height: 1.4;
+}
+.post-image {
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+  width: 100%;
+}
+.post-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 15px;
+  border: 1px solid var(--border-color);
+  margin-bottom: 10px;
+}
+
+.stats-post {
+  display: flex;
+  justify-content: space-around; 
+  align-items: center;
+  margin-top: 10px;
+  padding: 5px 0;
+  max-width: 100%;
+}
+
+.stats-post.stat-item-post {
+  text-decoration: none;
+  font-size: 13px;
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: opacity 0.2s;
+}
+
+.stats-post .stat-item-post:hover {
+  opacity: 0.7;
+}
+
+.post-left-column .avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.text-muted {
+  color: rgb(83, 100, 113) !important;
+}
+b{
+ color: var(--text-color);
+}
+
+b:hover{
+  color:var(--primary-color) !important;
+}

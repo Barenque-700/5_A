@@ -1,7 +1,7 @@
 <html>
     <head>
         <title>Asteria - Modifica Profilo</title>
-        <link rel="icon" type="image/x-icon" href="LogoIcona.png">
+        <link rel="icon" type="image/x-icon" href="LogoIcona.ico">
     </head>
 <link rel="stylesheet" href="StileModifica.css">
 <?php

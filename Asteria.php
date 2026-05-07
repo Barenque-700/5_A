@@ -14,7 +14,7 @@ $NomeUtente = $_SESSION['user'];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Asteria - Social Astronomy</title>
-    <link rel="icon" type="image/x-icon" href="LogoIcona.png">
+    <link rel="icon" type="image/x-icon" href="LogoIcona.ico">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="StileAsteria.css">
 </head>
@@ -60,49 +60,73 @@ $NomeUtente = $_SESSION['user'];
                         <?php 
                         try{
                             $connessione = new PDO("mysql:host=$host;dbname=$db", $user, $password);
-                            $sql= "SELECT Id_Post, NumLike, Condivisioni, Allegato, Descrizione, Data_post, Utente, (SELECT COUNT(*) FROM commenti WHERE commenti.Id_Post = post.Id_Post) AS NumCommenti, (SELECT Nome FROM utenti WHERE utenti.NomeUtente= post.Utente) AS Nome, (SELECT Cognome FROM utenti WHERE utenti.NomeUtente= post.Utente) AS Cognome
+                            $sql= "SELECT Id_Post, NumLike, Condivisioni, Allegato, Descrizione, Data_post, Utente,
+                                   (SELECT COUNT(*) FROM commenti WHERE commenti.Id_Post = post.Id_Post) AS NumCommenti, 
+                                   (SELECT Nome FROM utenti WHERE utenti.NomeUtente= post.Utente) AS Nome, 
+                                   (SELECT Cognome FROM utenti WHERE utenti.NomeUtente= post.Utente) AS Cognome,
+                                   (SELECT Foto FROM utenti WHERE utenti.NomeUtente= post.Utente) AS Foto
                                    FROM post;";
                                     
                         $preparata = $connessione->prepare($sql);
                         $preparata->execute();
+                        $postConScore = [];
                         if($preparata->rowCount() > 0){
 	                        $ris = $preparata->fetchAll(PDO::FETCH_ASSOC);
-	                            foreach ($ris as $riga) {
-                                    var_dump($riga);
-                                }
+                            foreach ($ris as $riga) {
+                                $tempoTrascorso= (time() - strtotime($riga['Data_post']))/3600;
+                                $score = ($riga['NumLike'] + $riga['Condivisioni'] + $riga['NumCommenti'] + 1) / pow($tempoTrascorso+2, 1.5);
+                                $riga['score'] = $score;
+                                $postConScore[] = $riga;
+                            }
+                            usort($postConScore, function($a, $b) {
+                                return $b['score'] <=> $a['score'];
+                            });
+                            $top30Post = array_slice($postConScore, 0, 30);
+                            foreach($top30Post as $post) {
+                        ?>
+                        <div class="panel panel-white post panel-shadow">
+                            <div class="post-content-wrapper"> <div class="post-left-column">
+                                    <img src="UploadProfili/<?=$post['Foto']?>" class="img-circle avatar" alt="user profile image">
+                                </div>
+
+                                <div class="post-right-column">
+                                    <div class="post-heading">
+                                        <a href="Profilo.php?user=<?=$post['Utente']?>"><b><?=$post['Nome']?> <?=$post['Cognome']?></b></a>
+                                        <span class="text-muted time">@<?=$post['Utente']?> · <?=$post['Data_post']?></span>
+                                    </div>
+
+                                    <div class="post-description">
+                                        <p><?=$post['Descrizione']?></p>
+                                    </div>
+                                    <?php 
+                                    if(is_null($post['Allegato'])){
+                                    }else{
+                                    ?>
+                                    <div class="post-image">
+                                        <img src="UploadFoto/<?=$post['Allegato']?>" class="image" alt="image post">
+                                    </div>
+                                    <?php 
+                                    }
+                                    ?>
+
+                                    <div class="stats">
+                                        <a href="#" class="stat-item"><i class="fa fa-comment-o"></i> <?=$post['NumCommenti']?></a>
+                                        <a href="#" class="stat-item"><i class="fa fa-heart-o"></i> <?=$post['NumLike']?></a>
+                                        <a href="#" class="stat-item"><i class="fa fa-share"></i> <?=$post['Condivisioni']?></a>
+                                    </div>
+                                </div> 
+                            </div>
+                        </div>
+                        <hr>
+                        <?php 
+                        }
+
                         }
                         $connessione = null;
                         } catch(PDOException $e){
                             die("Errore nella gestione del database $db: " . $e->getMessage());
                         }
                         ?>
-                        <div class="panel panel-white post panel-shadow">
-                            <div class="post-content-wrapper"> <div class="post-left-column">
-                                    <img src="https://bootdey.com/img/Content/user_1.jpg" class="img-circle avatar" alt="user profile image">
-                                </div>
-
-                                <div class="post-right-column">
-                                    <div class="post-heading">
-                                        <a href="#"><b>Ciccio Brutto</b></a>
-                                        <span class="text-muted time">@ciccio_brutto · 5s</span>
-                                    </div>
-
-                                    <div class="post-description">
-                                        <p>Put here your foto description</p>
-                                    </div>
-
-                                    <div class="post-image">
-                                        <img src="https://www.bootdey.com/image/400x200/FFB6C1/000000" class="image" alt="image post">
-                                    </div>
-
-                                    <div class="stats">
-                                        <a href="#" class="stat-item"><i class="fa fa-comment-o"></i> 165</a>
-                                        <a href="#" class="stat-item"><i class="fa fa-heart-o"></i> 5.5K</a>
-                                        <a href="#" class="stat-item"><i class="fa fa-share"></i></a>
-                                    </div>
-                                </div> 
-                            </div>
-                        </div>
                     </div>
             </div>
         </div>

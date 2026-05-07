@@ -30,7 +30,7 @@ if(isset($_POST['utente']) && isset($_POST['password']) && isset($_POST['nome'])
 <html>
     <head>
         <title>Iscriviti</title>
-        <link rel="icon" type="image/x-icon" href="LogoIcona.png">
+        <link rel="icon" type="image/x-icon" href="LogoIcona.ico">
     </head>
 <script>
     function controlli(event){

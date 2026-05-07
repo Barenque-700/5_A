@@ -48,6 +48,8 @@ $NomeUtente = $_SESSION['user'];
     <div class="mt-3">
             <li class="nav-item"><a class="nav-link px-3" href="Asteria.php">Home</a></li>
             <li class="nav-item"><a class="nav-link px-3" href="#">Eventi</a></li>
+            <li class="nav-item"><a class="nav-link px-3" href="Asteria.php">Notifiche</a></li>
+            <li class="nav-item"><a class="nav-link px-3" href="Asteria.php">Ricerca</a></li>
     </div>
 
         </div>
@@ -55,6 +57,25 @@ $NomeUtente = $_SESSION['user'];
             <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
             <div class="container bootstrap snippets bootdey">
                     <div class="col-sm-12">
+                        <?php 
+                        try{
+                            $connessione = new PDO("mysql:host=$host;dbname=$db", $user, $password);
+                            $sql= "SELECT Id_Post, NumLike, Condivisioni, Allegato, Descrizione, Data_post, Utente, (SELECT COUNT(*) FROM commenti WHERE commenti.Id_Post = post.Id_Post) AS NumCommenti, (SELECT Nome FROM utenti WHERE utenti.NomeUtente= post.Utente) AS Nome, (SELECT Cognome FROM utenti WHERE utenti.NomeUtente= post.Utente) AS Cognome
+                                   FROM post;";
+                                    
+                        $preparata = $connessione->prepare($sql);
+                        $preparata->execute();
+                        if($preparata->rowCount() > 0){
+	                        $ris = $preparata->fetchAll(PDO::FETCH_ASSOC);
+	                            foreach ($ris as $riga) {
+                                    var_dump($riga);
+                                }
+                        }
+                        $connessione = null;
+                        } catch(PDOException $e){
+                            die("Errore nella gestione del database $db: " . $e->getMessage());
+                        }
+                        ?>
                         <div class="panel panel-white post panel-shadow">
                             <div class="post-content-wrapper"> <div class="post-left-column">
                                     <img src="https://bootdey.com/img/Content/user_1.jpg" class="img-circle avatar" alt="user profile image">

@@ -23,3 +23,52 @@ toggleBtn.addEventListener('click', () => {
         localStorage.setItem('tema', 'dark');
     }
 });
+
+
+
+document.addEventListener('click', function (e) {
+    const btn = e.target.closest('.like-button');
+    
+    if (btn) {
+        e.preventDefault();
+        
+        const postId = btn.getAttribute('data-postid');
+        const likeSpan = document.getElementById(`like-count-${postId}`);
+        const icon = document.getElementById(`icon-${postId}`);
+
+        btn.style.pointerEvents = 'none'; 
+
+        const formData = new FormData();
+        formData.append('id_post', postId);
+
+        fetch('GestioneLike.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (!response.ok) throw new Error('Errore di rete');
+            return response.json();
+        })
+        .then(data => {
+            if (data.stato !== 'errore') {
+                const allSpans = document.querySelectorAll(`[id="like-count-${postId}"]`);
+                const allIcons = document.querySelectorAll(`[id="icon-${postId}"]`);
+                
+                allSpans.forEach(s => s.innerText = data.totale);
+                allIcons.forEach(i => {
+                    if (data.stato === 'aggiunto') {
+                        i.classList.replace('fa-heart-o', 'fa-heart');
+                        i.style.color = "red";
+                    } else {
+                        i.classList.replace('fa-heart', 'fa-heart-o');
+                        i.style.color = "";
+                    }
+                });
+            }
+        })
+        .catch(error => console.error('Errore:', error))
+        .finally(() => {
+            btn.style.pointerEvents = 'auto';
+        });
+    }
+});

@@ -329,3 +329,17 @@ b{
 b:hover{
   color:var(--primary-color) !important;
 }
+.stat-item {
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+.stat-item:hover{
+    transform: translateY(-2px);
+}
+.stat-item.like-button:active {
+    transform: scale(1.3); /* Effetto "pulsazione" al click */
+}
+
+.fa-heart {
+    color: #e74c3c; /* Rosso per il like attivo */
+}

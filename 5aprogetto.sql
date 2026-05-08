@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mag 06, 2026 alle 22:39
+-- Creato il: Mag 08, 2026 alle 23:12
 -- Versione del server: 10.4.32-MariaDB
 -- Versione PHP: 8.2.12
 
@@ -55,6 +55,26 @@ INSERT INTO `follow` (`Seguente`, `Seguito`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Struttura della tabella `likepost`
+--
+
+CREATE TABLE `likepost` (
+  `Utente` varchar(15) NOT NULL,
+  `Id_Post` int(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dump dei dati per la tabella `likepost`
+--
+
+INSERT INTO `likepost` (`Utente`, `Id_Post`) VALUES
+('Giandix67', 10),
+('MarcusRisula', 3),
+('MarcusRisula', 10);
+
+-- --------------------------------------------------------
+
+--
 -- Struttura della tabella `post`
 --
 
@@ -73,8 +93,10 @@ CREATE TABLE `post` (
 --
 
 INSERT INTO `post` (`Id_Post`, `NumLike`, `Condivisioni`, `Allegato`, `Descrizione`, `Data_post`, `Utente`) VALUES
-(2, 0, 0, '3e4799ed542a619bcb1621de73c1a3c42726274647e199c5a5ff26030770ef14.png', 'ciaoooo', '2026-05-04 19:25:33', 'Giandix67'),
-(3, 0, 0, NULL, 'oooooooo', '2026-05-04 19:37:24', 'Giandix67');
+(3, 1, 0, NULL, 'oooooooo', '2026-05-04 19:37:24', 'Giandix67'),
+(8, 0, 0, '8b9a87cee07f2404458708c4f09a830c8336271d6dd63609b2bfc69189ec84a0.png', 'Ma quanto è bello quando hai un vero e proprio algoritmo?', '2026-05-07 18:44:05', 'Giandix67'),
+(9, 0, 0, NULL, 'boh testa date', '2026-05-07 22:06:34', 'Giandix67'),
+(10, 2, 0, '3e4799ed542a619bcb1621de73c1a3c42726274647e199c5a5ff26030770ef14.png', 'testa foto', '2026-05-07 22:06:56', 'Giandix67');
 
 -- --------------------------------------------------------
 
@@ -121,6 +143,13 @@ ALTER TABLE `follow`
   ADD KEY `FK_Seguito` (`Seguito`);
 
 --
+-- Indici per le tabelle `likepost`
+--
+ALTER TABLE `likepost`
+  ADD PRIMARY KEY (`Utente`,`Id_Post`),
+  ADD KEY `FK_postLike` (`Id_Post`);
+
+--
 -- Indici per le tabelle `post`
 --
 ALTER TABLE `post`
@@ -141,7 +170,7 @@ ALTER TABLE `utenti`
 -- AUTO_INCREMENT per la tabella `post`
 --
 ALTER TABLE `post`
-  MODIFY `Id_Post` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `Id_Post` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Limiti per le tabelle scaricate
@@ -160,6 +189,13 @@ ALTER TABLE `commenti`
 ALTER TABLE `follow`
   ADD CONSTRAINT `FK_Seguente` FOREIGN KEY (`Seguente`) REFERENCES `utenti` (`NomeUtente`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_Seguito` FOREIGN KEY (`Seguito`) REFERENCES `utenti` (`NomeUtente`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Limiti per la tabella `likepost`
+--
+ALTER TABLE `likepost`
+  ADD CONSTRAINT `FK_postLike` FOREIGN KEY (`Id_Post`) REFERENCES `post` (`Id_Post`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_utentiLike` FOREIGN KEY (`Utente`) REFERENCES `utenti` (`NomeUtente`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `post`

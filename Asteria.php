@@ -55,64 +55,151 @@ $NomeUtente = $_SESSION['user'];
         </div>
         <div class="sezione centro">
             <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
-            <div class="container bootstrap snippets bootdey">
+            <div class="container-pulsanti">
+                <button class="bottone-feed" id="bottone-seguiti">Seguiti</button>
+                <button class="bottone-feed" id="bottone-esplora">Esplora</button>
+            </div>
+            <div class="feed-esplora" id="feed-esplora">
+                <div class="container bootstrap snippets bootdey">
+                        <div class="col-sm-12">
+                            <?php 
+                            try{
+                                $connessione = new PDO("mysql:host=$host;dbname=$db", $user, $password);
+                                $sql= "SELECT Id_Post, NumLike, Condivisioni, Allegato, Descrizione, Data_post, Utente,
+                                    (SELECT COUNT(*) FROM commenti WHERE commenti.Id_Post = post.Id_Post) AS NumCommenti, 
+                                    (SELECT Nome FROM utenti WHERE utenti.NomeUtente= post.Utente) AS Nome, 
+                                    (SELECT Cognome FROM utenti WHERE utenti.NomeUtente= post.Utente) AS Cognome,
+                                    (SELECT Foto FROM utenti WHERE utenti.NomeUtente= post.Utente) AS Foto,
+                                    (SELECT COUNT(*) FROM likepost WHERE likepost.Id_Post = post.Id_Post AND likepost.Utente = ?) AS MioLike
+                                    FROM post;";
+                                        
+                            $preparata = $connessione->prepare($sql);
+                            $preparata->execute([$NomeUtente]);
+                            $postConScore = [];
+                            if($preparata->rowCount() > 0){
+                                $ris = $preparata->fetchAll(PDO::FETCH_ASSOC);
+                                foreach ($ris as $riga) {
+                                    $tempoTrascorso= (time() - strtotime($riga['Data_post']))/3600;
+                                    $score = ($riga['NumLike'] + $riga['Condivisioni'] + $riga['NumCommenti'] + 1) / pow($tempoTrascorso+2, 1.5);
+                                    $riga['score'] = $score;
+                                    $postConScore[] = $riga;
+                                }
+                                usort($postConScore, function($a, $b) {
+                                    return $b['score'] <=> $a['score'];
+                                });
+                                $top30Post = array_slice($postConScore, 0, 30);
+                                foreach($top30Post as $post) {
+                            ?>
+                            <div class="panel panel-white post panel-shadow">
+                                <div class="post-content-wrapper"> <div class="post-left-column">
+                                        <img src="UploadProfili/<?=$post['Foto']?>" class="img-circle avatar" alt="user profile image">
+                                    </div>
+
+                                    <div class="post-right-column">
+                                        <div class="post-heading">
+                                            <a href="Profilo.php?user=<?=$post['Utente']?>"><b><?=$post['Nome']?> <?=$post['Cognome']?></b></a>
+                                            <span class="text-muted time">@<?=$post['Utente']?> · <?=$post['Data_post']?></span>
+                                        </div>
+
+                                        <div class="post-description">
+                                            <p><?=$post['Descrizione']?></p>
+                                        </div>
+                                        <?php 
+                                        if(is_null($post['Allegato'])){
+                                        }else{
+                                        ?>
+                                        <div class="post-image">
+                                            <img src="UploadFoto/<?=$post['Allegato']?>" class="image" alt="image post">
+                                        </div>
+                                        <?php 
+                                        }
+                                        ?>
+
+                                        <div class="stats">
+                                            <a class="stat-item"><i class="fa fa-comment-o"></i> <?=$post['NumCommenti']?></a>
+                                            <a class="stat-item like-button" data-postid="<?=$post['Id_Post']?>" style="text-decoration:none; cursor:pointer;">
+                                                <i class="fa <?=($post['MioLike'] > 0) ? 'fa-heart' : 'fa-heart-o'?>" 
+                                                   id="icon-<?=$post['Id_Post']?>" 
+                                                   style="<?=($post['MioLike'] > 0) ? 'color:red;' : ''?>"></i> 
+                                                <span id="like-count-<?=$post['Id_Post']?>"><?=$post['NumLike']?></span>
+                                            </a>                                            
+                                            <a class="stat-item"><i class="fa fa-share"></i> <?=$post['Condivisioni']?></a>
+                                        </div>
+                                    </div> 
+                                </div>
+                            </div>
+                            <hr>
+                            <?php 
+                            }
+
+                            }else{
+                                echo "<p> Sembra che nessuno abbia ancora postato...</p>";
+                            }
+                            $connessione = null;
+                            } catch(PDOException $e){
+                                die("Errore nella gestione del database $db: " . $e->getMessage());
+                            }
+                            ?>
+                        </div> 
+                </div>
+            </div>
+            <div class="feed-seguiti" id="feed-seguiti">
+                <div class="container bootstrap snippets bootdey">
                     <div class="col-sm-12">
                         <?php 
                         try{
                             $connessione = new PDO("mysql:host=$host;dbname=$db", $user, $password);
                             $sql= "SELECT Id_Post, NumLike, Condivisioni, Allegato, Descrizione, Data_post, Utente,
-                                   (SELECT COUNT(*) FROM commenti WHERE commenti.Id_Post = post.Id_Post) AS NumCommenti, 
-                                   (SELECT Nome FROM utenti WHERE utenti.NomeUtente= post.Utente) AS Nome, 
-                                   (SELECT Cognome FROM utenti WHERE utenti.NomeUtente= post.Utente) AS Cognome,
-                                   (SELECT Foto FROM utenti WHERE utenti.NomeUtente= post.Utente) AS Foto
-                                   FROM post;";
+                                (SELECT COUNT(*) FROM commenti WHERE commenti.Id_Post = post.Id_Post) AS NumCommenti, 
+                                (SELECT Nome FROM utenti WHERE utenti.NomeUtente= post.Utente) AS Nome, 
+                                (SELECT Cognome FROM utenti WHERE utenti.NomeUtente= post.Utente) AS Cognome,
+                                (SELECT Foto FROM utenti WHERE utenti.NomeUtente= post.Utente) AS Foto,
+                                (SELECT COUNT(*) FROM likepost WHERE likepost.Id_Post = post.Id_Post AND likepost.Utente = ?) AS MioLike
+                                FROM post
+                                WHERE Utente IN (SELECT Seguito FROM follow WHERE Seguente=?)
+                                ORDER BY post.Data_post DESC;";
                                     
                         $preparata = $connessione->prepare($sql);
-                        $preparata->execute();
-                        $postConScore = [];
+                        $preparata->execute([$NomeUtente, $NomeUtente]);
                         if($preparata->rowCount() > 0){
-	                        $ris = $preparata->fetchAll(PDO::FETCH_ASSOC);
+                            $ris = $preparata->fetchAll(PDO::FETCH_ASSOC);
                             foreach ($ris as $riga) {
-                                $tempoTrascorso= (time() - strtotime($riga['Data_post']))/3600;
-                                $score = ($riga['NumLike'] + $riga['Condivisioni'] + $riga['NumCommenti'] + 1) / pow($tempoTrascorso+2, 1.5);
-                                $riga['score'] = $score;
-                                $postConScore[] = $riga;
-                            }
-                            usort($postConScore, function($a, $b) {
-                                return $b['score'] <=> $a['score'];
-                            });
-                            $top30Post = array_slice($postConScore, 0, 30);
-                            foreach($top30Post as $post) {
                         ?>
                         <div class="panel panel-white post panel-shadow">
-                            <div class="post-content-wrapper"> <div class="post-left-column">
-                                    <img src="UploadProfili/<?=$post['Foto']?>" class="img-circle avatar" alt="user profile image">
+                            <div class="post-content-wrapper"> 
+                                <div class="post-left-column">
+                                    <img src="UploadProfili/<?=$riga['Foto']?>" class="img-circle avatar" alt="user profile image">
                                 </div>
 
                                 <div class="post-right-column">
                                     <div class="post-heading">
-                                        <a href="Profilo.php?user=<?=$post['Utente']?>"><b><?=$post['Nome']?> <?=$post['Cognome']?></b></a>
-                                        <span class="text-muted time">@<?=$post['Utente']?> · <?=$post['Data_post']?></span>
+                                        <a href="Profilo.php?user=<?=$riga['Utente']?>"><b><?=$riga['Nome']?> <?=$riga['Cognome']?></b></a>
+                                        <span class="text-muted time">@<?=$riga['Utente']?> · <?=$riga['Data_post']?></span>
                                     </div>
 
                                     <div class="post-description">
-                                        <p><?=$post['Descrizione']?></p>
+                                        <p><?=$riga['Descrizione']?></p>
                                     </div>
                                     <?php 
-                                    if(is_null($post['Allegato'])){
+                                    if(is_null($riga['Allegato'])){
                                     }else{
                                     ?>
                                     <div class="post-image">
-                                        <img src="UploadFoto/<?=$post['Allegato']?>" class="image" alt="image post">
+                                        <img src="UploadFoto/<?=$riga['Allegato']?>" class="image" alt="image post">
                                     </div>
                                     <?php 
                                     }
                                     ?>
 
                                     <div class="stats">
-                                        <a href="#" class="stat-item"><i class="fa fa-comment-o"></i> <?=$post['NumCommenti']?></a>
-                                        <a href="#" class="stat-item"><i class="fa fa-heart-o"></i> <?=$post['NumLike']?></a>
-                                        <a href="#" class="stat-item"><i class="fa fa-share"></i> <?=$post['Condivisioni']?></a>
+                                        <a href="#" class="stat-item"><i class="fa fa-comment-o"></i> <?=$riga['NumCommenti']?></a>
+                                        <a class="stat-item like-button" data-postid="<?=$riga['Id_Post']?>" style="text-decoration:none; cursor:pointer;">
+                                            <i class="fa <?=($riga['MioLike'] > 0) ? 'fa-heart' : 'fa-heart-o'?>" 
+                                               id="icon-<?=$riga['Id_Post']?>" 
+                                               style="<?=($riga['MioLike'] > 0) ? 'color:red;' : ''?>"></i> 
+                                            <span id="like-count-<?=$riga['Id_Post']?>"><?=$riga['NumLike']?></span>
+                                        </a>
+                                        <a href="#" class="stat-item"><i class="fa fa-share"></i> <?=$riga['Condivisioni']?></a>
                                     </div>
                                 </div> 
                             </div>
@@ -121,13 +208,16 @@ $NomeUtente = $_SESSION['user'];
                         <?php 
                         }
 
+                        }else{
+                            echo "<p> Sembra che chi segui non abbia ancora postato nulla...</p>";
                         }
                         $connessione = null;
                         } catch(PDOException $e){
                             die("Errore nella gestione del database $db: " . $e->getMessage());
                         }
                         ?>
-                    </div>
+                    </div> 
+                </div>
             </div>
         </div>
         <div class="sezione destra">
@@ -138,6 +228,7 @@ $NomeUtente = $_SESSION['user'];
 
 
 <script src="config.js"></script>
+<script src="feed.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>

@@ -143,7 +143,7 @@ li{
 .contenitore {
     display: flex;
     flex-direction: row; 
-    height: calc(100vh - 150px);
+    height: calc(100vh - 100px);
 }
 
 .sezione {
@@ -173,8 +173,6 @@ li{
 .centro {
     flex: 3; 
     background-color: var(--bg-color);
-    overflow: auto;
-    scrollbar-width:none;
 }
 
 .stats .stat-item{
@@ -280,4 +278,57 @@ b{
 
 b:hover{
   color:var(--primary-color) !important;
+}
+.feed-esplora{
+  display: block;
+  overflow: auto;
+  scrollbar-width:none;
+  height: calc(100vh - 100px);
+  transition: all 0.3s ease;
+}
+.feed-seguiti{
+  display: none;
+  overflow: auto;
+  scrollbar-width:none;
+  height: calc(100vh - 100px);
+  transition: all 0.3s ease;
+}
+.container-pulsanti {
+    display: flex;       /* Attiva il layout flessibile */
+    width: 100%;         /* Occupa tutta la larghezza del div padre */
+    gap: 10px;  
+    padding: 10px;         /* Spazio tra i due pulsanti */
+}
+
+.bottone-feed {
+    flex: 1;             /* Forza i pulsanti a occupare lo stesso spazio (50% ciascuno) */
+    padding: 10px 20px;
+    cursor: pointer;
+    border: 1px solid var(--primary-color);
+    background-color: var(--navbar-bg);
+    color: var(--text-color);
+    border-radius: 5px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+.bottone-feed:hover{
+    opacity: 0.9;
+    transform: translateY(-2px);
+}
+#bottone-esplora{
+    border: 2px solid var(--accent-color);
+}
+.stat-item {
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+.stat-item:hover{
+    transform: translateY(-2px);
+}
+.stat-item.like-button:active {
+    transform: scale(1.3); /* Effetto "pulsazione" al click */
+}
+
+.fa-heart {
+    color: #e74c3c; /* Rosso per il like attivo */
 }

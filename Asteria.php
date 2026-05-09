@@ -89,6 +89,11 @@ $NomeUtente = $_SESSION['user'];
                                 });
                                 $top30Post = array_slice($postConScore, 0, 30);
                                 foreach($top30Post as $post) {
+                                    $descrizione = $post['Descrizione'];
+                                    $pattern = '/#([^\s!,?]+)/';
+                                    $patternUtenti = '/@([^\s!,?]+)/';
+                                    $DescrTag = preg_replace($pattern, '<a class="tag" href="ricerca.php?tag=$1">#$1</a>', $descrizione);
+                                    $UserTagDescr= preg_replace($patternUtenti, '<a class="tag" href="Profilo.php?user=$1">@$1</a>', $DescrTag);
                             ?>
                             <div class="panel panel-white post panel-shadow">
                                 <div class="post-content-wrapper"> <div class="post-left-column">
@@ -102,7 +107,7 @@ $NomeUtente = $_SESSION['user'];
                                         </div>
 
                                         <div class="post-description">
-                                            <p><?=$post['Descrizione']?></p>
+                                            <p><?=$UserTagDescr?></p>
                                         </div>
                                         <?php 
                                         if(is_null($post['Allegato'])){
@@ -116,7 +121,7 @@ $NomeUtente = $_SESSION['user'];
                                         ?>
 
                                         <div class="stats">
-                                            <a class="stat-item"><i class="fa fa-comment-o"></i> <?=$post['NumCommenti']?></a>
+                                            <a href= "Commenti.php?post=<?=$post['Id_Post']?>" class="stat-item"><i class="fa fa-comment-o"></i> <?=$post['NumCommenti']?></a>
                                             <a class="stat-item like-button" data-postid="<?=$post['Id_Post']?>" style="text-decoration:none; cursor:pointer;">
                                                 <i class="fa <?=($post['MioLike'] > 0) ? 'fa-heart' : 'fa-heart-o'?>" 
                                                    id="icon-<?=$post['Id_Post']?>" 
@@ -164,6 +169,11 @@ $NomeUtente = $_SESSION['user'];
                         if($preparata->rowCount() > 0){
                             $ris = $preparata->fetchAll(PDO::FETCH_ASSOC);
                             foreach ($ris as $riga) {
+                                $descrizione = $riga['Descrizione'];
+                                    $pattern = '/#([^\s!,?]+)/';
+                                    $DescrTag = preg_replace($pattern, '<a class="tag" href="ricerca.php?tag=$1">#$1</a>', $descrizione);
+                                    $patternUtenti = '/@([^\s!,?]+)/';
+                                    $UserTagDescr= preg_replace($patternUtenti, '<a class="tag" href="Profilo.php?user=$1">@$1</a>', $DescrTag);
                         ?>
                         <div class="panel panel-white post panel-shadow">
                             <div class="post-content-wrapper"> 
@@ -178,7 +188,7 @@ $NomeUtente = $_SESSION['user'];
                                     </div>
 
                                     <div class="post-description">
-                                        <p><?=$riga['Descrizione']?></p>
+                                        <p><?=$UserTagDescr?></p>
                                     </div>
                                     <?php 
                                     if(is_null($riga['Allegato'])){
@@ -192,7 +202,7 @@ $NomeUtente = $_SESSION['user'];
                                     ?>
 
                                     <div class="stats">
-                                        <a href="#" class="stat-item"><i class="fa fa-comment-o"></i> <?=$riga['NumCommenti']?></a>
+                                        <a href="Commenti.php?post=<?=$post['Id_Post']?>" class="stat-item"><i class="fa fa-comment-o"></i> <?=$riga['NumCommenti']?></a>
                                         <a class="stat-item like-button" data-postid="<?=$riga['Id_Post']?>" style="text-decoration:none; cursor:pointer;">
                                             <i class="fa <?=($riga['MioLike'] > 0) ? 'fa-heart' : 'fa-heart-o'?>" 
                                                id="icon-<?=$riga['Id_Post']?>" 
@@ -221,12 +231,63 @@ $NomeUtente = $_SESSION['user'];
             </div>
         </div>
         <div class="sezione destra">
-            <li class="nav-item"><a class="nav-link px-3">Seguiti</a></li>
+            <li class="nav-item"><a class="nav-link px-3">Utenti Consigliati</a></li>
+            <br>
+            <div class="profiliScroll">
+                <?php 
+                try{
+                    $connessione= new PDO("mysql:host=$host;dbname=$db", $user, $password);
+                    $sql= "SELECT NomeUtente, Foto
+                            FROM utenti
+                            WHERE NomeUtente IN(
+                                SELECT Utente
+                                FROM post 
+                                WHERE Id_Post IN (
+                                    SELECT Id_Post 
+                                    FROM tagpost 
+                                    WHERE Id_Tag IN (
+                                        SELECT Id_Tag 
+                                        FROM tagpost 
+                                        WHERE Id_Post IN (
+                                            SELECT Id_Post 
+                                            FROM likepost 
+                                            WHERE Utente = ?
+                                        ) 
+                                        GROUP BY Id_Tag
+                                    )
+                                )
+                                GROUP BY Utente
+                            ) AND NomeUtente <> ?;";
+                    $preparata= $connessione->prepare($sql);
+                    $preparata->execute([$NomeUtente, $NomeUtente]);
+                    if($preparata->rowCount() > 0){
+                        $ris = $preparata->fetchAll(PDO::FETCH_ASSOC);
+                        foreach($ris as $riga){
+                            ?>
+                            <div class="follower-card">
+                                <div class="user-info">
+                                    <div class="avatar-container">
+                                        <img src="<?="UploadProfili/".$riga['Foto']?>" alt="Profilo" class="follower-img">
+                                    </div>
+                                    <span class="username">@<?=htmlspecialchars($riga['NomeUtente']) ?></span>
+                                </div>
+                                <button class="btn-profilo" onclick="location.href='Profilo.php?user=<?php echo urlencode($riga['NomeUtente']); ?>'">
+                                    Vedi Profilo
+                                </button>
+                            </div>
+                            <br>
+                            <?php
+                        }
+                    }
+                    $connessione = null;
+                }catch(PDOException $e){
+                    die("Errore nella gestione del database $db: " . $e->getMessage());
+                }
+                ?>
+            </div>
         </div>
         
     </div>
-
-
 <script src="config.js"></script>
 <script src="feed.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

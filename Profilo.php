@@ -68,11 +68,11 @@
 		if(isset($userPagina)){
 			try{
 				$connessione = new PDO("mysql:host=$host;dbname=$db", $user, $password);
-	        	$sql= "SELECT Nome, Cognome, NomeUtente, Descrizione, NumPost, Foto, (SELECT COUNT(Seguente) FROM follow WHERE Seguente=?) AS Seguiti, (SELECT COUNT(Seguito) FROM follow WHERE Seguito=?) AS Follower
+	        	$sql= "SELECT Nome, Cognome, NomeUtente, Descrizione, (SELECT COUNT(Id_Post) FROM post WHERE Utente=?) AS NumPost, Foto, (SELECT COUNT(Seguente) FROM follow WHERE Seguente=?) AS Seguiti, (SELECT COUNT(Seguito) FROM follow WHERE Seguito=?) AS Follower
 	            		FROM utenti
 	           			WHERE NomeUtente=?";
 	        $preparata = $connessione->prepare($sql);
-	        $preparata->execute([$userPagina, $userPagina, $userPagina]);
+	        $preparata->execute([$userPagina, $userPagina, $userPagina, $userPagina]);
 
 	        if($preparata->rowCount() > 0){
 	            $ris = $preparata->fetchAll(PDO::FETCH_ASSOC);
@@ -223,6 +223,11 @@
 	                        if($preparata->rowCount() > 0){
 		                        $ris = $preparata->fetchAll(PDO::FETCH_ASSOC);
 	                            foreach ($ris as $riga) {
+	                            	$descrizione = $riga['Descrizione'];
+                                    $pattern = '/#([^\s!,?]+)/';
+                                    $DescrTag = preg_replace($pattern, '<a class="tag" href="ricerca.php?tag=$1">#$1</a>', $descrizione);
+                                    $patternUtenti = '/@([^\s!,?]+)/';
+                                    $UserTagDescr= preg_replace($patternUtenti, '<a class="tag" href="Profilo.php?user=$1">@$1</a>', $DescrTag);
 	                        ?>
 	                        <div class="panel panel-white post panel-shadow">
 	                            <div class="post-content-wrapper"> <div class="post-left-column">
@@ -236,7 +241,7 @@
 	                                    </div>
 
 	                                    <div class="post-description">
-	                                        <p><?=$riga['Descrizione']?></p>
+	                                        <p><?=$UserTagDescr?></p>
 	                                    </div>
 	                                    <?php 
 	                                    if(is_null($riga['Allegato'])){
@@ -250,7 +255,7 @@
 	                                    ?>
 
 	                                    <div class="stats-post">
-	                                        <a href="#" class="stat-item-post"><i class="fa fa-comment-o"></i> <?=$riga['NumCommenti']?></a>
+	                                        <a href="Commenti.php?post=<?=$post['Id_Post']?>" class="stat-item-post"><i class="fa fa-comment-o"></i> <?=$riga['NumCommenti']?></a>
 	                                        <a class="stat-item like-button" data-postid="<?=$riga['Id_Post']?>" style="text-decoration:none; cursor:pointer;">
 	                                            <i class="fa <?=($riga['MioLike'] > 0) ? 'fa-heart' : 'fa-heart-o'?>" 
 	                                               id="icon-<?=$riga['Id_Post']?>" 

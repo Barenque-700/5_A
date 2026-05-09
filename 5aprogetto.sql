@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mag 08, 2026 alle 23:12
+-- Creato il: Mag 09, 2026 alle 22:26
 -- Versione del server: 10.4.32-MariaDB
 -- Versione PHP: 8.2.12
 
@@ -28,10 +28,20 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `commenti` (
-  `Utente` varchar(40) NOT NULL,
-  `Id_Post` int(30) NOT NULL,
-  `Contenuto` varchar(500) NOT NULL
+  `Id_Commento` int(50) NOT NULL,
+  `Utente` varchar(15) NOT NULL,
+  `Id_Post` int(50) NOT NULL,
+  `Contenuto` varchar(500) NOT NULL,
+  `Data` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dump dei dati per la tabella `commenti`
+--
+
+INSERT INTO `commenti` (`Id_Commento`, `Utente`, `Id_Post`, `Contenuto`, `Data`) VALUES
+(1, 'Giandix67', 14, 'testiamolo insieme', '2026-05-09 22:23:48'),
+(2, 'Giandix67', 14, 'testiamolo insieme', '2026-05-09 22:23:54');
 
 -- --------------------------------------------------------
 
@@ -68,7 +78,7 @@ CREATE TABLE `likepost` (
 --
 
 INSERT INTO `likepost` (`Utente`, `Id_Post`) VALUES
-('Giandix67', 10),
+('Giandix67', 14),
 ('MarcusRisula', 3),
 ('MarcusRisula', 10);
 
@@ -96,7 +106,53 @@ INSERT INTO `post` (`Id_Post`, `NumLike`, `Condivisioni`, `Allegato`, `Descrizio
 (3, 1, 0, NULL, 'oooooooo', '2026-05-04 19:37:24', 'Giandix67'),
 (8, 0, 0, '8b9a87cee07f2404458708c4f09a830c8336271d6dd63609b2bfc69189ec84a0.png', 'Ma quanto è bello quando hai un vero e proprio algoritmo?', '2026-05-07 18:44:05', 'Giandix67'),
 (9, 0, 0, NULL, 'boh testa date', '2026-05-07 22:06:34', 'Giandix67'),
-(10, 2, 0, '3e4799ed542a619bcb1621de73c1a3c42726274647e199c5a5ff26030770ef14.png', 'testa foto', '2026-05-07 22:06:56', 'Giandix67');
+(10, 1, 0, '3e4799ed542a619bcb1621de73c1a3c42726274647e199c5a5ff26030770ef14.png', 'testa foto', '2026-05-07 22:06:56', 'Giandix67'),
+(11, 0, 0, NULL, 'vediamo se va #testing', '2026-05-09 16:43:51', 'Giandix67'),
+(12, 0, 0, NULL, 'questo serve per gli utenti consigliati #testing', '2026-05-09 17:27:53', 'MarcusRisula'),
+(13, 0, 0, '3e4799ed542a619bcb1621de73c1a3c42726274647e199c5a5ff26030770ef14.png', 'aaaaaaa', '2026-05-09 17:43:15', 'MarcusRisula'),
+(14, 1, 0, NULL, 'con più hashtag funziona? #testing #funzionerà', '2026-05-09 18:05:23', 'Giandix67'),
+(15, 0, 0, NULL, 'testiamo hashtag e tag #testing @MarcusRisula', '2026-05-09 18:25:49', 'Giandix67');
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `tag`
+--
+
+CREATE TABLE `tag` (
+  `Id_Tag` int(30) NOT NULL,
+  `NomeTag` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dump dei dati per la tabella `tag`
+--
+
+INSERT INTO `tag` (`Id_Tag`, `NomeTag`) VALUES
+(6, 'funzionerà'),
+(1, 'Testing');
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `tagpost`
+--
+
+CREATE TABLE `tagpost` (
+  `Id_Post` int(30) NOT NULL,
+  `Id_Tag` int(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dump dei dati per la tabella `tagpost`
+--
+
+INSERT INTO `tagpost` (`Id_Post`, `Id_Tag`) VALUES
+(11, 1),
+(12, 1),
+(14, 1),
+(14, 6),
+(15, 1);
 
 -- --------------------------------------------------------
 
@@ -111,7 +167,6 @@ CREATE TABLE `utenti` (
   `DataNascita` date DEFAULT NULL,
   `Foto` varchar(300) NOT NULL DEFAULT 'Utente.png',
   `Descrizione` varchar(200) DEFAULT NULL,
-  `NumPost` int(5) DEFAULT 0,
   `Password` varchar(100) NOT NULL,
   `Livello` int(2) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -120,9 +175,9 @@ CREATE TABLE `utenti` (
 -- Dump dei dati per la tabella `utenti`
 --
 
-INSERT INTO `utenti` (`Nome`, `Cognome`, `NomeUtente`, `DataNascita`, `Foto`, `Descrizione`, `NumPost`, `Password`, `Livello`) VALUES
-('Gianni', 'Giandagoberto', 'Giandix67', '2005-12-07', 'Utente.png', 'Il più grande utilizzatore di Valorant, non esco di casa e mi metto a giocare ad Overwatch. Ultima volta che ho toccato l\'erba: la mia nascita', 0, 'a', 0),
-('Marcus', 'Risula', 'MarcusRisula', '2007-01-03', 'Utente.png', 'questo è un mega test', 0, 'aaa', 1);
+INSERT INTO `utenti` (`Nome`, `Cognome`, `NomeUtente`, `DataNascita`, `Foto`, `Descrizione`, `Password`, `Livello`) VALUES
+('Gianni', 'Giandagoberto', 'Giandix67', '2005-12-07', 'Utente.png', 'Il più grande utilizzatore di Valorant, non esco di casa e mi metto a giocare ad Overwatch. Ultima volta che ho toccato l\'erba: la mia nascita', 'a', 0),
+('Marcus', 'Risula', 'MarcusRisula', '2007-01-03', 'Utente.png', 'questo è un mega test', 'aaa', 1);
 
 --
 -- Indici per le tabelle scaricate
@@ -132,8 +187,9 @@ INSERT INTO `utenti` (`Nome`, `Cognome`, `NomeUtente`, `DataNascita`, `Foto`, `D
 -- Indici per le tabelle `commenti`
 --
 ALTER TABLE `commenti`
-  ADD PRIMARY KEY (`Utente`,`Id_Post`),
-  ADD KEY `FK_post` (`Id_Post`);
+  ADD PRIMARY KEY (`Id_Commento`),
+  ADD KEY `FK_utenteCommento` (`Utente`),
+  ADD KEY `FK_postCommento` (`Id_Post`);
 
 --
 -- Indici per le tabelle `follow`
@@ -157,6 +213,20 @@ ALTER TABLE `post`
   ADD KEY `FK_utente` (`Utente`);
 
 --
+-- Indici per le tabelle `tag`
+--
+ALTER TABLE `tag`
+  ADD PRIMARY KEY (`Id_Tag`),
+  ADD UNIQUE KEY `NomeTag` (`NomeTag`);
+
+--
+-- Indici per le tabelle `tagpost`
+--
+ALTER TABLE `tagpost`
+  ADD PRIMARY KEY (`Id_Post`,`Id_Tag`),
+  ADD KEY `FK_Tag` (`Id_Tag`);
+
+--
 -- Indici per le tabelle `utenti`
 --
 ALTER TABLE `utenti`
@@ -167,10 +237,22 @@ ALTER TABLE `utenti`
 --
 
 --
+-- AUTO_INCREMENT per la tabella `commenti`
+--
+ALTER TABLE `commenti`
+  MODIFY `Id_Commento` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT per la tabella `post`
 --
 ALTER TABLE `post`
-  MODIFY `Id_Post` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `Id_Post` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
+-- AUTO_INCREMENT per la tabella `tag`
+--
+ALTER TABLE `tag`
+  MODIFY `Id_Tag` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Limiti per le tabelle scaricate
@@ -180,8 +262,8 @@ ALTER TABLE `post`
 -- Limiti per la tabella `commenti`
 --
 ALTER TABLE `commenti`
-  ADD CONSTRAINT `FK_post` FOREIGN KEY (`Id_Post`) REFERENCES `post` (`Id_Post`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_utenti` FOREIGN KEY (`Utente`) REFERENCES `utenti` (`NomeUtente`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_postCommento` FOREIGN KEY (`Id_Post`) REFERENCES `post` (`Id_Post`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_utenteCommento` FOREIGN KEY (`Utente`) REFERENCES `utenti` (`NomeUtente`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `follow`
@@ -202,6 +284,13 @@ ALTER TABLE `likepost`
 --
 ALTER TABLE `post`
   ADD CONSTRAINT `FK_utente` FOREIGN KEY (`Utente`) REFERENCES `utenti` (`NomeUtente`) ON DELETE CASCADE;
+
+--
+-- Limiti per la tabella `tagpost`
+--
+ALTER TABLE `tagpost`
+  ADD CONSTRAINT `FK_Tag` FOREIGN KEY (`Id_Tag`) REFERENCES `tag` (`Id_Tag`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_postTag` FOREIGN KEY (`Id_Post`) REFERENCES `post` (`Id_Post`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

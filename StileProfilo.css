@@ -343,3 +343,6 @@ b:hover{
 .fa-heart {
     color: #e74c3c; /* Rosso per il like attivo */
 }
+.tag{
+    color: #0d6efd;
+}

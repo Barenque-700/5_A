@@ -10,6 +10,9 @@ $accesso=$_SESSION['accesso'];
         $data = date("Y-m-d H:i:s");
         $NomeUtente = $_SESSION['user'];
         $nomeDB = null;
+        $pattern= '/#([^\s!,?]+)/';
+        preg_match_all($pattern, $descrizione, $matches);
+        $tagsEstratti = array_unique($matches[1]);
 
         if(isset($_FILES['filePost']) && $_FILES['filePost']['error'] === UPLOAD_ERR_OK) {
             $target_dir = "UploadFoto/";
@@ -40,16 +43,48 @@ $accesso=$_SESSION['accesso'];
                 }
             }
         }
-
-        try{
+        try {
             $connessione = new PDO("mysql:host=$host;dbname=$db", $user, $password);
-            $sql= "INSERT INTO post (Allegato, Descrizione, Data_post, Utente) VALUES (?,?,?,?)";
+            $connessione->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $sql = "INSERT INTO post (Allegato, Descrizione, Data_post, Utente) VALUES (?,?,?,?)";
             $preparata = $connessione->prepare($sql);
             $preparata->execute([$nomeDB, $descrizione, $data, $NomeUtente]);
+
+            $postId = $connessione->lastInsertId();
+
+            if (!empty($tagsEstratti)) {
+                
+                $sqlTag = "INSERT INTO tag (NomeTag) VALUES (?) 
+                           ON DUPLICATE KEY UPDATE Id_Tag = LAST_INSERT_ID(Id_Tag)";
+                $stmtTag = $connessione->prepare($sqlTag);
+
+                $tagIds = [];
+                foreach ($tagsEstratti as $nomeTag) {
+                    $nomeTag = strtolower(trim($nomeTag));
+                    $stmtTag->execute([$nomeTag]);
+                    
+                    $tagIds[] = $connessione->lastInsertId();
+                }
+
+                $placeholders = array_fill(0, count($tagIds), "(?, ?)");
+                $sqlRel = "INSERT IGNORE INTO tagpost (Id_Post, Id_Tag) VALUES " . implode(',', $placeholders);
+                
+                $params = [];
+                foreach ($tagIds as $idTag) {
+                    $params[] = $postId;
+                    $params[] = $idTag;
+                }
+
+                $stmtRel = $connessione->prepare($sqlRel);
+                $stmtRel->execute($params);
+            }
+
             $connessione = null;
             header("location: Asteria.php");
+
         } catch(PDOException $e){
-            die("Errore nella gestione del database $db: " . $e->getMessage());
+            die("Errore nella gestione del database: " . $e->getMessage());
         }
     }
 exit;

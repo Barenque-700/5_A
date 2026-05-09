@@ -6,20 +6,23 @@ Questa repository servirà alla completazione del progetto di informatica fino a
 Un'applicazione classica ma ricca di sfumature tecniche: gestione utenti, liste personali e condivise, categorizzazione, scadenze e notifiche. Ottimo progetto per iniziare a lavorare su autenticazione, CRUD completo e condivisione tra utenti.
 
 ## Requisiti Funzionali
-* Registrazione, login, profilo pubblico (bio, avatar, statistiche attività)
-* Post / recensioni: titolo dell'opera, testo, voto (1-5 stelle), immagine opzionale
-* Like e commenti ai post
-* Sistema di follow: seguire altri utenti
-* Feed personalizzato: post degli utenti seguiti, ordinati per data
-* Ricerca per titolo opera o username
-* Notifiche: qualcuno ti ha seguito, messo like, commentato
-* Esplora: post più recenti di tutta la community (senza necessità di follow)
+
+* **Registrazione e login** utente con sessione o JWT
+* **Creazione, modifica ed eliminazione** di liste (es. 'Spesa', 'Lavoro', 'Studio')
+* **Aggiunta di task** a ogni lista con: titolo, descrizione, priorità (bassa/media/alta), data scadenza, stato (da fare / in corso / completato)
+* **Possibilità di condividere** una lista con altri utenti (sola lettura o modifica)
+* **Filtro e ricerca** dei task per stato, priorità o parola chiave
+* **Contatore task** completati / totali per ogni lista
+* **Storico delle modifiche**: chi ha cambiato cosa e quando
+
 ## Requisiti Tecnici
-* Backend: PHP REST API
-* Database: MySQL — attenzione alla performance delle query sul feed
-* Frontend: SPA a scelta
-* Upload immagini profilo e post
-* Paginazione obbligatoria per feed e lista post (es. 10 elementi per pagina)
+
+* **Backend**: PHP con architettura REST API (endpoint separati per auth, liste, task, condivisioni)
+* **Database**: MySQL — schema fornito di seguito
+* **Frontend**: a scelta (consigliato Vue.js o React) — deve essere una SPA
+* **Autenticazione**: JWT (token in localStorage o cookie httpOnly) oppure sessione PHP
+* **Risposta API**: sempre in JSON
+* **Gestione degli errori**: con codici HTTP appropriati (400, 401, 403, 404, 500)
 
 ## Consegne Richieste
 

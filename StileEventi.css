@@ -1,17 +1,10 @@
-/* ═══════════════════════════════════════════════════════
-   StileEventi.css  –  Asteria / Pagina Eventi
-   Dipende da StileAsteria.css (variabili CSS e layout base)
-   ═══════════════════════════════════════════════════════ */
-
-/* ── Overrides layout centro ──────────────────────────── */
 .centro {
     padding: 0 !important;
     align-items: stretch !important;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: none;
 }
-
-/* ══════════════════════════════════════════════════════
-   TAB BAR
-   ══════════════════════════════════════════════════════ */
 .eventi-tabs {
     display: flex;
     gap: 4px;
@@ -48,10 +41,6 @@
     color: var(--primary-color);
     opacity: 0.75;
 }
-
-/* ══════════════════════════════════════════════════════
-   PANNELLI
-   ══════════════════════════════════════════════════════ */
 .pannello {
     display: none;
     padding: 24px 28px;
@@ -67,7 +56,6 @@
     to   { opacity: 1; transform: translateY(0);   }
 }
 
-/* ── Header pannello ──────────────────────────────────── */
 .pannello-header {
     display: flex;
     align-items: center;
@@ -94,9 +82,6 @@
     letter-spacing: 0.3px;
 }
 
-/* ══════════════════════════════════════════════════════
-   STATO: LOADING / ERRORE
-   ══════════════════════════════════════════════════════ */
 .loading-box {
     display: flex;
     flex-direction: column;
@@ -132,9 +117,6 @@
     text-align: center;
 }
 
-/* ══════════════════════════════════════════════════════
-   APOD  –  Astronomy Picture of the Day
-   ══════════════════════════════════════════════════════ */
 .apod-card {
     background: var(--card-bg);
     border: 1px solid var(--border-color);
@@ -146,7 +128,7 @@
 
 .apod-card img {
     width: 100%;
-    max-height: 460px;
+    max-height: 600px;
     object-fit: cover;
     display: block;
 }
@@ -182,12 +164,6 @@
     line-height: 1.7;
     color: var(--text-color);
 }
-
-/* ══════════════════════════════════════════════════════
-   ASTEROIDI  –  NeoWs
-   ══════════════════════════════════════════════════════ */
-
-/* Date picker */
 .date-row {
     display: flex;
     flex-wrap: wrap;
@@ -238,7 +214,6 @@
     transform: translateY(-1px);
 }
 
-/* Griglia card asteroidi */
 .asteroid-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -324,9 +299,7 @@
     text-align: center;
 }
 
-/* ══════════════════════════════════════════════════════
-   EONET  –  Earth Natural Events
-   ══════════════════════════════════════════════════════ */
+
 .eonet-lista {
     display: flex;
     flex-direction: column;
@@ -394,4 +367,5 @@
     color: var(--accent-color);
     border: 1px solid var(--accent-color);
     letter-spacing: 0.3px;
+    transition: all 0.3s ease;
 }

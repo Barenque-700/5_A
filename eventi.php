@@ -22,7 +22,6 @@ if ($accesso != 1) {
     <link rel="stylesheet" href="StileEventi.css">
 </head>
 <body>
-
     <nav class="navbar navbar-expand-lg sticky-top">
         <div class="container-fluid px-0">
 
@@ -50,6 +49,7 @@ if ($accesso != 1) {
     </nav>
 
     <div class="contenitore">
+
         <div class="sezione sinistra">
             <div class="d-grid gap-2 p-3">
                 <button class="btn btn-custom rounded-pill fw-bold"
@@ -69,9 +69,9 @@ if ($accesso != 1) {
                 <li class="nav-item"><a class="nav-link px-3" href="Asteria.php">Ricerca</a></li>
             </div>
         </div>
+
         <div class="sezione centro">
 
-            <!-- Tab bar -->
             <div class="eventi-tabs">
                 <button class="active" onclick="mostraTab('apod', this)">
                     <i class="fa fa-picture-o me-1"></i> Foto del Giorno
@@ -84,7 +84,6 @@ if ($accesso != 1) {
                 </button>
             </div>
 
-            <!-- ─── Pannello APOD ─── -->
             <div id="tab-apod" class="pannello attivo">
                 <div class="pannello-header">
                     <h2><i class="fa fa-picture-o me-2" style="color:var(--primary-color)"></i>Astronomy Picture of the Day</h2>
@@ -97,7 +96,6 @@ if ($accesso != 1) {
                 </div>
             </div>
 
-            <!-- ─── Pannello Asteroidi ─── -->
             <div id="tab-asteroidi" class="pannello">
                 <div class="pannello-header">
                     <h2><i class="fa fa-circle-o me-2" style="color:var(--primary-color)"></i>Asteroidi in avvicinamento</h2>
@@ -122,7 +120,6 @@ if ($accesso != 1) {
                 </div>
             </div>
 
-            <!-- ─── Pannello EONET ─── -->
             <div id="tab-eonet" class="pannello">
                 <div class="pannello-header">
                     <h2><i class="fa fa-globe me-2" style="color:var(--primary-color)"></i>Eventi Naturali (EONET)</h2>
@@ -138,29 +135,18 @@ if ($accesso != 1) {
 
         </div>
 
-        <!-- ── Sidebar destra ── -->
         <div class="sezione destra">
             <li class="nav-item"><a class="nav-link px-3">Seguiti</a></li>
         </div>
 
-    </div><!-- fine .contenitore -->
+    </div>
 
 
-    <!-- ═══════════════ SCRIPT ═══════════════ -->
     <script src="config.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
 
-    /* ── Chiave API NASA ──────────────────────────────────────────
-       Registrati gratuitamente su https://api.nasa.gov per ottenere
-       la tua chiave personale e sostituisci DEMO_KEY qui sotto.
-    ─────────────────────────────────────────────────────────────── */
-    const NASA_KEY = 'DEMO_KEY';
-
-    /* ─────────────────────────────────────────────────────────────
-       UTILITÀ
-    ─────────────────────────────────────────────────────────────── */
-    function oggi() {
+    function oggiData() {
         return new Date().toISOString().split('T')[0];
     }
 
@@ -187,22 +173,17 @@ if ($accesso != 1) {
             `<div class="error-box"><i class="fa fa-exclamation-triangle me-2"></i>${msg}</div>`;
     }
 
-    /* ─────────────────────────────────────────────────────────────
-       TAB SWITCH
-    ─────────────────────────────────────────────────────────────── */
     function mostraTab(nome, btn) {
-        document.querySelectorAll('.pannello').forEach(p => p.classList.remove('attivo'));
-        document.querySelectorAll('.eventi-tabs button').forEach(b => b.classList.remove('active'));
-        document.getElementById('tab-' + nome).classList.add('attivo');
-        btn.classList.add('active');
+    document.querySelectorAll('.pannello').forEach(p => p.classList.remove('attivo'));
+    document.querySelectorAll('.eventi-tabs button').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + nome).classList.add('attivo');
+    btn.classList.add('active');
+    localStorage.setItem('ultimoTab', nome);
     }
 
-    /* ─────────────────────────────────────────────────────────────
-       1)  APOD
-    ─────────────────────────────────────────────────────────────── */
     async function caricaAPOD() {
         try {
-            const res = await fetch('api/apod.php');
+            const res  = await fetch('api/apod.php');
             if (!res.ok) throw new Error();
             const d    = await res.json();
 
@@ -229,18 +210,15 @@ if ($accesso != 1) {
         }
     }
 
-    /* ─────────────────────────────────────────────────────────────
-       2)  ASTEROIDI (NeoWs)
-    ─────────────────────────────────────────────────────────────── */
     function initDatePicker() {
-        const start = oggi();
+        const start = oggiData();
         document.getElementById('ast-start').value = start;
         document.getElementById('ast-end').value   = aggiungiGiorni(start, 6);
     }
 
     async function caricaAsteroidi() {
-        const start = document.getElementById('ast-start').value || oggi();
-        const end   = document.getElementById('ast-end').value   || aggiungiGiorni(oggi(), 6);
+        const start = document.getElementById('ast-start').value || oggiData();
+        const end   = document.getElementById('ast-end').value   || aggiungiGiorni(oggiData(), 6);
         const diff  = (new Date(end) - new Date(start)) / 86_400_000;
 
         if (diff < 0 || diff > 7) {
@@ -253,9 +231,7 @@ if ($accesso != 1) {
         document.getElementById('asteroid-count').style.display = 'none';
 
         try {
-            const res  = await fetch(
-                `https://api.nasa.gov/neo/rest/v1/feed?start_date=${start}&end_date=${end}&api_key=${NASA_KEY}`
-            );
+            const res  = await fetch(`api/asteroidi.php?start=${start}&end=${end}`);
             if (!res.ok) throw new Error();
             const data = await res.json();
 
@@ -313,10 +289,6 @@ if ($accesso != 1) {
                 'Impossibile caricare i dati sugli asteroidi. Riprova più tardi.');
         }
     }
-
-    /* ─────────────────────────────────────────────────────────────
-       3)  EONET
-    ─────────────────────────────────────────────────────────────── */
     const eonetEmoji = {
         'Wildfires':           '🔥',
         'Severe Storms':       '⛈️',
@@ -333,16 +305,30 @@ if ($accesso != 1) {
         'Water Color':         '💧',
     };
 
+    const eonetTraduzione = {
+    'Wildfires':            'Incendi',
+    'Severe Storms':        'Forti Temporali',
+    'Volcanoes':            'Vulcani',
+    'Floods':               'Alluvioni',
+    'Earthquakes':          'Terremoti',
+    'Drought':              'Siccità',
+    'Dust and Haze':        'Polvere e Foschia',
+    'Landslides':           'Frane',
+    'Sea and Lake Ice':     'Ghiaccio marino e lacustre',
+    'Snow':                 'Neve',
+    'Temperature Extremes': 'Temperature Estreme',
+    'Manmade':              'Disastri artificiali',
+    'Water Color':          'Colorazione dell\'acqua',
+    };
+
     function getEmoji(categories) {
-        if (!categories?.length) return '🌍';
-        return eonetEmoji[categories[0].title] || '🌍';
+    if (!categories?.length) return '🌍';
+    return eonetEmoji[categories[0].title] || '🌍';
     }
 
     async function caricaEONET() {
         try {
-            const res  = await fetch(
-                `https://eonet.gsfc.nasa.gov/api/v3/events?status=open&limit=50&api_key=${NASA_KEY}`
-            );
+            const res  = await fetch('api/eonet.php');
             if (!res.ok) throw new Error();
             const data = await res.json();
             const eventi = data.events || [];
@@ -364,7 +350,7 @@ if ($accesso != 1) {
                 const ultima   = ev.geometry?.[ev.geometry.length - 1];
                 const dataEv   = ultima?.date ? formatData(ultima.date.split('T')[0]) : '—';
                 const emoji    = getEmoji(ev.categories);
-                const cat      = ev.categories?.map(c => c.title).join(', ') || 'Evento';
+                const cat = ev.categories?.map(c => eonetTraduzione[c.title] || c.title).join(', ') || 'Evento';
                 const source   = ev.sources?.[0]?.url || '#';
 
                 return `
@@ -394,10 +380,13 @@ if ($accesso != 1) {
         }
     }
 
-    /* ─────────────────────────────────────────────────────────────
-       INIT
-    ─────────────────────────────────────────────────────────────── */
     initDatePicker();
+    const tabSalvato = localStorage.getItem('ultimoTab') || 'apod';
+    const btnSalvato = document.querySelector(`.eventi-tabs button:nth-child(${
+        tabSalvato === 'apod' ? 1 : tabSalvato === 'asteroidi' ? 2 : 3
+    })`);
+    mostraTab(tabSalvato, btnSalvato);
+
     caricaAPOD();
     caricaAsteroidi();
     caricaEONET();

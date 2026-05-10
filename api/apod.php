@@ -1,17 +1,40 @@
 <?php
-// 1. Leggi la chiave dal file .env
 $chiave = '';
-$righe = file(__DIR__ . '/../.env', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-foreach ($righe as $riga) {
-    if (str_starts_with($riga, 'NASA_API_KEY=')) {
-        $chiave = explode('=', $riga, 2)[1];
-        break;
+$envFile = __DIR__ . '/../.env';
+
+if (file_exists($envFile)) {
+    $righe = file($envFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    foreach ($righe as $riga) {
+        if (str_starts_with(trim($riga), 'NASA_API_KEY=')) {
+            $chiave = trim(explode('=', $riga, 2)[1]);
+            break;
+        }
     }
 }
 
-// 2. Chiama NASA con la chiave (tutto avviene sul server)
-$risposta = file_get_contents("https://api.nasa.gov/planetary/apod?api_key=$chiave");
+if (empty($chiave)) {
+    http_response_code(500);
+    header('Content-Type: application/json');
+    echo json_encode(['error' => 'Chiave API non configurata.']);
+    exit;
+}
 
-// 3. Rimanda il risultato al browser (solo dati, niente chiave)
+$url = "https://api.nasa.gov/planetary/apod?api_key=$chiave";
+
+$ch = curl_init($url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+$risposta = curl_exec($ch);
+$errore   = curl_error($ch);
+curl_close($ch);
+
+if ($risposta === false || !empty($errore)) {
+    http_response_code(502);
+    header('Content-Type: application/json');
+    echo json_encode(['error' => 'Impossibile contattare la NASA: ' . $errore]);
+    exit;
+}
+
 header('Content-Type: application/json');
 echo $risposta;

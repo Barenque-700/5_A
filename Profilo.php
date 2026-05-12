@@ -235,25 +235,26 @@
 	                                </div>
 
 	                                <div class="post-right-column">
-	                                    <div class="post-heading">
-	                                        <a href="Profilo.php?user=<?=$riga['Utente']?>"><b><?=$riga['Nome']?> <?=$riga['Cognome']?></b></a>
-	                                        <span class="text-muted time">@<?=$riga['Utente']?> · <?=$riga['Data_post']?></span>
-	                                    </div>
+	                                	<div onclick="location.href='post.php?post=<?=$riga['Id_Post']?>'"  style="cursor:pointer;">
+		                                    <div class="post-heading">
+		                                        <a href="Profilo.php?user=<?=$riga['Utente']?>"><b><?=$riga['Nome']?> <?=$riga['Cognome']?></b></a>
+		                                        <span class="text-utente time">@<?=$riga['Utente']?> · <?=$riga['Data_post']?></span>
+		                                    </div>
 
-	                                    <div class="post-description">
-	                                        <p><?=$UserTagDescr?></p>
-	                                    </div>
-	                                    <?php 
-	                                    if(is_null($riga['Allegato'])){
-	                                    }else{
-	                                    ?>
-	                                    <div class="post-image">
-	                                        <img src="UploadFoto/<?=$riga['Allegato']?>" class="image" alt="image post">
-	                                    </div>
-	                                    <?php 
-	                                    }
-	                                    ?>
-
+		                                    <div class="post-description">
+		                                        <p><?=$UserTagDescr?></p>
+		                                    </div>
+		                                    <?php 
+		                                    if(is_null($riga['Allegato'])){
+		                                    }else{
+		                                    ?>
+		                                    <div class="post-image">
+		                                        <img src="UploadFoto/<?=$riga['Allegato']?>" class="image" alt="image post">
+		                                    </div>
+		                                    <?php 
+		                                    }
+		                                    ?>
+		                                </div>
 	                                    <div class="stats-post">
 	                                        <a href="Commenti.php?post=<?=$post['Id_Post']?>" class="stat-item-post"><i class="fa fa-comment-o"></i> <?=$riga['NumCommenti']?></a>
 	                                        <a class="stat-item like-button" data-postid="<?=$riga['Id_Post']?>" style="text-decoration:none; cursor:pointer;">

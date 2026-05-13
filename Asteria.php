@@ -49,7 +49,7 @@ $NomeUtente = $_SESSION['user'];
             <li class="nav-item"><a class="nav-link px-3" href="Asteria.php" style="color: var(--primary-color) !important;">Home</a></li>
             <li class="nav-item"><a class="nav-link px-3" href="Eventi.php">Eventi</a></li>
             <li class="nav-item"><a class="nav-link px-3" href="Asteria.php">Notifiche</a></li>
-            <li class="nav-item"><a class="nav-link px-3" href="Asteria.php">Ricerca</a></li>
+            <li class="nav-item"><a class="nav-link px-3" href="Ricerca.php">Ricerca</a></li>
     </div>
 
         </div>
@@ -233,8 +233,11 @@ $NomeUtente = $_SESSION['user'];
             </div>
         </div>
         <div class="sezione destra">
-            <li class="nav-item"><a class="nav-link px-3">Utenti Consigliati</a></li>
-            <br>
+            <div style="padding: 16px; width:100%;">
+            <div style="font-size:0.78rem; font-weight:800; color:var(--primary-color);
+                        letter-spacing:0.8px; text-transform:uppercase; margin-bottom:12px;">
+                <i class="fa fa-users me-1"></i>Utenti Consigliati
+            </div>
             <div class="profiliScroll">
                 <?php 
                 try{

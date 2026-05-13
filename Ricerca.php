@@ -174,8 +174,7 @@ function parseDescr($testo, $query = '') {
                 <li class="nav-item"><a class="nav-link px-3" href="Asteria.php">Notifiche</a></li>
                 <li class="nav-item">
                     <a class="nav-link px-3" href="ricerca.php"
-                       style="color: var(--primary-color) !important;">
-                        <i class="fa fa-search me-1"></i>Ricerca
+                       style="color: var(--primary-color) !important;"></i>Ricerca
                     </a>
                 </li>
             </div>

@@ -61,12 +61,11 @@ if ($accesso != 1) {
                 <li class="nav-item"><a class="nav-link px-3" href="Asteria.php">Home</a></li>
                 <li class="nav-item">
                     <a class="nav-link px-3" href="eventi.php"
-                       style="color: var(--primary-color) !important;">
-                        <i class="fa fa-star me-1"></i>Eventi
+                       style="color: var(--primary-color) !important;">Eventi
                     </a>
                 </li>
                 <li class="nav-item"><a class="nav-link px-3" href="Asteria.php">Notifiche</a></li>
-                <li class="nav-item"><a class="nav-link px-3" href="Asteria.php">Ricerca</a></li>
+                <li class="nav-item"><a class="nav-link px-3" href="Ricerca.php">Ricerca</a></li>
             </div>
         </div>
 
@@ -87,6 +86,10 @@ if ($accesso != 1) {
             <div id="tab-apod" class="pannello attivo">
                 <div class="pannello-header">
                     <h2><i class="fa fa-picture-o me-2" style="color:var(--primary-color)"></i>Astronomy Picture of the Day</h2>
+                </div>
+                <div id="apod-countdown" style="font-size: 0.82rem; color: rgb(83,100,113); margin-bottom: 16px; letter-spacing: 0.4px;">
+                    <i class="fa fa-clock-o me-1"></i>Prossimo aggiornamento tra: 
+                    <span id="countdown-timer" style="color: var(--primary-color); font-weight: 700;"></span>
                 </div>
                 <div id="apod-content">
                     <div class="loading-box">
@@ -136,7 +139,63 @@ if ($accesso != 1) {
         </div>
 
         <div class="sezione destra">
-            <li class="nav-item"><a class="nav-link px-3">Seguiti</a></li>
+           <div style="padding: 16px; width:100%;">
+            <div style="font-size:0.78rem; font-weight:800; color:var(--primary-color);
+                        letter-spacing:0.8px; text-transform:uppercase; margin-bottom:12px;">
+                <i class="fa fa-users me-1"></i>Utenti Consigliati
+            </div>
+            <div class="profiliScroll">
+                <?php 
+                try{
+                    $connessione= new PDO("mysql:host=$host;dbname=$db", $user, $password);
+                    $sql= "SELECT NomeUtente, Foto
+                            FROM utenti
+                            WHERE NomeUtente IN(
+                                SELECT Utente
+                                FROM post 
+                                WHERE Id_Post IN (
+                                    SELECT Id_Post 
+                                    FROM tagpost 
+                                    WHERE Id_Tag IN (
+                                        SELECT Id_Tag 
+                                        FROM tagpost 
+                                        WHERE Id_Post IN (
+                                            SELECT Id_Post 
+                                            FROM likepost 
+                                            WHERE Utente = ?
+                                        ) 
+                                        GROUP BY Id_Tag
+                                    )
+                                )
+                                GROUP BY Utente
+                            ) AND NomeUtente <> ?;";
+                    $preparata= $connessione->prepare($sql);
+                    $preparata->execute([$NomeUtente, $NomeUtente]);
+                    if($preparata->rowCount() > 0){
+                        $ris = $preparata->fetchAll(PDO::FETCH_ASSOC);
+                        foreach($ris as $riga){
+                            ?>
+                            <div class="follower-card">
+                                <div class="user-info">
+                                    <div class="avatar-container">
+                                        <img src="<?="UploadProfili/".$riga['Foto']?>" alt="Profilo" class="follower-img">
+                                    </div>
+                                    <span class="username">@<?=htmlspecialchars($riga['NomeUtente']) ?></span>
+                                </div>
+                                <button class="btn-profilo" onclick="location.href='Profilo.php?user=<?php echo urlencode($riga['NomeUtente']); ?>'">
+                                    Vedi Profilo
+                                </button>
+                            </div>
+                            <br>
+                            <?php
+                        }
+                    }
+                    $connessione = null;
+                }catch(PDOException $e){
+                    die("Errore nella gestione del database $db: " . $e->getMessage());
+                }
+                ?>
+            </div> 
         </div>
 
     </div>
@@ -145,6 +204,28 @@ if ($accesso != 1) {
     <script src="config.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+    
+    function avviaCountdown() {
+    function aggiorna() {
+        const ora      = new Date();
+        const domani   = new Date(Date.UTC(
+            ora.getUTCFullYear(),
+            ora.getUTCMonth(),
+            ora.getUTCDate() + 1
+        ));
+        const diff     = domani - ora;
+
+        const ore      = Math.floor(diff / 3600000);
+        const minuti   = Math.floor((diff % 3600000) / 60000);
+        const secondi  = Math.floor((diff % 60000) / 1000);
+
+        document.getElementById('countdown-timer').textContent =
+            `${String(ore).padStart(2,'0')}:${String(minuti).padStart(2,'0')}:${String(secondi).padStart(2,'0')}`;
+    }
+
+    aggiorna();
+    setInterval(aggiorna, 1000);
+    }
 
     function oggiData() {
         return new Date().toISOString().split('T')[0];
@@ -387,6 +468,7 @@ if ($accesso != 1) {
     })`);
     mostraTab(tabSalvato, btnSalvato);
 
+    avviaCountdown();
     caricaAPOD();
     caricaAsteroidi();
     caricaEONET();

@@ -32,7 +32,7 @@ $fotoProfilo = $_SESSION['foto'];
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
-	<a href="Asteria.php" class="btn-back">
+	<a onclick="javascript:history.go(-1)" class="btn-back" style="cursor:pointer;">
         <i class="fa fa-arrow-left"></i> Indietro
     </a>
 	<form action="<?php echo $_SERVER['REQUEST_URI'] ?>" method="POST" enctype="multipart/form-data" class="main-form">

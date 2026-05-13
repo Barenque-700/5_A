@@ -38,19 +38,19 @@ $NomeUtente = $_SESSION['user'];
 
         </div>
     </nav>
-     <div class="contenitore">
+    <div class="contenitore">
         <div class="sezione sinistra">
             <div class="d-grid gap-2 p-3">
                 <button class="btn btn-custom rounded-pill fw-bold" onclick="location.href='CreaPost.php'">
                     <i class="fa fa-plus-circle me-2"></i>Crea
                 </button>
             </div>
-    <div class="mt-3">
-            <li class="nav-item"><a class="nav-link px-3" href="Asteria.php" style="color: var(--primary-color) !important;">Home</a></li>
-            <li class="nav-item"><a class="nav-link px-3" href="Eventi.php">Eventi</a></li>
-            <li class="nav-item"><a class="nav-link px-3" href="Asteria.php">Notifiche</a></li>
-            <li class="nav-item"><a class="nav-link px-3" href="Ricerca.php">Ricerca</a></li>
-    </div>
+        <div class="mt-3">
+                <li class="nav-item"><a class="nav-link px-3" href="Asteria.php" style="color: var(--primary-color) !important;">Home</a></li>
+                <li class="nav-item"><a class="nav-link px-3" href="Eventi.php">Eventi</a></li>
+                <li class="nav-item"><a class="nav-link px-3" href="Asteria.php">Notifiche</a></li>
+                <li class="nav-item"><a class="nav-link px-3" href="Asteria.php">Ricerca</a></li>
+        </div>
 
         </div>
         <div class="sezione centro">
@@ -101,7 +101,7 @@ $NomeUtente = $_SESSION['user'];
                                     </div>
 
                                     <div class="post-right-column">
-                                        <div onclick="location.href='post.php?post=<?=$riga['Id_Post']?>'"  style="cursor:pointer;">
+                                        <div onclick="location.href='post.php?post=<?=$post['Id_Post']?>'"  style="cursor:pointer;">
                                             <div class="post-heading">
                                                 <a href="Profilo.php?user=<?=$post['Utente']?>"><b><?=$post['Nome']?> <?=$post['Cognome']?></b></a>
                                                 <span class="text-muted time">@<?=$post['Utente']?> · <?=$post['Data_post']?></span>
@@ -234,64 +234,63 @@ $NomeUtente = $_SESSION['user'];
         </div>
         <div class="sezione destra">
             <div style="padding: 16px; width:100%;">
-            <div style="font-size:0.78rem; font-weight:800; color:var(--primary-color);
-                        letter-spacing:0.8px; text-transform:uppercase; margin-bottom:12px;">
-                <i class="fa fa-users me-1"></i>Utenti Consigliati
-            </div>
-            <div class="profiliScroll">
-                <?php 
-                try{
-                    $connessione= new PDO("mysql:host=$host;dbname=$db", $user, $password);
-                    $sql= "SELECT NomeUtente, Foto
-                            FROM utenti
-                            WHERE NomeUtente IN(
-                                SELECT Utente
-                                FROM post 
-                                WHERE Id_Post IN (
-                                    SELECT Id_Post 
-                                    FROM tagpost 
-                                    WHERE Id_Tag IN (
-                                        SELECT Id_Tag 
+                <div style="font-size:0.78rem; font-weight:800; color:var(--primary-color); letter-spacing:0.8px; text-transform:uppercase; margin-bottom:12px;">
+                    <i class="fa fa-users me-1"></i>Utenti Consigliati
+                </div>
+                <div class="profiliScroll">
+                    <?php 
+                    try{
+                        $connessione= new PDO("mysql:host=$host;dbname=$db", $user, $password);
+                        $sql= "SELECT NomeUtente, Foto
+                                FROM utenti
+                                WHERE NomeUtente IN(
+                                    SELECT Utente
+                                    FROM post 
+                                    WHERE Id_Post IN (
+                                        SELECT Id_Post 
                                         FROM tagpost 
-                                        WHERE Id_Post IN (
-                                            SELECT Id_Post 
-                                            FROM likepost 
-                                            WHERE Utente = ?
-                                        ) 
-                                        GROUP BY Id_Tag
+                                        WHERE Id_Tag IN (
+                                            SELECT Id_Tag 
+                                            FROM tagpost 
+                                            WHERE Id_Post IN (
+                                                SELECT Id_Post 
+                                                FROM likepost 
+                                                WHERE Utente = ?
+                                            ) 
+                                            GROUP BY Id_Tag
+                                        )
                                     )
-                                )
-                                GROUP BY Utente
-                            ) AND NomeUtente <> ?;";
-                    $preparata= $connessione->prepare($sql);
-                    $preparata->execute([$NomeUtente, $NomeUtente]);
-                    if($preparata->rowCount() > 0){
-                        $ris = $preparata->fetchAll(PDO::FETCH_ASSOC);
-                        foreach($ris as $riga){
-                            ?>
-                            <div class="follower-card">
-                                <div class="user-info">
-                                    <div class="avatar-container">
-                                        <img src="<?="UploadProfili/".$riga['Foto']?>" alt="Profilo" class="follower-img">
+                                    GROUP BY Utente
+                                ) AND NomeUtente <> ?;";
+                        $preparata= $connessione->prepare($sql);
+                        $preparata->execute([$NomeUtente, $NomeUtente]);
+                        if($preparata->rowCount() > 0){
+                            $ris = $preparata->fetchAll(PDO::FETCH_ASSOC);
+                            foreach($ris as $riga){
+                                ?>
+                                <div class="follower-card">
+                                    <div class="user-info">
+                                        <div class="avatar-container">
+                                            <img src="<?="UploadProfili/".$riga['Foto']?>" alt="Profilo" class="follower-img">
+                                        </div>
+                                        <span class="username">@<?=htmlspecialchars($riga['NomeUtente']) ?></span>
                                     </div>
-                                    <span class="username">@<?=htmlspecialchars($riga['NomeUtente']) ?></span>
+                                    <button class="btn-profilo" onclick="location.href='Profilo.php?user=<?php echo urlencode($riga['NomeUtente']); ?>'">
+                                        Vedi Profilo
+                                    </button>
                                 </div>
-                                <button class="btn-profilo" onclick="location.href='Profilo.php?user=<?php echo urlencode($riga['NomeUtente']); ?>'">
-                                    Vedi Profilo
-                                </button>
-                            </div>
-                            <br>
-                            <?php
+                                <br>
+                                <?php
+                            }
                         }
+                        $connessione = null;
+                    }catch(PDOException $e){
+                        die("Errore nella gestione del database $db: " . $e->getMessage());
                     }
-                    $connessione = null;
-                }catch(PDOException $e){
-                    die("Errore nella gestione del database $db: " . $e->getMessage());
-                }
-                ?>
+                    ?>
+                </div>
             </div>
         </div>
-        
     </div>
 <script src="config.js"></script>
 <script src="feed.js"></script>

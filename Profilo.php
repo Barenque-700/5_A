@@ -238,7 +238,7 @@
 	                                	<div onclick="location.href='post.php?post=<?=$riga['Id_Post']?>'"  style="cursor:pointer;">
 		                                    <div class="post-heading">
 		                                        <a href="Profilo.php?user=<?=$riga['Utente']?>"><b><?=$riga['Nome']?> <?=$riga['Cognome']?></b></a>
-		                                        <span class="text-utente time">@<?=$riga['Utente']?> · <?=$riga['Data_post']?></span>
+		                                        <span class="text-muted time">@<?=$riga['Utente']?> · <?=$riga['Data_post']?></span>
 		                                    </div>
 
 		                                    <div class="post-description">
@@ -256,7 +256,7 @@
 		                                    ?>
 		                                </div>
 	                                    <div class="stats-post">
-	                                        <a href="Commenti.php?post=<?=$post['Id_Post']?>" class="stat-item-post"><i class="fa fa-comment-o"></i> <?=$riga['NumCommenti']?></a>
+	                                        <a href="Commenti.php?post=<?=$riga['Id_Post']?>" class="stat-item-post"><i class="fa fa-comment-o"></i> <?=$riga['NumCommenti']?></a>
 	                                        <a class="stat-item like-button" data-postid="<?=$riga['Id_Post']?>" style="text-decoration:none; cursor:pointer;">
 	                                            <i class="fa <?=($riga['MioLike'] > 0) ? 'fa-heart' : 'fa-heart-o'?>" 
 	                                               id="icon-<?=$riga['Id_Post']?>" 

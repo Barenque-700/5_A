@@ -1,6 +1,7 @@
 <?php
 session_start();
 include "Connessione.php";
+$_SESSION['last_main_page'] = $_SERVER['REQUEST_URI'];
 $accesso=$_SESSION['accesso'];
 $NomeUtente = $_SESSION['user'];
     if($accesso!= 1){
@@ -49,7 +50,7 @@ $NomeUtente = $_SESSION['user'];
                 <li class="nav-item"><a class="nav-link px-3" href="Asteria.php" style="color: var(--primary-color) !important;">Home</a></li>
                 <li class="nav-item"><a class="nav-link px-3" href="Eventi.php">Eventi</a></li>
                 <li class="nav-item"><a class="nav-link px-3" href="Asteria.php">Notifiche</a></li>
-                <li class="nav-item"><a class="nav-link px-3" href="Asteria.php">Ricerca</a></li>
+                <li class="nav-item"><a class="nav-link px-3" href="Ricerca.php">Ricerca</a></li>
         </div>
 
         </div>
@@ -65,7 +66,7 @@ $NomeUtente = $_SESSION['user'];
                             <?php 
                             try{
                                 $connessione = new PDO("mysql:host=$host;dbname=$db", $user, $password);
-                                $sql= "SELECT Id_Post, NumLike, Condivisioni, Allegato, Descrizione, Data_post, Utente,
+                                $sql= "SELECT Id_Post, NumLike, Allegato, Descrizione, Data_post, Utente,
                                     (SELECT COUNT(*) FROM commenti WHERE commenti.Id_Post = post.Id_Post) AS NumCommenti, 
                                     (SELECT Nome FROM utenti WHERE utenti.NomeUtente= post.Utente) AS Nome, 
                                     (SELECT Cognome FROM utenti WHERE utenti.NomeUtente= post.Utente) AS Cognome,
@@ -80,7 +81,7 @@ $NomeUtente = $_SESSION['user'];
                                 $ris = $preparata->fetchAll(PDO::FETCH_ASSOC);
                                 foreach ($ris as $riga) {
                                     $tempoTrascorso= (time() - strtotime($riga['Data_post']))/3600;
-                                    $score = ($riga['NumLike'] + $riga['Condivisioni'] + $riga['NumCommenti'] + 1) / pow($tempoTrascorso+2, 1.5);
+                                    $score = ($riga['NumLike'] + $riga['NumCommenti'] + 1) / pow($tempoTrascorso+2, 1.5);
                                     $riga['score'] = $score;
                                     $postConScore[] = $riga;
                                 }
@@ -129,7 +130,12 @@ $NomeUtente = $_SESSION['user'];
                                                    style="<?=($post['MioLike'] > 0) ? 'color:red;' : ''?>"></i> 
                                                 <span id="like-count-<?=$post['Id_Post']?>"><?=$post['NumLike']?></span>
                                             </a>                                            
-                                            <a class="stat-item"><i class="fa fa-share"></i> <?=$post['Condivisioni']?></a>
+                                            <a class="stat-item bottone-condividi" 
+                                               data-title="Asteria" 
+                                               data-text="Guarda questo post di <?=$post['Utente']?> su Asteria!" 
+                                               data-url="http://localhost/5A/post.php?post=<?=$post['Id_Post']?>">
+                                               <i class="fa fa-share"></i>
+                                            </a>
                                         </div>
                                     </div> 
                                 </div>
@@ -155,7 +161,7 @@ $NomeUtente = $_SESSION['user'];
                         <?php 
                         try{
                             $connessione = new PDO("mysql:host=$host;dbname=$db", $user, $password);
-                            $sql= "SELECT Id_Post, NumLike, Condivisioni, Allegato, Descrizione, Data_post, Utente,
+                            $sql= "SELECT Id_Post, NumLike, Allegato, Descrizione, Data_post, Utente,
                                 (SELECT COUNT(*) FROM commenti WHERE commenti.Id_Post = post.Id_Post) AS NumCommenti, 
                                 (SELECT Nome FROM utenti WHERE utenti.NomeUtente= post.Utente) AS Nome, 
                                 (SELECT Cognome FROM utenti WHERE utenti.NomeUtente= post.Utente) AS Cognome,
@@ -211,7 +217,12 @@ $NomeUtente = $_SESSION['user'];
                                                style="<?=($riga['MioLike'] > 0) ? 'color:red;' : ''?>"></i> 
                                             <span id="like-count-<?=$riga['Id_Post']?>"><?=$riga['NumLike']?></span>
                                         </a>
-                                        <a href="#" class="stat-item"><i class="fa fa-share"></i> <?=$riga['Condivisioni']?></a>
+                                        <a class="stat-item bottone-condividi" 
+                                           data-title="Asteria" 
+                                           data-text="Guarda questo post di <?=$riga['Utente']?> su Asteria!" 
+                                           data-url="http://localhost/5A/post.php?post=<?=$riga['Id_Post']?>">
+                                           <i class="fa fa-share"></i>
+                                        </a>
                                     </div>
                                 </div> 
                             </div>
@@ -292,6 +303,23 @@ $NomeUtente = $_SESSION['user'];
             </div>
         </div>
     </div>
+    <script>
+        btn= document.querySelectorAll(".bottone-condividi");
+        btn.forEach((btnSingolo) => {
+            btnSingolo.addEventListener("click", async () => {
+                let condivisione ={
+                    title: btnSingolo.getAttribute('data-title'),
+                    text: btnSingolo.getAttribute('data-text'),
+                    url: btnSingolo.getAttribute('data-url')
+                }
+            try {
+                await navigator.share(condivisione);
+              } catch (err) {
+                alert('Errore');
+              }
+            });
+        });
+    </script>
 <script src="config.js"></script>
 <script src="feed.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

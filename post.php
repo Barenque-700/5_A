@@ -2,20 +2,19 @@
 <?php 
     session_start();
     include "Connessione.php";
-    
-    // Controllo accesso
-    if(!isset($_SESSION['accesso']) || $_SESSION['accesso'] != 1){
-        header("location: Index.php");
-        exit();
+    $flag=false;
+    if(isset($_SESSION['user'])){
+        $NomeUtente = $_SESSION['user'];
+    }else{
+        $flag=true;
     }
-
-    $NomeUtente = $_SESSION['user'];
     $post = isset($_GET['post']) ? $_GET['post'] : null;
 
     if(!$post) {
-        header("location: Asteria.php");
-        exit();
+        echo "Errore 404 Not Found";
     }
+    $from = $_SESSION['last_main_page'] ?? 'Asteria.php';
+    $livello = $_SESSION['livello'];
 ?>
 <html lang="it">
 <head> 
@@ -28,24 +27,73 @@
     <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
 </head>
 <body>
-    <div class="container py-5">
+<?php 
+if(!$flag){
+?>
+<a href="<?=$from?>" class="btn-back" style="cursor:pointer;">
+    <i class="fa fa-arrow-left"></i> Indietro
+</a>
+<?php 
+}
+?>
+
+<?php 
+try {
+    $connessione = new PDO("mysql:host=$host;dbname=$db", $user, $password);
+        $sql = "SELECT Utente
+                FROM post
+                WHERE Id_Post = ?;";
+        $preparata = $connessione->prepare($sql);
+        $preparata->execute([$post]);
+    if($riga = $preparata->fetch(PDO::FETCH_ASSOC)){
+        if($livello==0 || $NomeUtente===$riga['Utente']){
+            ?>
+            <form action="EliminaPost.php" method="POST" onsubmit="return confirm('Sei sicuro di voler eliminare questo post?');">
+                <input type="hidden" name="Id_Post" value="<?=$post?>">
+                <button type="submit" class="btn-delete">
+                    Elimina
+                </button>
+            </form>
+            <?php
+        }
+    }
+    $connessione = null;
+} catch(PDOException $e){
+    die("Errore: " . $e->getMessage());
+}
+ ?>
+    
+</div>
+    <div class="container">
         <div class="row justify-content-center">
             <div class="col-sm-12 col-md-10 col-lg-8">
                 <?php 
                 try {
                     $connessione = new PDO("mysql:host=$host;dbname=$db", $user, $password);
-                    $sql = "SELECT Id_Post, NumLike, Condivisioni, Allegato, Descrizione, Data_post, Utente,
+                    if($flag){
+                        $sql = "SELECT Id_Post, NumLike, Allegato, Descrizione, Data_post, Utente,
                             (SELECT COUNT(*) FROM commenti WHERE commenti.Id_Post = post.Id_Post) AS NumCommenti, 
                             (SELECT Nome FROM utenti WHERE utenti.NomeUtente= post.Utente) AS Nome, 
                             (SELECT Cognome FROM utenti WHERE utenti.NomeUtente= post.Utente) AS Cognome,
-                            (SELECT Foto FROM utenti WHERE utenti.NomeUtente= post.Utente) AS Foto,
-                            (SELECT COUNT(*) FROM likepost WHERE likepost.Id_Post = post.Id_Post AND likepost.Utente = ?) AS MioLike
+                            (SELECT Foto FROM utenti WHERE utenti.NomeUtente= post.Utente) AS Foto
                             FROM post
                             WHERE Id_Post = ?;";
-                                
-                    $preparata = $connessione->prepare($sql);
-                    $preparata->execute([$NomeUtente, $post]);
 
+                        $preparata = $connessione->prepare($sql);
+                        $preparata->execute([$post]);
+                    }else{
+                        $sql = "SELECT Id_Post, NumLike, Allegato, Descrizione, Data_post, Utente,
+                                (SELECT COUNT(*) FROM commenti WHERE commenti.Id_Post = post.Id_Post) AS NumCommenti, 
+                                (SELECT Nome FROM utenti WHERE utenti.NomeUtente= post.Utente) AS Nome, 
+                                (SELECT Cognome FROM utenti WHERE utenti.NomeUtente= post.Utente) AS Cognome,
+                                (SELECT Foto FROM utenti WHERE utenti.NomeUtente= post.Utente) AS Foto,
+                                (SELECT COUNT(*) FROM likepost WHERE likepost.Id_Post = post.Id_Post AND likepost.Utente = ?) AS MioLike
+                                FROM post
+                                WHERE Id_Post = ?;";
+                                    
+                        $preparata = $connessione->prepare($sql);
+                        $preparata->execute([$NomeUtente, $post]);
+                    }
                     if($riga = $preparata->fetch(PDO::FETCH_ASSOC)){
                         $descrizione = $riga['Descrizione'];
                         $pattern = '/#([^\s!,?]+)/';
@@ -73,34 +121,72 @@
                                     <p><?=$UserTagDescr?></p>
                                 </div>
                                 
-                                <?php if(!is_null($riga['Allegato'])): ?>
+                                <?php if(!is_null($riga['Allegato'])){ ?>
                                 <div class="post-image">
                                     <img src="UploadFoto/<?=$riga['Allegato']?>" class="image" alt="image post">
                                 </div>
-                                <?php endif; ?>
+                                <?php
+                                }
+                                if($flag){
+                                    ?>
+                                    <div class="stats">
+                                        <a href="Index.php" class="stat-item">
+                                            <i class="fa fa-comment-o"></i> <?=$riga['NumCommenti']?>
+                                        </a>
+                                        
+                                        <a href="Index.php" class="stat-item" >
+                                            <i class="fa fa-heart-o" id="icon-<?=$riga['Id_Post']?>" ></i>
+                                            <span id="like-count-<?=$riga['Id_Post']?>"><?=$riga['NumLike']?></span>
+                                        </a>
+                                        
+                                        <a href="Index.php" class="stat-item">
+                                            <i class="fa fa-share"></i> 
+                                        </a>
+                                    </div>
+                                    <?php
+                                }else{
+                                    ?>
+                                    <div class="stats">
+                                        <a href="Commenti.php?post=<?=$riga['Id_Post']?>" class="stat-item">
+                                            <i class="fa fa-comment-o"></i> <?=$riga['NumCommenti']?>
+                                        </a>
+                                        
+                                        <a class="stat-item like-button" data-postid="<?=$riga['Id_Post']?>">                                
+                                            <i class="fa <?=($riga['MioLike'] > 0) ? 'fa-heart' : 'fa-heart-o'?>" 
+                                               id="icon-<?=$riga['Id_Post']?>" 
+                                               style="<?=($riga['MioLike'] > 0) ? 'color:red;' : ''?>"></i> 
+                                            <span id="like-count-<?=$riga['Id_Post']?>"><?=$riga['NumLike']?></span>
+                                        </a>
+                                        
+                                        <a class="stat-item" id="bottone-condividi">
+                                            <i class="fa fa-share"></i>
+                                        </a>
+                                        <script>
+                                            const condivisione = {
+                                                title: "Asteria",
+                                                text: "Guarda questo post su Asteria!",
+                                                url: "http://localhost/5A/post.php?post=<?=$riga['Id_Post']?>",
+                                            };
+                                            btn= document.getElementById("bottone-condividi");
+                                            btn.addEventListener("click", async () => {
+                                            try {
+                                                await navigator.share(condivisione);
+                                              } catch (err) {
+                                                alert('Errore');
+                                              }
+                                            });
 
-                                <div class="stats">
-                                    <a href="Commenti.php?post=<?=$riga['Id_Post']?>" class="stat-item">
-                                        <i class="fa fa-comment-o"></i> <?=$riga['NumCommenti']?>
-                                    </a>
-                                    
-                                    <a class="stat-item like-button" data-postid="<?=$riga['Id_Post']?>">
-                                        <i class="fa <?=($riga['MioLike'] > 0) ? 'fa-heart' : 'fa-heart-o'?>" 
-                                           id="icon-<?=$riga['Id_Post']?>" 
-                                           style="<?=($riga['MioLike'] > 0) ? 'color:red;' : ''?>"></i> 
-                                        <span id="like-count-<?=$riga['Id_Post']?>"><?=$riga['NumLike']?></span>
-                                    </a>
-                                    
-                                    <a href="#" class="stat-item">
-                                        <i class="fa fa-share"></i> <?=$riga['Condivisioni']?>
-                                    </a>
-                                </div>
+                                        </script>
+                                    </div>
+                                    <?php 
+                                }
+                                ?>
                             </div> 
                         </div>
                     </div>
                 <?php 
                     } else {
-                        echo "<div class='post-card text-center'><p>Post non trovato.</p></div>";
+                        echo "<div class='post-card text-center'><p>Post non trovato, errore 404 Not Found</p></div>";
                     }
                     $connessione = null;
                 } catch(PDOException $e){

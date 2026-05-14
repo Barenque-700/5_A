@@ -10,6 +10,7 @@
     --accent-color: #5271FF;
     --border-color: #dee2e6;
     --card-shadow: 0 8px 24px rgba(147, 112, 219, 0.15);
+    --danger-color: #ff4d4d;
 }
 
 [data-theme="dark"] {
@@ -21,6 +22,7 @@
     --accent-color: #9370DB;
     --border-color: #333333;
     --card-shadow: 0 8px 30px rgba(82, 113, 255, 0.12);
+    --danger-color: #ff6666;
 }
 
 /* =========================================
@@ -34,7 +36,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 80px 20px 40px 20px; /* Spazio per il tasto indietro */
+    padding: 80px 20px 40px 20px; 
     min-height: 100vh;
     transition: background-color 0.3s, color 0.3s;
 }
@@ -66,7 +68,7 @@ body {
 .main-form, 
 .comments-list {
     width: 100%;
-    max-width: 1200px; /* La sezione centrale è ampia */
+    max-width: 1200px; 
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -84,7 +86,7 @@ body {
     width: 100%;
     box-sizing: border-box;
     margin-bottom: 20px;
-    height: auto; /* Impedisce che il box vada in fondo alla pagina */
+    height: auto; 
 }
 
 /* =========================================
@@ -131,7 +133,7 @@ textarea {
     width: 100%;
     min-height: 120px;
     padding: 15px;
-    padding-right: 60px; /* Spazio per l'aeroplanino */
+    padding-right: 60px; 
     border: 1px solid var(--border-color);
     border-radius: 12px;
     background-color: var(--bg-color);
@@ -180,8 +182,16 @@ textarea:focus {
    ========================================= */
 .comment-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* Separa info utente da tasto elimina */
+    align-items: center;
     margin-bottom: 10px;
+    width: 100%;
+}
+
+.comment-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .comment-user {
@@ -201,4 +211,46 @@ textarea:focus {
     font-size: 16px;
     color: var(--text-color);
     word-break: break-word;
+}
+
+/* Pulsante Elimina Commento */
+.comment-card {
+    position: relative; /* Indispensabile per l'absolute del bottone */
+    display: flex;
+    gap: 20px;
+    background-color: var(--card-bg);
+    padding: 25px;
+    border-radius: 15px;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--card-shadow);
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+}
+
+.btn-delete-comment {
+    position: absolute;
+    top: 15px;
+    right: 15px; /* Leggermente più distanziato dal bordo */
+    background: var(--primary-color); /* Usa il viola/blu dinamico del tuo tema */
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 26px;
+    height: 26px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    transition: all 0.2s ease;
+    line-height: 1;
+}
+
+.btn-delete-comment:hover {
+    opacity: 0.9;
+    transform: scale(1.1);
+    background: #ff4d4d; /* Diventa rosso al passaggio per indicare pericolo */
 }

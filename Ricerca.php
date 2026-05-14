@@ -1,7 +1,7 @@
 <?php
 session_start();
 include "Connessione.php";
-
+$_SESSION['last_main_page'] = $_SERVER['REQUEST_URI'];
 $accesso    = $_SESSION['accesso'];
 $NomeUtente = $_SESSION['user'];
 
@@ -328,7 +328,7 @@ function parseDescr($testo, $query = '') {
                                             · <?= htmlspecialchars($p['Data_post']) ?>
                                         </div>
                                     </div>
-                                    <a href="Commenti.php?post=<?= $p['Id_Post'] ?>"
+                                    <a href="post.php?post=<?= $p['Id_Post'] ?>"
                                        style="font-size:0.75rem; color:var(--primary-color); font-weight:700;">
                                         Vedi post <i class="fa fa-external-link ms-1"></i>
                                     </a>

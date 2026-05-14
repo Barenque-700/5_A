@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <?php 
 	session_start();
+	$_SESSION['last_main_page'] = $_SERVER['REQUEST_URI'];
 	include "Connessione.php";
 	$NomeUtente = $_SESSION['user'];
 	if(isset($_GET['user'])){
@@ -207,7 +208,7 @@
 	                        <?php 
 	                        try{
 	                            $connessione = new PDO("mysql:host=$host;dbname=$db", $user, $password);
-	                            $sql= "SELECT Id_Post, NumLike, Condivisioni, Allegato, Descrizione, Data_post, Utente,
+	                            $sql= "SELECT Id_Post, NumLike, Allegato, Descrizione, Data_post, Utente,
 	                                   (SELECT COUNT(*) FROM commenti WHERE commenti.Id_Post = post.Id_Post) AS NumCommenti, 
 	                                   (SELECT Nome FROM utenti WHERE utenti.NomeUtente= post.Utente) AS Nome, 
 	                                   (SELECT Cognome FROM utenti WHERE utenti.NomeUtente= post.Utente) AS Cognome,
@@ -263,7 +264,10 @@
 	                                               style="<?=($riga['MioLike'] > 0) ? 'color:red;' : ''?>"></i> 
 	                                            <span id="like-count-<?=$riga['Id_Post']?>"><?=$riga['NumLike']?></span>
 	                                        </a>
-	                                        <a href="#" class="stat-item-post"><i class="fa fa-share"></i> <?=$riga['Condivisioni']?></a>
+	                                        <a class="stat-item-post bottone-condividi"
+	                                        	data-title="Asteria" 
+                                           		data-text="Guarda questo post di <?=$riga['Utente']?> su Asteria!" 
+                                           		data-url="http://localhost/5A/post.php?post=<?=$riga['Id_Post']?>"><i class="fa fa-share"></i></a>
 	                                    </div>
 	                                </div> 
 	                            </div>
@@ -286,6 +290,23 @@
 	</div>
 </div>
 </body>
+<script>
+    btn= document.querySelectorAll(".bottone-condividi");
+        btn.forEach((btnSingolo) => {
+            btnSingolo.addEventListener("click", async () => {
+                let condivisione ={
+                    title: btnSingolo.getAttribute('data-title'),
+                    text: btnSingolo.getAttribute('data-text'),
+                    url: btnSingolo.getAttribute('data-url')
+                }
+            try {
+                await navigator.share(condivisione);
+              } catch (err) {
+                alert('Errore');
+              }
+            });
+        });
+</script>
 <script src="config.js"></script>
 </html>
 <?php 

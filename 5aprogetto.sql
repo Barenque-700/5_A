@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mag 09, 2026 alle 22:26
+-- Creato il: Mag 14, 2026 alle 23:48
 -- Versione del server: 10.4.32-MariaDB
 -- Versione PHP: 8.2.12
 
@@ -40,8 +40,7 @@ CREATE TABLE `commenti` (
 --
 
 INSERT INTO `commenti` (`Id_Commento`, `Utente`, `Id_Post`, `Contenuto`, `Data`) VALUES
-(1, 'Giandix67', 14, 'testiamolo insieme', '2026-05-09 22:23:48'),
-(2, 'Giandix67', 14, 'testiamolo insieme', '2026-05-09 22:23:54');
+(1, 'Giandix67', 14, 'testiamolo insieme', '2026-05-09 22:23:48');
 
 -- --------------------------------------------------------
 
@@ -240,13 +239,13 @@ ALTER TABLE `utenti`
 -- AUTO_INCREMENT per la tabella `commenti`
 --
 ALTER TABLE `commenti`
-  MODIFY `Id_Commento` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `Id_Commento` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT per la tabella `post`
 --
 ALTER TABLE `post`
-  MODIFY `Id_Post` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `Id_Post` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT per la tabella `tag`

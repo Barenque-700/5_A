@@ -285,9 +285,11 @@ a{
 .post-image img {
   width: 100%;
   height: auto;
+  max-height: 500px;
   border-radius: 15px;
   border: 1px solid var(--border-color);
   margin-bottom: 10px;
+  object-fit: contain;
 }
 
 .stats-post {

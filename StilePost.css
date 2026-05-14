@@ -23,6 +23,8 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     min-height: 100vh;
     margin: 0;
+    align-content: center;
+    overflow: hidden;
 }
 /* Struttura Card Post */
 .post-card {
@@ -100,10 +102,10 @@ body {
 .post-image img {
     width: 100%;
     height: auto;
-    max-height: 700px;
+    max-height: 500px;
     border-radius: 12px;
     border: 1px solid var(--border-color);
-    object-fit: contain;
+    object-fit: scale-down;
 }
 
 /* Statistiche & Pulsanti */
@@ -133,6 +135,9 @@ body {
 .stat-item i {
     font-size: 18px;
 }
+.stat-item.like-button:active {
+    transform: scale(1.3); 
+}
 
 .tag {
     color: var(--primary-color);
@@ -150,4 +155,60 @@ a {
 }
 .text-utente {
   color: rgb(83, 100, 113) !important;
+}
+
+/* Pulsante Indietro (Tuo codice originale) */
+.btn-back {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text-color);
+    text-decoration: none;
+    font-weight: 500;
+    opacity: 0.8;
+    transition: all 0.3s ease;
+    background: none;
+    border: none;
+}
+
+.btn-back:hover {
+    color: var(--primary-color);
+    opacity: 1;
+    transform: translateX(-5px);
+}
+
+/* Pulsante Elimina (Progettato sul tuo stile) */
+.btn-delete {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 20px; /* Effetto pillola */
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    
+    /* Colori stile precedente */
+    background-color: rgba(255, 59, 48, 0.1);
+    color: #ff3b30;
+}
+
+.btn-delete:hover {
+    background-color: #ff3b30;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 59, 48, 0.3);
+}
+
+/* Rende il form invisibile nel layout per non spostare gli elementi */
+form {
+    display: inline;
 }

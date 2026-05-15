@@ -1,18 +1,24 @@
 <!DOCTYPE html>
 <?php 
-	session_start();
-	$_SESSION['last_main_page'] = $_SERVER['REQUEST_URI'];
-	include "Connessione.php";
-	$NomeUtente = $_SESSION['user'];
-	if(isset($_GET['user'])){
-		$userPagina = $_GET['user'];
-	}
+session_start();
+$_SESSION['last_main_page'] = $_SERVER['REQUEST_URI'];
+include "Connessione.php";
+$NomeUtente = $_SESSION['user'];
 	$livello = $_SESSION['livello'];
 	$accesso=$_SESSION['accesso'];
 	if($accesso!= 1){
 	    header("location: Index.php");
 	}
 	else{
+		if(isset($_GET['user'])){
+			$connessione = new PDO("mysql:host=$host;dbname=$db", $user, $password);
+			$userPagina = $_GET['user'];
+			$query = "SELECT COUNT(*) FROM utenti WHERE NomeUtente=?";
+            $stmt= $connessione->prepare($query);
+			$stmt->execute([$userPagina]);
+            $ris= $stmt->fetchColumn();
+            $connessione= null;
+            if($ris>0){               
 ?>
 <html lang="it">
 <head>
@@ -310,6 +316,10 @@
 <script src="config.js"></script>
 </html>
 <?php 
+			}
+		}else{
+			echo "Errore 404, l'utente non esiste!";
+		}
 	}
 }
 ?>

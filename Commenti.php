@@ -19,6 +19,16 @@ $fotoProfilo = $_SESSION['foto'];
     			$sql= "INSERT INTO commenti(Utente, Id_Post, Contenuto, Data) VALUES (?,?,?,?)";
     			$preparata = $connessione->prepare($sql);
                 $preparata->execute([$NomeUtente, $Id_Post, $commento, $data]);
+                $Id_Commento = $connessione->lastInsertId();
+
+                $sqlUtente= "SELECT Utente FROM post WHERE Id_Post=?";
+                $preparataUtente= $connessione->prepare($sqlUtente);
+                $preparataUtente->execute([$Id_Post]);
+                $ris= $preparataUtente->fetch(PDO::FETCH_ASSOC);
+
+                $sqlNotifiche= "INSERT INTO notifiche(Mittente, Destinatario, tipo, Id_Post, Id_Commento) VALUES (?,?,?,?,?)";
+                $preparataNotifiche= $connessione->prepare($sqlNotifiche);
+                $preparataNotifiche->execute([$NomeUtente, $ris['Utente'], 'commento', $Id_Post, $Id_Commento]);
                 $connessione = null;
     		}catch(PDOException $e){
                 die("Errore nella gestione del database $db: " . $e->getMessage());

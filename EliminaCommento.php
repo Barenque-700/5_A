@@ -14,10 +14,12 @@ else{
             try {
                 $connessione = new PDO("mysql:host=$host;dbname=$db", $user, $password);
                 $connessione->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
                 $sql = "DELETE FROM commenti 
                         WHERE Id_Commento= ?";
                 $preparata = $connessione->prepare($sql);
                 $preparata->execute([$commento]);
+
                 header("Location: Asteria.php");
                 exit;
             } catch(PDOException $e){

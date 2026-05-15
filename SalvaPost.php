@@ -13,6 +13,9 @@ $accesso=$_SESSION['accesso'];
         $pattern= '/#([^\s!,?]+)/';
         preg_match_all($pattern, $descrizione, $matches);
         $tagsEstratti = array_unique($matches[1]);
+        $patternMenzioni= '/@([^\s!,?]+)/';
+        preg_match_all($patternMenzioni, $descrizione, $matchesMenzioni);
+        $menzioniEstratte= array_unique($matchesMenzioni[1]);
 
         if(isset($_FILES['filePost']) && $_FILES['filePost']['error'] === UPLOAD_ERR_OK) {
             $target_dir = "UploadFoto/";
@@ -78,6 +81,20 @@ $accesso=$_SESSION['accesso'];
 
                 $stmtRel = $connessione->prepare($sqlRel);
                 $stmtRel->execute($params);
+            }
+            if(!empty($menzioniEstratte)){
+                $sqlMenzioni= "INSERT INTO notifiche (Mittente, Destinatario, tipo, Id_Post) VALUES (?,?,?,?)";
+                $preparataMenzioni = $connessione->prepare($sqlMenzioni);
+                $tipo='menzione';
+                $query = "SELECT COUNT(*) FROM utenti WHERE NomeUtente=?";
+                $stmt= $connessione->prepare($query);
+                foreach($menzioniEstratte as $nomeMenzione){
+                    $stmt->execute([$nomeMenzione]);
+                    $ris= $stmt->fetchColumn();
+                    if($ris>0){
+                        $preparataMenzioni->execute([$NomeUtente, $nomeMenzione, $tipo, $postId]);
+                    }
+                }
             }
 
             $connessione = null;

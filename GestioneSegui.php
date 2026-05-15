@@ -14,16 +14,29 @@ if($accesso!= 1){
         $sql = "SELECT * FROM follow WHERE Seguente = ? AND Seguito = ?";
         $preparata = $connessione->prepare($sql);
         $preparata->execute([$follower, $seguito]);
+
+        $sqlNotifica= "SELECT Id_Notifica FROM notifiche WHERE Mittente=? AND Destinatario=? AND tipo=?";
+        $stmt= $connessione->prepare($sqlNotifica);
+        $stmt->execute([$follower, $seguito, 'follow']);
+        $ris= $stmt->fetch(PDO::FETCH_ASSOC);
         
         if($preparata->rowCount() > 0) {
             $query = "DELETE FROM follow WHERE Seguente = ? AND Seguito = ?";
             $prep = $connessione->prepare($query);
             $prep->execute([$follower, $seguito]);
+
+            $queryNotifica = "DELETE FROM notifiche WHERE Id_Notifica=?";
+            $prepNotifica = $connessione->prepare($queryNotifica);
+            $prepNotifica->execute([$ris['Id_Notifica']]);
             $stato = "rimosso";
         } else { 
             $query = "INSERT INTO follow (Seguente, Seguito) VALUES (?, ?)";
             $prep = $connessione->prepare($query);
             $prep->execute([$follower, $seguito]);
+
+            $queryNotifica = "INSERT INTO notifiche (Mittente, Destinatario, tipo) VALUES (?,?,?)";
+            $prepNotifica = $connessione->prepare($queryNotifica);
+            $prepNotifica->execute([$follower, $seguito, 'follow']);
             $stato = "seguito";
         }
 

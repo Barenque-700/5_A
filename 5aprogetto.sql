@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mag 14, 2026 alle 23:48
+-- Creato il: Mag 16, 2026 alle 00:41
 -- Versione del server: 10.4.32-MariaDB
 -- Versione PHP: 8.2.12
 
@@ -40,7 +40,8 @@ CREATE TABLE `commenti` (
 --
 
 INSERT INTO `commenti` (`Id_Commento`, `Utente`, `Id_Post`, `Contenuto`, `Data`) VALUES
-(1, 'Giandix67', 14, 'testiamolo insieme', '2026-05-09 22:23:48');
+(1, 'Giandix67', 14, 'testiamolo insieme', '2026-05-09 22:23:48'),
+(11, 'Giandix67', 20, 'aaaa', '2026-05-16 00:04:51');
 
 -- --------------------------------------------------------
 
@@ -58,8 +59,7 @@ CREATE TABLE `follow` (
 --
 
 INSERT INTO `follow` (`Seguente`, `Seguito`) VALUES
-('Giandix67', 'MarcusRisula'),
-('MarcusRisula', 'Giandix67');
+('Giandix67', 'MarcusRisula');
 
 -- --------------------------------------------------------
 
@@ -78,8 +78,34 @@ CREATE TABLE `likepost` (
 
 INSERT INTO `likepost` (`Utente`, `Id_Post`) VALUES
 ('Giandix67', 14),
+('Giandix67', 20),
 ('MarcusRisula', 3),
 ('MarcusRisula', 10);
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `notifiche`
+--
+
+CREATE TABLE `notifiche` (
+  `Id_Notifica` int(100) NOT NULL,
+  `Mittente` varchar(30) NOT NULL,
+  `Destinatario` varchar(30) NOT NULL,
+  `tipo` varchar(20) NOT NULL,
+  `Id_Post` int(50) DEFAULT NULL,
+  `Id_Commento` int(50) DEFAULT NULL
+) ;
+
+--
+-- Dump dei dati per la tabella `notifiche`
+--
+
+INSERT INTO `notifiche` (`Id_Notifica`, `Mittente`, `Destinatario`, `tipo`, `Id_Post`, `Id_Commento`) VALUES
+(9, 'Giandix67', 'MarcusRisula', 'follow', NULL, NULL),
+(10, 'Giandix67', 'Giandix67', 'commento', 20, 11),
+(11, 'Giandix67', 'Giandix67', 'like', 20, NULL),
+(13, 'Giandix67', 'MarcusRisula', 'menzione', 23, NULL);
 
 -- --------------------------------------------------------
 
@@ -110,7 +136,13 @@ INSERT INTO `post` (`Id_Post`, `NumLike`, `Condivisioni`, `Allegato`, `Descrizio
 (12, 0, 0, NULL, 'questo serve per gli utenti consigliati #testing', '2026-05-09 17:27:53', 'MarcusRisula'),
 (13, 0, 0, '3e4799ed542a619bcb1621de73c1a3c42726274647e199c5a5ff26030770ef14.png', 'aaaaaaa', '2026-05-09 17:43:15', 'MarcusRisula'),
 (14, 1, 0, NULL, 'con più hashtag funziona? #testing #funzionerà', '2026-05-09 18:05:23', 'Giandix67'),
-(15, 0, 0, NULL, 'testiamo hashtag e tag #testing @MarcusRisula', '2026-05-09 18:25:49', 'Giandix67');
+(15, 0, 0, NULL, 'testiamo hashtag e tag #testing @MarcusRisula', '2026-05-09 18:25:49', 'Giandix67'),
+(19, 0, 0, NULL, 'ciao @MarcusRisula', '2026-05-15 22:16:26', 'Giandix67'),
+(20, 1, 0, NULL, 'ciao @MarcusRisula', '2026-05-15 22:24:52', 'Giandix67'),
+(21, 0, 0, NULL, 'oi @MarcuRisula', '2026-05-16 00:05:14', 'Giandix67'),
+(22, 0, 0, NULL, 'oi @MarcuRisula', '2026-05-16 00:19:31', 'Giandix67'),
+(23, 0, 0, NULL, 'come stai @MarcusRisula', '2026-05-16 00:20:15', 'Giandix67'),
+(24, 0, 0, NULL, 'test @boh', '2026-05-16 00:20:31', 'Giandix67');
 
 -- --------------------------------------------------------
 
@@ -205,6 +237,16 @@ ALTER TABLE `likepost`
   ADD KEY `FK_postLike` (`Id_Post`);
 
 --
+-- Indici per le tabelle `notifiche`
+--
+ALTER TABLE `notifiche`
+  ADD PRIMARY KEY (`Id_Notifica`),
+  ADD KEY `FK_MittenteUtente` (`Mittente`),
+  ADD KEY `FK_DestinatarioUtente` (`Destinatario`),
+  ADD KEY `FK_notifichePost` (`Id_Post`),
+  ADD KEY `FK_notificheCommenti` (`Id_Commento`);
+
+--
 -- Indici per le tabelle `post`
 --
 ALTER TABLE `post`
@@ -239,13 +281,19 @@ ALTER TABLE `utenti`
 -- AUTO_INCREMENT per la tabella `commenti`
 --
 ALTER TABLE `commenti`
-  MODIFY `Id_Commento` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `Id_Commento` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT per la tabella `notifiche`
+--
+ALTER TABLE `notifiche`
+  MODIFY `Id_Notifica` int(100) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT per la tabella `post`
 --
 ALTER TABLE `post`
-  MODIFY `Id_Post` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `Id_Post` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT per la tabella `tag`
@@ -277,6 +325,15 @@ ALTER TABLE `follow`
 ALTER TABLE `likepost`
   ADD CONSTRAINT `FK_postLike` FOREIGN KEY (`Id_Post`) REFERENCES `post` (`Id_Post`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_utentiLike` FOREIGN KEY (`Utente`) REFERENCES `utenti` (`NomeUtente`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Limiti per la tabella `notifiche`
+--
+ALTER TABLE `notifiche`
+  ADD CONSTRAINT `FK_DestinatarioUtente` FOREIGN KEY (`Destinatario`) REFERENCES `utenti` (`NomeUtente`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_MittenteUtente` FOREIGN KEY (`Mittente`) REFERENCES `utenti` (`NomeUtente`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_notificheCommenti` FOREIGN KEY (`Id_Commento`) REFERENCES `commenti` (`Id_Commento`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_notifichePost` FOREIGN KEY (`Id_Post`) REFERENCES `post` (`Id_Post`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `post`

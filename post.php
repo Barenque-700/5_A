@@ -13,8 +13,10 @@
     if(!$post) {
         echo "Errore 404 Not Found";
     }
-    $from = $_SESSION['last_main_page'] ?? 'Asteria.php';
-    $livello = $_SESSION['livello'];
+    if(!$flag){
+        $from = $_SESSION['last_main_page'] ?? 'Asteria.php';
+        $livello = $_SESSION['livello'];
+    }
 ?>
 <html lang="it">
 <head> 
@@ -46,15 +48,17 @@ try {
         $preparata = $connessione->prepare($sql);
         $preparata->execute([$post]);
     if($riga = $preparata->fetch(PDO::FETCH_ASSOC)){
-        if($livello==0 || $NomeUtente===$riga['Utente']){
-            ?>
-            <form action="EliminaPost.php" method="POST" onsubmit="return confirm('Sei sicuro di voler eliminare questo post?');">
-                <input type="hidden" name="Id_Post" value="<?=$post?>">
-                <button type="submit" class="btn-delete">
-                    Elimina
-                </button>
-            </form>
-            <?php
+        if(!$flag){
+            if($livello==0 || $NomeUtente===$riga['Utente']){
+                ?>
+                <form action="EliminaPost.php" method="POST" onsubmit="return confirm('Sei sicuro di voler eliminare questo post?');">
+                    <input type="hidden" name="Id_Post" value="<?=$post?>">
+                    <button type="submit" class="btn-delete">
+                        Elimina
+                    </button>
+                </form>
+                <?php
+            }
         }
     }
     $connessione = null;

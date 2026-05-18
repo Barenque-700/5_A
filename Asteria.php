@@ -49,7 +49,7 @@ $NomeUtente = $_SESSION['user'];
         <div class="mt-3">
                 <li class="nav-item"><a class="nav-link px-3" href="Asteria.php" style="color: var(--primary-color) !important;">Home</a></li>
                 <li class="nav-item"><a class="nav-link px-3" href="Eventi.php">Eventi</a></li>
-                <li class="nav-item"><a class="nav-link px-3" href="Asteria.php">Notifiche</a></li>
+                <li class="nav-item"><a class="nav-link px-3" href="notifiche.php">Notifiche</a></li>
                 <li class="nav-item"><a class="nav-link px-3" href="Ricerca.php">Ricerca</a></li>
         </div>
 

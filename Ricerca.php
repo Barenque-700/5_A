@@ -171,7 +171,7 @@ function parseDescr($testo, $query = '') {
             <div class="mt-3">
                 <li class="nav-item"><a class="nav-link px-3" href="Asteria.php"><i class="fa fa-house me-2"></i>Home</a></li>
                 <li class="nav-item"><a class="nav-link px-3" href="eventi.php"><i class="fa-solid fa-calendar-days me-2"></i>Eventi</a></li>
-                <li class="nav-item"><a class="nav-link px-3" href="Asteria.php"><i class="fa-solid fa-bell me-2"></i>Notifiche</a></li>
+                <li class="nav-item"><a class="nav-link px-3" href="notifiche.php"><i class="fa-solid fa-bell me-2"></i>Notifiche</a></li>
                 <li class="nav-item"><a class="nav-link px-3" href="Ricerca.php" style="color: var(--primary-color) !important;"><i class="fa-solid fa-magnifying-glass me-2"></i>Ricerca</a></li>
             </div>
         </div>

@@ -1,4 +1,4 @@
-// 1. Gestione Data
+
 const oggi = new Date();
 const opzioni = { day: '2-digit', month: 'long', year: 'numeric' };
 document.getElementById('current-date').textContent = oggi.toLocaleDateString('it-IT', opzioni).toUpperCase();

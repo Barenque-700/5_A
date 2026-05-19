@@ -78,7 +78,6 @@
     margin-bottom: -1.5px;
     padding: 8px 20px;
     font-size: 0.86rem;
-    font-weight: 700;
     color: var(--text-color);
     cursor: pointer;
     letter-spacing: 0.3px;
@@ -149,7 +148,6 @@
 
 .sezione-label {
     font-size: 0.78rem;
-    font-weight: 800;
     color: var(--primary-color);
     letter-spacing: 0.8px;
     text-transform: uppercase;
@@ -199,7 +197,6 @@
 }
 
 .utente-nome {
-    font-weight: 700;
     font-size: 0.95rem;
     color: var(--text-color);
     line-height: 1.2;
@@ -228,7 +225,6 @@
     padding: 4px 12px;
     border-radius: 20px;
     font-size: 0.78rem;
-    font-weight: 700;
     cursor: pointer;
     transition: all 0.2s ease;
     white-space: nowrap;
@@ -268,7 +264,6 @@
 }
 
 .tag-nome {
-    font-weight: 700;
     font-size: 0.9rem;
     color: var(--primary-color);
 }
@@ -319,7 +314,6 @@
 }
 
 .post-ris-nome {
-    font-weight: 700;
     font-size: 0.88rem;
     color: var(--text-color);
     line-height: 1.2;
@@ -370,7 +364,7 @@
 
 .trending-title {
     font-size: 0.78rem;
-    font-weight: 800;
+    font-weight: 700;
     color: var(--primary-color);
     letter-spacing: 0.8px;
     text-transform: uppercase;

@@ -131,7 +131,7 @@ function parseDescr($testo, $query = '') {
     <title>Asteria - Ricerca</title>
     <link rel="icon" type="image/x-icon" href="LogoIcona.ico">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="StileAsteria.css">
     <link rel="stylesheet" href="StileRicerca.css">
 </head>
@@ -169,14 +169,10 @@ function parseDescr($testo, $query = '') {
                 </button>
             </div>
             <div class="mt-3">
-                <li class="nav-item"><a class="nav-link px-3" href="Asteria.php">Home</a></li>
-                <li class="nav-item"><a class="nav-link px-3" href="eventi.php">Eventi</a></li>
-                <li class="nav-item"><a class="nav-link px-3" href="Asteria.php">Notifiche</a></li>
-                <li class="nav-item">
-                    <a class="nav-link px-3" href="ricerca.php"
-                       style="color: var(--primary-color) !important;"></i>Ricerca
-                    </a>
-                </li>
+                <li class="nav-item"><a class="nav-link px-3" href="Asteria.php"><i class="fa fa-house me-2"></i>Home</a></li>
+                <li class="nav-item"><a class="nav-link px-3" href="eventi.php"><i class="fa-solid fa-calendar-days me-2"></i>Eventi</a></li>
+                <li class="nav-item"><a class="nav-link px-3" href="Asteria.php"><i class="fa-solid fa-bell me-2"></i>Notifiche</a></li>
+                <li class="nav-item"><a class="nav-link px-3" href="Ricerca.php" style="color: var(--primary-color) !important;"><i class="fa-solid fa-magnifying-glass me-2"></i>Ricerca</a></li>
             </div>
         </div>
 
@@ -211,7 +207,7 @@ function parseDescr($testo, $query = '') {
                     </button>
                     <button class="<?= $filtro === 'post'    ? 'active' : '' ?>"
                             onclick="setFiltro('post')">
-                        <i class="fa fa-file-text-o me-1"></i>Post
+                            <i class="fa-regular fa-message me-1"></i>Post
                     </button>
                     <button class="<?= $filtro === 'tag'     ? 'active' : '' ?>"
                             onclick="setFiltro('tag')">
@@ -230,7 +226,7 @@ function parseDescr($testo, $query = '') {
 
                     <?php if (!empty($trending)): ?>
                     <div class="trending-section">
-                        <div class="trending-title"><i class="fa fa-fire me-1"></i>Tag più usati</div>
+                        <div class="trending-title"><i class="fa-solid fa-tags me-1"></i></i>Tag più usati</div>
                         <div class="trending-tags">
                             <?php foreach ($trending as $t): ?>
                                 <button class="trending-tag"

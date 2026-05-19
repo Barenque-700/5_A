@@ -17,7 +17,7 @@ if ($accesso != 1) {
     <title>Asteria - Eventi</title>
     <link rel="icon" type="image/x-icon" href="LogoIcona.ico">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="StileAsteria.css">
     <link rel="stylesheet" href="StileEventi.css">
 </head>
@@ -58,30 +58,26 @@ if ($accesso != 1) {
                 </button>
             </div>
             <div class="mt-3">
-                <li class="nav-item"><a class="nav-link px-3" href="Asteria.php">Home</a></li>
-                <li class="nav-item">
-                    <a class="nav-link px-3" href="eventi.php"
-                       style="color: var(--primary-color) !important;">Eventi
-                    </a>
-                </li>
-                <li class="nav-item"><a class="nav-link px-3" href="Asteria.php">Notifiche</a></li>
-                <li class="nav-item"><a class="nav-link px-3" href="Ricerca.php">Ricerca</a></li>
+                <li class="nav-item"><a class="nav-link px-3" href="Asteria.php"><i class="fa fa-house me-2"></i>Home</a></li>
+                <li class="nav-item"><a class="nav-link px-3" href="eventi.php" style="color: var(--primary-color) !important;"><i class="fa-solid fa-calendar-days me-2"></i>Eventi</a></li>
+                <li class="nav-item"><a class="nav-link px-3" href="Asteria.php"><i class="fa-solid fa-bell me-2"></i>Notifiche</a></li>
+                <li class="nav-item"><a class="nav-link px-3" href="Ricerca.php"><i class="fa-solid fa-magnifying-glass me-2"></i>Ricerca</a></li>
             </div>
         </div>
 
         <div class="sezione centro">
 
-            <div class="eventi-tabs">
-                <button class="active" onclick="mostraTab('apod', this)">
-                    <i class="fa fa-picture-o me-1"></i> Foto del Giorno
-                </button>
-                <button onclick="mostraTab('asteroidi', this)">
-                    <i class="fa fa-circle-o me-1"></i> Asteroidi
-                </button>
-                <button onclick="mostraTab('eonet', this)">
-                    <i class="fa fa-globe me-1"></i> Eventi Terrestri
-                </button>
-            </div>
+                    <div class="eventi-tabs">
+                        <button class="active" onclick="mostraTab('apod', this)">
+                            <i class="fa-solid fa-image me-2"></i> Foto del Giorno
+                        </button>
+                        <button onclick="mostraTab('asteroidi', this)">
+                            <i class="fa-solid fa-meteor me-2"></i> Asteroidi
+                        </button>
+                        <button onclick="mostraTab('eonet', this)">
+                            <i class="fa-solid fa-earth-americas me-2"></i> Eventi Terrestri
+                        </button>
+                    </div>
 
             <div id="tab-apod" class="pannello attivo">
                 <div class="pannello-header">
@@ -89,7 +85,7 @@ if ($accesso != 1) {
                 </div>
                 <div id="apod-countdown" style="font-size: 0.82rem; color: rgb(83,100,113); margin-bottom: 16px; letter-spacing: 0.4px;">
                     <i class="fa fa-clock-o me-1"></i>Prossimo aggiornamento tra: 
-                    <span id="countdown-timer" style="color: var(--primary-color); font-weight: 700;"></span>
+                    <span id="countdown-timer" style="color: var(--primary-color);"></span>
                 </div>
                 <div id="apod-content">
                     <div class="loading-box">

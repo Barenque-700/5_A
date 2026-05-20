@@ -54,23 +54,23 @@
                             <div class="form-row">
                                 <div class="form-group">
                                     <label for="nome">Nome:</label><br>
-                                    <input type="text" name="nome" value="<?=$riga['Nome']?>">
+                                    <input type="text" name="nome" value="<?=htmlspecialchars($riga['Nome'])?>">
                                 </div>
                                 <div class="form-group">
                                     <label for="cognome">Cognome:</label><br>
-                                    <input type="text" name="cognome" value="<?=$riga['Cognome']?>">
+                                    <input type="text" name="cognome" value="<?=htmlspecialchars($riga['Cognome'])?>">
                                 </div>
                             </div>
 
                             <label for="utente">Nome Utente:</label><br>
-                            <input type="text" name="utente" value="<?=$riga['NomeUtente']?>" onkeyup="controlloNome(this.value)" id="nomeutente"><br/><br/>
+                            <input type="text" name="utente" value="<?=htmlspecialchars($riga['NomeUtente'])?>" onkeyup="controlloNome(this.value)" id="nomeutente"><br/><br/>
                             <a id="indicatore" class="indicatore"> </a>
 
                             <label for="nascita">Data di Nascita:</label><br>
                             <input type="date" name="data" value="<?=$riga['DataNascita']?>"><br/><br/>
 
                             <label for="descrizione">Descrizione:</label><br>
-                            <input type="text" name="descrizione" value="<?=$riga['Descrizione']?>"><br/><br/>
+                            <input type="text" name="descrizione" value="<?=htmlspecialchars($riga['Descrizione'])?>"><br/><br/>
 
                             <input type="submit" value="Conferma Modifiche" id="ConfermaInfo">
                         </form>

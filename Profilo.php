@@ -91,7 +91,7 @@ $NomeUtente = $_SESSION['user'];
 	                    
 	                    <div class="user-info">
 	                        <h2><?= htmlspecialchars($riga['Nome'] . " " . $riga['Cognome']) ?></h2>
-	                        <p class="username">@<?=$riga['NomeUtente'] ?></p>
+	                        <p class="username">@<?=htmlspecialchars($riga['NomeUtente']) ?></p>
 	                        
 	                        <div class="stats">
 	                            <div class="stat-item">
@@ -108,7 +108,7 @@ $NomeUtente = $_SESSION['user'];
 	                            </div>
 	                        </div>
 	                        
-	                        <p class="mt-3"><?= $riga['Descrizione'] ?></p>
+	                        <p class="mt-3"><?=htmlspecialchars($riga['Descrizione']) ?></p>
 	        <?php
 				}
 			}
@@ -230,7 +230,7 @@ $NomeUtente = $_SESSION['user'];
 	                        if($preparata->rowCount() > 0){
 		                        $ris = $preparata->fetchAll(PDO::FETCH_ASSOC);
 	                            foreach ($ris as $riga) {
-	                            	$descrizione = $riga['Descrizione'];
+	                            	$descrizione = htmlspecialchars($riga['Descrizione']);
                                     $pattern = '/#([^\s!,?]+)/';
                                     $DescrTag = preg_replace($pattern, '<a class="tag" href="ricerca.php?tag=$1">#$1</a>', $descrizione);
                                     $patternUtenti = '/@([^\s!,?]+)/';
@@ -244,8 +244,8 @@ $NomeUtente = $_SESSION['user'];
 	                                <div class="post-right-column">
 	                                	<div onclick="location.href='post.php?post=<?=$riga['Id_Post']?>'"  style="cursor:pointer;">
 		                                    <div class="post-heading">
-		                                        <a href="Profilo.php?user=<?=$riga['Utente']?>"><b><?=$riga['Nome']?> <?=$riga['Cognome']?></b></a>
-		                                        <span class="text-muted time">@<?=$riga['Utente']?> · <?=$riga['Data_post']?></span>
+		                                        <a href="Profilo.php?user=<?=$riga['Utente']?>"><b><?=htmlspecialchars($riga['Nome'])?> <?=htmlspecialchars($riga['Cognome'])?></b></a>
+		                                        <span class="text-muted time">@<?=htmlspecialchars($riga['Utente'])?> · <?=$riga['Data_post']?></span>
 		                                    </div>
 
 		                                    <div class="post-description">

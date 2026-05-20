@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mag 16, 2026 alle 00:41
+-- Creato il: Mag 20, 2026 alle 09:46
 -- Versione del server: 10.4.32-MariaDB
 -- Versione PHP: 8.2.12
 
@@ -41,7 +41,8 @@ CREATE TABLE `commenti` (
 
 INSERT INTO `commenti` (`Id_Commento`, `Utente`, `Id_Post`, `Contenuto`, `Data`) VALUES
 (1, 'Giandix67', 14, 'testiamolo insieme', '2026-05-09 22:23:48'),
-(11, 'Giandix67', 20, 'aaaa', '2026-05-16 00:04:51');
+(11, 'Giandix67', 20, 'aaaa', '2026-05-16 00:04:51'),
+(19, 'Giandix67', 20, 'adesso @MarcusRisula #testing', '2026-05-20 09:13:07');
 
 -- --------------------------------------------------------
 
@@ -80,7 +81,8 @@ INSERT INTO `likepost` (`Utente`, `Id_Post`) VALUES
 ('Giandix67', 14),
 ('Giandix67', 20),
 ('MarcusRisula', 3),
-('MarcusRisula', 10);
+('MarcusRisula', 10),
+('MarcusRisula', 14);
 
 -- --------------------------------------------------------
 
@@ -90,22 +92,25 @@ INSERT INTO `likepost` (`Utente`, `Id_Post`) VALUES
 
 CREATE TABLE `notifiche` (
   `Id_Notifica` int(100) NOT NULL,
+  `Letto` int(1) NOT NULL DEFAULT 0,
   `Mittente` varchar(30) NOT NULL,
   `Destinatario` varchar(30) NOT NULL,
   `tipo` varchar(20) NOT NULL,
   `Id_Post` int(50) DEFAULT NULL,
   `Id_Commento` int(50) DEFAULT NULL
-) ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dump dei dati per la tabella `notifiche`
 --
 
-INSERT INTO `notifiche` (`Id_Notifica`, `Mittente`, `Destinatario`, `tipo`, `Id_Post`, `Id_Commento`) VALUES
-(9, 'Giandix67', 'MarcusRisula', 'follow', NULL, NULL),
-(10, 'Giandix67', 'Giandix67', 'commento', 20, 11),
-(11, 'Giandix67', 'Giandix67', 'like', 20, NULL),
-(13, 'Giandix67', 'MarcusRisula', 'menzione', 23, NULL);
+INSERT INTO `notifiche` (`Id_Notifica`, `Letto`, `Mittente`, `Destinatario`, `tipo`, `Id_Post`, `Id_Commento`) VALUES
+(9, 1, 'Giandix67', 'MarcusRisula', 'follow', NULL, NULL),
+(10, 1, 'Giandix67', 'Giandix67', 'commento', 20, 11),
+(11, 1, 'Giandix67', 'Giandix67', 'like', 20, NULL),
+(13, 1, 'Giandix67', 'MarcusRisula', 'menzione', 23, NULL),
+(22, 1, 'Giandix67', 'Giandix67', 'commento', 20, 19),
+(27, 0, 'MarcusRisula', 'Giandix67', 'like', 14, NULL);
 
 -- --------------------------------------------------------
 
@@ -135,7 +140,7 @@ INSERT INTO `post` (`Id_Post`, `NumLike`, `Condivisioni`, `Allegato`, `Descrizio
 (11, 0, 0, NULL, 'vediamo se va #testing', '2026-05-09 16:43:51', 'Giandix67'),
 (12, 0, 0, NULL, 'questo serve per gli utenti consigliati #testing', '2026-05-09 17:27:53', 'MarcusRisula'),
 (13, 0, 0, '3e4799ed542a619bcb1621de73c1a3c42726274647e199c5a5ff26030770ef14.png', 'aaaaaaa', '2026-05-09 17:43:15', 'MarcusRisula'),
-(14, 1, 0, NULL, 'con più hashtag funziona? #testing #funzionerà', '2026-05-09 18:05:23', 'Giandix67'),
+(14, 2, 0, NULL, 'con più hashtag funziona? #testing #funzionerà', '2026-05-09 18:05:23', 'Giandix67'),
 (15, 0, 0, NULL, 'testiamo hashtag e tag #testing @MarcusRisula', '2026-05-09 18:25:49', 'Giandix67'),
 (19, 0, 0, NULL, 'ciao @MarcusRisula', '2026-05-15 22:16:26', 'Giandix67'),
 (20, 1, 0, NULL, 'ciao @MarcusRisula', '2026-05-15 22:24:52', 'Giandix67'),
@@ -281,13 +286,13 @@ ALTER TABLE `utenti`
 -- AUTO_INCREMENT per la tabella `commenti`
 --
 ALTER TABLE `commenti`
-  MODIFY `Id_Commento` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `Id_Commento` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT per la tabella `notifiche`
 --
 ALTER TABLE `notifiche`
-  MODIFY `Id_Notifica` int(100) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id_Notifica` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT per la tabella `post`

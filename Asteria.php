@@ -17,6 +17,7 @@ $NomeUtente = $_SESSION['user'];
     <title>Asteria - Social Astronomy</title>
     <link rel="icon" type="image/x-icon" href="LogoIcona.ico">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="StileAsteria.css">
 </head>
 <body> 
@@ -47,10 +48,10 @@ $NomeUtente = $_SESSION['user'];
                 </button>
             </div>
         <div class="mt-3">
-                <li class="nav-item"><a class="nav-link px-3" href="Asteria.php" style="color: var(--primary-color) !important;">Home</a></li>
-                <li class="nav-item"><a class="nav-link px-3" href="Eventi.php">Eventi</a></li>
-                <li class="nav-item"><a class="nav-link px-3" href="notifiche.php">Notifiche</a></li>
-                <li class="nav-item"><a class="nav-link px-3" href="Ricerca.php">Ricerca</a></li>
+                <li class="nav-item"><a class="nav-link px-3" href="Asteria.php" style="color: var(--primary-color) !important;"><i class="fa fa-house me-2"></i>Home</a></li>
+                <li class="nav-item"><a class="nav-link px-3" href="Eventi.php"><i class="fa-solid fa-calendar-days me-2"></i>Eventi</a></li>
+                <li class="nav-item"><a class="nav-link px-3" href="notifiche.php"><i class="fa-solid fa-bell me-2"></i>Notifiche</a></li>
+                <li class="nav-item"><a class="nav-link px-3" href="Ricerca.php"><i class="fa-solid fa-magnifying-glass me-2"></i>Ricerca</a></li>
         </div>
 
         </div>
@@ -104,8 +105,8 @@ $NomeUtente = $_SESSION['user'];
                                     <div class="post-right-column">
                                         <div onclick="location.href='post.php?post=<?=$post['Id_Post']?>'"  style="cursor:pointer;">
                                             <div class="post-heading">
-                                                <a href="Profilo.php?user=<?=$post['Utente']?>"><b><?=$post['Nome']?> <?=$post['Cognome']?></b></a>
-                                                <span class="text-muted time">@<?=$post['Utente']?> · <?=$post['Data_post']?></span>
+                                                <a href="Profilo.php?user=<?=$post['Utente']?>"><b><?=htmlspecialchars($post['Nome'])?> <?=htmlspecialchars($post['Cognome'])?></b></a>
+                                                <span class="text-muted time">@<?=htmlspecialchars($post['Utente'])?> · <?=htmlspecialchars($post['Data_post'])?></span>
                                             </div>
 
                                             <div class="post-description">
@@ -191,8 +192,8 @@ $NomeUtente = $_SESSION['user'];
                                 <div class="post-right-column">
                                     <div onclick="location.href='post.php?post=<?=$riga['Id_Post']?>'"  style="cursor:pointer;">
                                         <div class="post-heading">
-                                            <a href="Profilo.php?user=<?=$riga['Utente']?>"><b><?=$riga['Nome']?> <?=$riga['Cognome']?></b></a>
-                                            <span class="text-muted time">@<?=$riga['Utente']?> · <?=$riga['Data_post']?></span>
+                                            <a href="Profilo.php?user=<?=$riga['Utente']?>"><b><?=htmlspecialchars($riga['Nome'])?> <?=htmlspecialchars($riga['Cognome'])?></b></a>
+                                            <span class="text-muted time">@<?=htmlspecialchars($riga['Utente'])?> · <?=$riga['Data_post']?></span>
                                         </div>
 
                                         <div class="post-description">

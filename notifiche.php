@@ -77,11 +77,11 @@ if ($accesso != 1) {
                             $sql = "SELECT notifiche.*, utenti.Foto, utenti.Nome, utenti.Cognome 
                                     FROM notifiche  
                                     LEFT JOIN utenti ON notifiche.Mittente = utenti.NomeUtente 
-                                    WHERE notifiche.Destinatario = ? 
+                                    WHERE notifiche.Destinatario = ? AND notifiche.Mittente <> ?
                                     ORDER BY notifiche.Id_Notifica DESC"; // Modifica con la colonna temporale se presente (es. Data_notifica)
                             
                             $preparata = $connessione->prepare($sql);
-                            $preparata->execute([$NomeUtente]);
+                            $preparata->execute([$NomeUtente, $NomeUtente]);
                             
                             if ($preparata->rowCount() > 0) {
                                 $risultati = $preparata->fetchAll(PDO::FETCH_ASSOC);

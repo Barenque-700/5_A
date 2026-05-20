@@ -99,7 +99,7 @@ try {
                         $preparata->execute([$NomeUtente, $post]);
                     }
                     if($riga = $preparata->fetch(PDO::FETCH_ASSOC)){
-                        $descrizione = $riga['Descrizione'];
+                        $descrizione = htmlspecialchars($riga['Descrizione']);
                         $pattern = '/#([^\s!,?]+)/';
                         $DescrTag = preg_replace($pattern, '<a class="tag" href="ricerca.php?tag=$1">#$1</a>', $descrizione);
                         $patternUtenti = '/@([^\s!,?]+)/';
@@ -116,9 +116,9 @@ try {
                             <div class="post-right-column">
                                 <div class="post-heading">
                                     <a href="Profilo.php?user=<?=$riga['Utente']?>">
-                                        <b class="user-full-name"><?=$riga['Nome']?> <?=$riga['Cognome']?></b>
+                                        <b class="user-full-name"><?=htmlspecialchars($riga['Nome'])?> <?=htmlspecialchars($riga['Cognome'])?></b>
                                     </a>
-                                    <span class="text-utente time">@<?=$riga['Utente']?> · <?=$riga['Data_post']?></span>
+                                    <span class="text-utente time">@<?=htmlspecialchars($riga['Utente'])?> · <?=$riga['Data_post']?></span>
                                 </div>
 
                                 <div class="post-description">
